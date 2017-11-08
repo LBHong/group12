@@ -6,6 +6,10 @@ public class student {
 	public String email;
 	public String telephone;
 	public String instruction;
+<<<<<<< HEAD
+=======
+	
+>>>>>>> lxy first
 	public String id;
 	public String getUsername() {
 		return username;
@@ -25,6 +29,10 @@ public class student {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> lxy first
 	public String getTelephone() {
 		return telephone;
 	}
@@ -37,6 +45,10 @@ public class student {
 	public void setInstruction(String instruction) {
 		this.instruction = instruction;
 	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> lxy first
 	public String getId() {
 		return id;
 	}

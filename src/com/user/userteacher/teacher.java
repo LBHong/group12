@@ -52,3 +52,7 @@ public class teacher {
 		}
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> lxy first
