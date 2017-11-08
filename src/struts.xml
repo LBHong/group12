@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<!--     <package name="BookControl" namespace="/" extends="struts-default">
+       <action name="showlist" class="action.BookAction" method="showlist">
+               <result>/index.jsp</result>
+       </action>
+       <action name="refresh" class="action.BookAction" method="refreshhome">
+               <result>/index.jsp</result>
+       </action>
+       <action name="remove" class="action.BookAction" method="remove">
+               <result>/index.jsp</result>
+       </action>
+       <action name="showselectedauthor" class="action.BookAction" method="showselectedauthor">
+               <result>/querybook.jsp</result>
+       </action>
+        <action name="updatebook" class="action.BookAction" method="updatebook">
+               <result>/updatebook.jsp</result>
+       </action>
+       <action name="addbook" class="action.BookAction" method="addbook">
+               <result>/updatebook.jsp</result>
+       </action>
+       <action name="addauthor" class="action.BookAction" method="addauthor">
+               <result>/updatebook.jsp</result>
+       </action> 
+    </package>-->
+</struts>
