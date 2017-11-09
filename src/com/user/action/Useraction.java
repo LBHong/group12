@@ -1,12 +1,8 @@
 package com.user.action;
 
-import java.util.List;
-
 import com.opensymphony.xwork2.ActionSupport;
 import com.user.userstudent.student;
 import com.user.userteacher.teacher;
-import com.user.action.Useraction;
-
 import com.user.mysqloperate.Mysqloperate;
 
 @SuppressWarnings("serial")
