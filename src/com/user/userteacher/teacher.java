@@ -51,8 +51,3 @@ public class teacher {
 			this.id = id;
 		}
 }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> lxy first
