@@ -104,7 +104,7 @@ margin-top:13px;
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">Register</div>
 				<div class="panel-body">
-					<form role="form" class="form-horizontal"><!-- form-horizontal -->
+					<form role="form" class="form-horizontal" action="register"><!-- form-horizontal -->
 						<fieldset>
                 
 						 	<div class="myfloatr imgwidth">
@@ -115,14 +115,7 @@ margin-top:13px;
 								 </div>
 							   <!-- <img  class="myimage" alt="touxiang"  src="images/1.jpg">"http://placehold.it/40/30a5ff/fff" -->
 						    </div>
-						    
-							<div class="form-group">
-							    <label class="col-md-3 control-label myfont1" for="username">username:</label>
-								<div class="col-md-6">
-								<input id="username" class="form-control" placeholder="Username" name="username" type="text" autofocus="autofocus">
-							    </div>
-							 </div>
-							
+						   
 							
 						    <div class="form-group">
 							    <label class="col-md-3 control-label myfont1" for="username">realname:</label>
@@ -139,16 +132,16 @@ margin-top:13px;
 							</div>
 							
 							<div class="form-group">
-							    <label class="col-md-3 control-label myfont1" for="email">eamil:</label>
-								<div class="col-md-9">
-								<input  id="eamil" class="form-control" placeholder="please input your valid email address" name="eamil" type="text" >
+							    <label class="col-md-3 control-label myfont1" for="phonenumer">telephone:</label>
+								<div class="col-md-6">
+								<input  id="phonenumber" class="form-control" placeholder="please input your phone number" name="phonenumber" type="text" >
 								</div>
 							</div>
 							
 							<div class="form-group">
-							    <label class="col-md-3 control-label myfont1" for="phonenumer">telephone:</label>
+							    <label class="col-md-3 control-label myfont1" for="email">eamil:</label>
 								<div class="col-md-9">
-								<input  id="phonenumber" class="form-control" placeholder="please input your valid phone number" name="phonenumber" type="text" >
+								<input  id="eamil" class="form-control" placeholder="please input your valid email address" name="eamil" type="text" >
 								</div>
 							</div>
 							

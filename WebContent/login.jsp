@@ -42,10 +42,10 @@ body {
 						<fieldset>
 							<div class="form-group">
 							    
-								<input class="form-control" placeholder="Username" name="username" type="text" autofocus="">
+								<input class="form-control" placeholder="账号" name="username" type="text" autofocus="">
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="Password" name="password" type="password" >
+								<input class="form-control" placeholder="密码" name="password" type="password" >
 							</div>
 							<div class="checkbox">
 								<label>
