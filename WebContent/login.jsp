@@ -52,7 +52,7 @@ body {
 									<input name="remember" type="checkbox" value="Remember Me">Remember Me
 								</label>
 							</div>
-							<a href="student_home.jsp" class="btn btn-primary myfloatr "> &nbsp&nbspLogin&nbsp&nbsp</a>
+							<a href="professor_home.jsp" class="btn btn-primary myfloatr "> &nbsp&nbspLogin&nbsp&nbsp</a>
 							<a href="register.jsp" class="btn btn-primary myfloatr mymarginr" >Register</a></fieldset>
 					</form>
 				</div>

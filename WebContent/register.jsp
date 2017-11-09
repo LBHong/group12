@@ -52,27 +52,88 @@ body {
 .mymargintop2{
 margin-top:13px;
 }
+.myimage{
+  width:100%;
+  height:70%;
+}
+.imgwidth{
+  width:25%;
+  position:absolute;/*弹窗 */
+  right:2%;
+}
+.con4{
+     height:180px;
+     margin-right:20px;
+     overflow: hidden;
+}
+.con4 .btn{
+     width: 100%;
+     height: 40px;
+     line-height: 25px;
+     text-align: center;
+     background: #d8b49c;
+     display: block;
+     font-size: 16px;
+     border-radius: 5px;/* 圆角  */
+}
+.upload{
+     float: left;
+     position: relative;
+}
+.upload_pic{
+     display: block;
+     width: 100%; /* 为保证与表面按钮完全重叠 */
+     height: 40px; /* 为保证与表面按钮完全重叠 */
+     position: absolute;/*这样就可以使组件重叠  */
+     left: 0; /* 必须有 */
+     top: 0; /* 必须有 */
+     opacity: 0;/* 将系统的文件选择按钮隐藏，然后在相同地方放置一个合适图样替代按钮 */
+     border-radius: 5px;
+}
+#cvs{
+	border: 1px solid #000;
+	margin:0px 0px 0px 0px;
+}
+
 </style>
 </head>
 <body>
+  
 	<div class="row">
 		<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-3 mydiv1">
 			<div class="login-panel panel panel-default">
-				<div class="panel-heading" >Register</div>
+				<div class="panel-heading">Register</div>
 				<div class="panel-body">
 					<form role="form" class="form-horizontal"><!-- form-horizontal -->
 						<fieldset>
-						
+                
+						 	<div class="myfloatr imgwidth">
+							     <div class="con4">
+		                            <canvas id="cvs" class="myimage"></canvas>
+		    						<span class="btn upload">上传头像<input type="file" class="upload_pic" id="upload" /></span>
+		    						             <!-- type为file的就是读取本第文件的输入框 -->
+								 </div>
+							   <!-- <img  class="myimage" alt="touxiang"  src="images/1.jpg">"http://placehold.it/40/30a5ff/fff" -->
+						    </div>
+						    
 							<div class="form-group">
 							    <label class="col-md-3 control-label myfont1" for="username">username:</label>
-								<div class="col-md-9">
+								<div class="col-md-6">
 								<input id="username" class="form-control" placeholder="Username" name="username" type="text" autofocus="autofocus">
 							    </div>
-							</div>		
-												
+							 </div>
+							
+							
+						    <div class="form-group">
+							    <label class="col-md-3 control-label myfont1" for="username">realname:</label>
+								<div class="col-md-6">
+								<input id="realname" class="form-control" placeholder="Realname" name="realname" type="text" autofocus="autofocus">
+							    </div>
+						    </div>	
+										
 							<div class="form-group">
-							    <label class="col-md-3 control-label myfont1 for="password">password:</label>
-								<div class="col-md-9">
+							    <label class="col-md-3 control-label myfont1" for="password">password:</label>
+								<div class="col-md-6">
 								<input  id="password" class="form-control" placeholder="Password" name="Password" type="password" >
 								</div>
 							</div>
@@ -147,8 +208,8 @@ margin-top:13px;
 		</div><!-- /.col-->
 	</div><!-- /.row -->	
 	
-
-<script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/img_load.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

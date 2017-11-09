@@ -132,16 +132,16 @@
 		</div>
 		<div class="divider"></div>
 		
-		<form role="search"><!-- 写js脚本，在按下enter之后直接提交表单 -->
+	<!-- 	<form role="search">写js脚本，在按下enter之后直接提交表单
 			<div class="form-group">
 				<input type="text" class="form-control" placeholder="输入要预约的教授的名字">
 			</div>
-		</form>
+		</form> -->
 		<ul class="nav menu">
-			<li><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
-			<li><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
-			<li class="active"><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
+			<li><a href="professor_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
+			<li><a href="professor_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
+			<li class="active"><a href="professor_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
+			<li><a href="professor_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
@@ -184,7 +184,7 @@
 	       <form action="showselectedauthor" method="post">
                <div class="input-group  mymargin"> 
                  <input name="selectedauthor" type="text" class="form-control input-md" 
-                 placeholder="请输入教授的名字查询教授用户"  list="authorlist"/>
+                 placeholder="请输入用户的名字查询用户"  list="authorlist"/>
 				   <!-- <datalist id="authorlist" style="color:#ff0000" >
 						        <option>cnm</option>
 						    </datalist> -->

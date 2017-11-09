@@ -141,7 +141,7 @@
 			<li><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li class="active"><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
 			<li><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="elements.html"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
+			<li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>

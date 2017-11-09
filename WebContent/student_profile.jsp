@@ -17,14 +17,6 @@
 .myfont1{
   font-size:18px;
 }
-.mymargin{
-    margin-left:20px;
-    margin-right:20px;
-    margin-bottom:20px;
-}
-.myalign1{
-      align:center;
-  }
 </style>
 </head>
 <body>
@@ -140,8 +132,8 @@
 		<ul class="nav menu">
 			<li><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
-			<li class="active"><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
+			<li><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
+			<li class="active"><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
@@ -174,55 +166,95 @@
 			</ol>
 		</div><!--/.row-->
 		
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">消 息</h1>
+				<h1 class="page-header">首 页 </h1>
 			</div>
-		</div><!--/.row-->
+		</div>/.row -->
 		
-	   <div class="row">
-	       <form action="showselectedauthor" method="post">
-               <div class="input-group  mymargin"> 
-                 <input name="selectedauthor" type="text" class="form-control input-md" 
-                 placeholder="请输入教授的名字查询教授用户"  list="authorlist"/>
-				   <!-- <datalist id="authorlist" style="color:#ff0000" >
-						        <option>cnm</option>
-						    </datalist> -->
-				  <span class="input-group-btn">
-				     <input type="submit" class="btn btn-primary btn-md" value="Search">
-				     <!-- <input type="button" class="btn btn-primary btn-md" value="Search"> -->
-				  </span>
+		<div class="panel panel-container">
+			<div class="row">
+				<div class="col-xs-6 col-md-3 col-lg-3 no-padding"><!-- 屏幕小的时候会成两排 -->
+					<div class="panel panel-teal panel-widget border-right">
+						<div class="row no-padding"><em class="fa fa-xl fa-users color-blue"></em>
+							<div class="large">120</div>
+							<div class="text-muted">All Professors</div>
+						</div>
+					</div>
 				</div>
-		  </form>
+				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+					<div class="panel panel-blue panel-widget border-right">
+						<div class="row no-padding"><em class="fa fa-xl fa-calendar color-orange"></em>
+							<div class="large">3</div>
+							<div class="text-muted">Appointments</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+					<div class="panel panel-orange panel-widget border-right">
+						<div class="row no-padding"><em class="fa fa-xl fa-history color-red"></em>
+							<div class="large">10</div>
+							<div class="text-muted">Historys</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+					<div class="panel panel-red panel-widget ">
+						<div class="row no-padding"><em class="fa fa-xl fa-comments color-teal"></em>
+							<div class="large">15</div>
+							<div class="text-muted">Messages</div>
+						</div>
+					</div>
+				</div>
+			</div><!--/.row-->
 		</div>
 		
-		<div class="panel panel-default articles">
-			<div class="panel-heading">
-			     相关用户
-			   <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
-			</div>
-			<div class="panel-body articles-container">
-					<div class="article border-bottom">
-						<div class="col-xs-12">
-							 <div class="row">
-								<div class="col-xs-2 col-md-2 date">
-									 <div class="large"><img src="http://placehold.it/50/30a5ff/fff" class="img-responsive img-circle" alt="loading"></div>
-								</div>
-								<div class="col-xs-10 col-md-10">
-<!-- 添加一个跳转到更新的action--><h4><a href="#">WHZ</a></h4><!-- 点击之后跳转到与该用户的chat中 -->
-									 <p>简介：哈尔滨工业大学<strong>计算机科学学院教授</strong></p>
-									</div>
-								</div>
-							</div>
-							<div class="clear"></div>
-						</div><!--End .article-->
-					
-					</div>
-				</div><!--End .articles-->
-				
-		<div class="panel panel-default chat">
+		<div class="row">  <!-- 展示自己最近的预约情况，包括预约失败的和预约成功的 -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
 					<div class="panel-heading">
-						Chat
+						近期预约总览
+						<ul class="pull-right panel-settings panel-button-tab-right">
+							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
+								<em class="fa fa-cogs"></em>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li>
+										<ul class="dropdown-settings">
+											<li><a href="#">
+												<em class="fa fa-cog"></em> 功能1
+											</a></li>
+											<li class="divider"></li>
+											<li><a href="#">
+												<em class="fa fa-cog"></em> 功能2
+											</a></li>
+											<li class="divider"></li>
+											<li><a href="#">
+												<em class="fa fa-cog"></em> 功能3
+											</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						
+						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+					
+					<div class="panel-body">
+						 <div class="canvas-wrapper">
+							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	  <!--/.row-->
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						待赴预约
 						<ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
@@ -232,7 +264,7 @@
 										<ul class="dropdown-settings">
 											<li><a href="#">
 												<em class="fa fa-cog"></em> 功 能 1
-											</a></li>
+											</a></li> 
 											<li class="divider"></li>
 											<li><a href="#">
 												<em class="fa fa-cog"></em> 功 能 2
@@ -248,46 +280,84 @@
 						</ul>
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
-						<ul>
-							<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header"><strong class="primary-font">WHZ</strong> <small class="text-muted">32 mins ago</small></div>
-									<p>地点可以定在正心216</p>
+						<ul class="todo-list"><!-- 所有未完成预约 -->
+						
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox-1" />
+									<label for="checkbox-1">1.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
 								</div>
+								<div class="pull-right action-buttons"><a href="#" class="trash">
+									<em class="fa fa-trash"></em>
+								</a></div>
 							</li>
-							<li class="right clearfix"><span class="chat-img pull-right">
-								<img src="http://placehold.it/60/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header  pull-right"><strong class="pull-left primary-font">WCY</strong> <small class="text-muted">6 mins ago</small>
-									<p>好，到时候一定准时到！！</p>
-									</div>
+							
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox-2" />
+									<label for="checkbox-2">2.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
 								</div>
+								<div class="pull-right action-buttons"><a href="#" class="trash">
+									<em class="fa fa-trash"></em>
+								</a></div>
 							</li>
-							<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header"><strong class="primary-font">WCY</strong> <small class="text-muted">32 mins ago</small></div>
-									<p>好，没事不急</p>
+							
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox-3" />
+									<label for="checkbox-3">3.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
 								</div>
+								<div class="pull-right action-buttons"><a href="#" class="trash">
+									<em class="fa fa-trash"></em>
+								</a></div>
 							</li>
+							
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox-4" />
+									<label for="checkbox-4">4.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
+								</div>
+								<div class="pull-right action-buttons"><a href="#" class="trash">
+									<em class="fa fa-trash"></em>
+								</a></div>
+							</li>
+							
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox-5" />
+									<label for="checkbox-5">5.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
+								</div>
+								<div class="pull-right action-buttons"><a href="#" class="trash">
+									<em class="fa fa-trash"></em>
+								</a></div>
+							</li>
+							
+							<li class="todo-list-item">
+								<div class="checkbox">
+									<input type="checkbox" id="checkbox-6" />
+									<label for="checkbox-6">6.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
+								</div>
+								<div class="pull-right action-buttons"><a href="#" class="trash">
+									<em class="fa fa-trash"></em>
+								</a></div>
+							</li>
+							
 						</ul>
 					</div>
 					<div class="panel-footer">
 						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." /><span class="input-group-btn">
-								<button class="btn btn-primary btn-md" id="btn-chat">Send</button>
+							<input id="btn-input" type="text" class="form-control input-md" placeholder="Delete selected appointments" /><span class="input-group-btn">
+								<button class="btn btn-primary btn-md" id="btn-todo">Delete</button>
 						</span></div>
 					</div>
 				</div>
-		
+			</div><!--/.col-->
+			
 			<div class="col-sm-12">
 				<p class="back-link">OnlineBookingSystem by 王春阳</p>
 			</div>
-			
+		
+		</div><!--/.row-->
 	</div>	<!--/.main-->
 	
 	<script src="js/jquery-1.11.1.min.js"></script>

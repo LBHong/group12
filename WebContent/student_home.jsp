@@ -114,7 +114,7 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="loading">
+				<img src="images/" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name">Username</div>
@@ -133,7 +133,7 @@
 			<li class="active"><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
 			<li><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="elements.html"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
+			<li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>

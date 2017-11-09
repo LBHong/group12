@@ -132,17 +132,17 @@
 		</div>
 		<div class="divider"></div>
 		
-		<form role="search"><!-- 写js脚本，在按下enter之后直接提交表单 -->
+		<!-- <form role="search">写js脚本，在按下enter之后直接提交表单
 			<div class="form-group">
 				<input type="text" class="form-control" placeholder="输入要预约的教授的名字">
 			</div>
-		</form>
+		</form> -->
 		<ul class="nav menu">
-			<li><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
-			<li><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
-			<li class="active"><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
-			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
+			<li><a href="professor_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
+			<li class="active"><a href="professor_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
+			<li><a href="professor_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
+			<li><a href="professor_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
+			<li class="parent"><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="sub-item-1">
@@ -166,7 +166,7 @@
 		<div class="row"><!-- 页眉 -->
 			<ol class="breadcrumb">
 				<li>
-				  <a href="student_home.jsp">
+				  <a href="professor_home.jsp">
 					  <em class="fa fa-home"></em>
 				   </a>
 				</li>
@@ -176,53 +176,15 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">消 息</h1>
+				<h1 class="page-header">预 约</h1>
 			</div>
 		</div><!--/.row-->
 		
-	   <div class="row">
-	       <form action="showselectedauthor" method="post">
-               <div class="input-group  mymargin"> 
-                 <input name="selectedauthor" type="text" class="form-control input-md" 
-                 placeholder="请输入教授的名字查询教授用户"  list="authorlist"/>
-				   <!-- <datalist id="authorlist" style="color:#ff0000" >
-						        <option>cnm</option>
-						    </datalist> -->
-				  <span class="input-group-btn">
-				     <input type="submit" class="btn btn-primary btn-md" value="Search">
-				     <!-- <input type="button" class="btn btn-primary btn-md" value="Search"> -->
-				  </span>
-				</div>
-		  </form>
-		</div>
 		
-		<div class="panel panel-default articles">
-			<div class="panel-heading">
-			     相关用户
-			   <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
-			</div>
-			<div class="panel-body articles-container">
-					<div class="article border-bottom">
-						<div class="col-xs-12">
-							 <div class="row">
-								<div class="col-xs-2 col-md-2 date">
-									 <div class="large"><img src="http://placehold.it/50/30a5ff/fff" class="img-responsive img-circle" alt="loading"></div>
-								</div>
-								<div class="col-xs-10 col-md-10">
-<!-- 添加一个跳转到更新的action--><h4><a href="#">WHZ</a></h4><!-- 点击之后跳转到与该用户的chat中 -->
-									 <p>简介：哈尔滨工业大学<strong>计算机科学学院教授</strong></p>
-									</div>
-								</div>
-							</div>
-							<div class="clear"></div>
-						</div><!--End .article-->
-					
-					</div>
-				</div><!--End .articles-->
-				
-		<div class="panel panel-default chat">
+		<div class="panel panel-container">
+				<div class="panel panel-default">
 					<div class="panel-heading">
-						Chat
+					    <label class="myalign1">日 历</label>
 						<ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
@@ -248,42 +210,62 @@
 						</ul>
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
-						<ul>
-							<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header"><strong class="primary-font">WHZ</strong> <small class="text-muted">32 mins ago</small></div>
-									<p>地点可以定在正心216</p>
-								</div>
-							</li>
-							<li class="right clearfix"><span class="chat-img pull-right">
-								<img src="http://placehold.it/60/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header  pull-right"><strong class="pull-left primary-font">WCY</strong> <small class="text-muted">6 mins ago</small>
-									<p>好，到时候一定准时到！！</p>
-									</div>
-								</div>
-							</li>
-							<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header"><strong class="primary-font">WCY</strong> <small class="text-muted">32 mins ago</small></div>
-									<p>好，没事不急</p>
-								</div>
-							</li>
-						</ul>
-					</div>
-					<div class="panel-footer">
-						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." /><span class="input-group-btn">
-								<button class="btn btn-primary btn-md" id="btn-chat">Send</button>
-						</span></div>
+						<div id="calendar"></div>
 					</div>
 				</div>
+		</div>
 		
+	   <div class="panel panel-default">
+					<div class="panel-heading " >
+						空 闲 时 段 发 布
+					    <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal" action="" method="post">
+							<fieldset>
+							    <!-- Appointment information-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Time Interval</label>
+									<div class="col-md-9">
+										<input id="timeinterval" name="timeinterval" type="text" placeholder="要发布的时段" class="form-control">
+									</div>
+								</div>
+								
+								 <!-- Appointment information-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Date</label>
+									<div class="col-md-9">
+										<input id="timeinterval" name="timeinterval" type="text" placeholder="日期" class="form-control">
+									</div>
+								</div>
+								
+								
+								<!-- Email input-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="email">Your E-mail</label>
+									<div class="col-md-9">
+										<input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+									</div>
+								</div>
+								
+								<!-- phone input-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="email">Your Telephone</label>
+									<div class="col-md-9">
+										<input id="phone" name="phone" type="text" placeholder="Your phone" class="form-control">
+									</div>
+								</div>
+								
+								<!-- Form actions -->
+								<div class="form-group">
+									<div class="col-md-12 widget-right">
+										<button type="submit" class="btn btn-default btn-md pull-right">发布</button>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+				</div>
 			<div class="col-sm-12">
 				<p class="back-link">OnlineBookingSystem by 王春阳</p>
 			</div>
