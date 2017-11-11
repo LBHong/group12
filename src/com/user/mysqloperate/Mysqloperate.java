@@ -3,9 +3,12 @@ package com.user.mysqloperate;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
+import com.user.userbook.BOOK;
 import com.user.userstudent.student;
 import com.user.userteacher.teacher;
 
@@ -27,7 +30,7 @@ public class Mysqloperate {
 	    }
 	    return conn;
 	}
-	public student addstudent(String username,String password,String telephone,String email,String id,String instruction)
+	public student addstudent(String username,String password,String telephone,String email,String id,String instruction,String faculty)
 	{
 		student s=new student();
 		PreparedStatement pstmt = null;
@@ -42,7 +45,7 @@ public class Mysqloperate {
 	            if(!rs.next()){
 	            	return null;
 	            }
-				sql="insert into student(username,password,email, telephone,instruction,id) values(?,?,?,?,?,?)";
+				sql="insert into student(username,password,email, telephone,instruction,id,faculty) values(?,?,?,?,?,?,?)";
 				PreparedStatement ps=(PreparedStatement) conn.prepareStatement(sql);
 				s.setUsername(username);
 				s.setPassword(password);
@@ -50,12 +53,14 @@ public class Mysqloperate {
 				s.setTelephone(telephone);
 				s.setInstruction(instruction);
 				s.setId(id);
+				s.setFaculty(faculty);
 				ps.setString(1,s.getUsername());
 				ps.setString(2,s.getPassword());
 				ps.setString(3,s.getEmail());
 				ps.setString(4,s.getTelephone());
 				ps.setString(5,s.getInstruction());
 				ps.setString(6,s.getId());
+				ps.setString(7,s.getFaculty());
 				 int row=ps.executeUpdate();
 		         if(row>0){
 		        	 System.out.println("成功添加学生！");
@@ -150,12 +155,21 @@ public class Mysqloperate {
 	    	 }
 	    	 if(rs.next()==false)
 	    	 {
+	    		 rs.close();
+		            pstmt.close();
+		           
+		            conn.close();
 	    		 return null;
 	    	 }
 	    	 else
 	    	 {
+	    		 rs.close();
+		            pstmt.close();
+		           
+		            conn.close();
 	    		return detailMap;
 	    	 }
+	    	 
 	    }catch(SQLException se){
 	        // 处理 JDBC 错误
 	        se.printStackTrace();
@@ -217,10 +231,18 @@ public class Mysqloperate {
 	    	 }
 	    	 if(rs.next()==false)
 	    	 {
+	    		 rs.close();
+		            pstmt.close();
+		           
+		            conn.close();
 	    		 return null;
 	    	 }
 	    	 else
 	    	 {
+	    		 rs.close();
+		            pstmt.close();
+		           
+		            conn.close();
 	    		return detailMap;
 	    	 }
 	    	 
@@ -287,4 +309,101 @@ public class Mysqloperate {
 			return false;
 	}
 
+	public List<teacher> chaxunallteachers(String faculty)
+	{
+		//Map<String,String> detailMap=new HashMap<String,String>();
+		Connection conn = null;
+	    PreparedStatement pstmt = null; 
+	    List<teacher> teacherList=new LinkedList<teacher>();
+	    try{
+	    	
+	    	 conn = getconn();
+	    	
+	    	 String sql;
+	    	 sql = "SELECT username,password,email, telephone,instruction,id,faculty FROM student where faculty=?";
+	    	 pstmt = conn.prepareStatement(sql);
+	    	 pstmt.setString(1, faculty);
+	    	 ResultSet rs = pstmt.executeQuery();
+	    	/* ResultSetMetaData m=null;
+	    	 m=rs.getMetaData();
+	    	 int columns=m.getColumnCount();
+	    	 for(int i=1;i<=columns;i++)
+	    	   {
+	    	    System.out.print(m.getColumnName(i));
+	    	    System.out.print("\t\t");
+	    	   }*/
+	    	 while(rs.next())
+	    	 {
+	    		teacher te=new teacher();
+	    		detailMap.put("用户名",rs.getString("username"));
+	    		detailMap.put("密码",rs.getString("password"));
+	    		detailMap.put("邮箱",rs.getString("email"));
+	    		detailMap.put("手机号",rs.getString("telephone"));
+	    		detailMap.put("介绍",rs.getString("instruction"));
+	    		detailMap.put("科目",rs.getString("faculty"));
+	    		detailMap.put("id",rs.getString("id"));		
+	    		te.username=rs.getString("username");
+	    		te.password=rs.getString("password");
+	    		te.email=rs.getString("email");
+	    		te.telephone=rs.getString("telephone");
+	    		te.instruction=rs.getString("instruction");
+	    		te.faculty=rs.getString("faculty");
+	    		te.id=rs.getString("id");
+	    		teacherList.add(te);
+	    		
+	    	 }
+	    	 rs.close();
+	            pstmt.close();
+	           
+	            conn.close();
+	    }catch(SQLException se){
+	        // 处理 JDBC 错误
+	        se.printStackTrace();
+	    }catch(Exception e){
+	        // 处理 Class.forName 错误
+	        e.printStackTrace();
+	    }finally{
+	        // 关闭资源
+	        try{
+	            if(conn!=null) conn.close();
+	        }catch(SQLException se){
+	            se.printStackTrace();
+	        }
+	    }
+		return teacherList;
+	}
+	public void teacherfabu(char[] a,String year,String month,String day)
+	{
+		/***********************************/
+		conn1=getConn();
+		String sql="SELECT username,password,email, telephone,instruction,faculty,id FROM teacher where id=?";
+	}
+	public String[] teachershow(String id,String year,String month,String day)
+	{
+		
+		String []D=new String[14];
+	    	
+	    	 conn = getconn();
+	    	
+	    	 String sql;
+	    	 sql = "SELECT id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM release booking where id=? and year=? and month=? and day=?";
+	    	 pstmt = conn.prepareStatement(sql);
+	    	 pstmt.setString(1, id);
+	    	 pstmt.setString(2,year);
+	    	 pstmt.setString(3,month);
+	    	 pstmt.setString(4,day);
+	    	 
+	    	 ResultSet rs = pstmt.executeQuery();
+	    	 while(rs.next())
+	    	 {
+	    		 
+	    		 D[0]=rs.getString("a");D[1]=rs.getString("b");D[2]=rs.getString("c");
+	    		 D[3]=rs.getString("d");D[4]=rs.getString("e");D[5]=rs.getString("f");
+	    		 D[6]=rs.getString("g");D[7]=rs.getString("h");D[8]=rs.getString("i");
+	    		 D[9]=rs.getString("j");D[10]=rs.getString("k");D[11]=rs.getString("l");
+	    		 D[12]=rs.getString("m");D[13]=rs.getString("n");
+	    		 return D;
+	    	 }
+	    	 return null;
+	}
 }
