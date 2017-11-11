@@ -10,10 +10,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 public class mysqlOperate {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-    static final String DB_URL = "jdbc:mysql://w.";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/project";
+
  
     // 数据库的用户名与密码，需要根据自己的设置
-    static final String USER = "z5omyo340o";
+    static final String USER = "root";
     static final String PASS = "123456";
 	public   Map<String,String> showstudent(String id)
 	{
@@ -189,17 +190,35 @@ public class mysqlOperate {
 		 B[0]='a';B[1]='b';B[2]='c';B[3]='d';B[4]='e';B[5]='f';B[6]='g';B[7]='h';B[8]='i';
 		 B[9]='j';B[10]='k';B[11]='l';B[12]='m';B[13]='n';
 		releasebooking rb=new releasebooking();
+		/*String url="jdbc:mysql://localhost:3306/project";
+		String driver ="com.mysql.jdbc.Driver";
+		try{
+			Class.forName(driver);
+		}catch(Exception e){
+			System.out.println("无法加载驱动");
+		}
+		try {
+			Connection con = DriverManager.getConnection(url,"root","123456");
+			if(!con.isClosed())
+				System.out.println("success");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
-			String url="jdbc:mysql://w.rdc.sae.sina.com.cn:3306/app_tianchen1016";
-			String username="z5omyo340o";
-			String password="j520jylh02zl30jxki4w0zj31k15xj023kj5534y";
+			String url="jdbc:mysql://localhost:3306/project";
+			String username="root";
+			String password="123456";
 			Connection conn=DriverManager.getConnection(url,username,password);
+			System.out.println("success");
 			//String sql="replace into release booking(id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			String sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM release booking where id=? and year=? and month=? and day=?";
+			String sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=?";
 			PreparedStatement ps=conn.prepareStatement(sql);
-			ps.setString(1,id);ps.setString(2, year);
-			ps.setString(3, month);ps.setString(4,day);
+			ps.setString(1, id);ps.setString(2, year);
+			ps.setString(3, month);ps.setString(4, day);
+			
 			ResultSet rs = ps.executeQuery();
 			int i;
 			if(rs.next())
@@ -210,7 +229,7 @@ public class mysqlOperate {
 					else{
 							if(B[i]=='a')
 							{
-								String qs="update release booking set a=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set a=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[0]);
 								pss.setString(2, id);
@@ -222,7 +241,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='b')
 							{
-								String qs="update release booking set b=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set b=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[1]);
 								pss.setString(2, id);
@@ -233,7 +252,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='c')
 							{
-								String qs="update release booking set c=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set c=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[2]);
 								pss.setString(2, id);
@@ -244,7 +263,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='d')
 							{
-								String qs="update release booking set d=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set d=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[3]);
 								pss.setString(2, id);
@@ -255,7 +274,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='e')
 							{
-								String qs="update release booking set e=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set e=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[4]);
 								pss.setString(2, id);
@@ -266,7 +285,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='f')
 							{
-								String qs="update release booking set f=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set f=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[5]);
 								pss.setString(2, id);
@@ -277,7 +296,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='g')
 							{
-								String qs="update release booking set g=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set g=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[6]);
 								pss.setString(2, id);
@@ -288,7 +307,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='h')
 							{
-								String qs="update release booking set h=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set h=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[7]);
 								pss.setString(2, id);
@@ -299,7 +318,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='i')
 							{
-								String qs="update release booking set i=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set i=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[8]);
 								pss.setString(2, id);
@@ -310,7 +329,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='j')
 							{
-								String qs="update release booking set j=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set j=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[9]);
 								pss.setString(2, id);
@@ -321,7 +340,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='k')
 							{
-								String qs="update release booking set k=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set k=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[10]);
 								pss.setString(2, id);
@@ -332,7 +351,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='l')
 							{
-								String qs="update release booking set l=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set l=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[11]);
 								pss.setString(2, id);
@@ -343,7 +362,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='m')
 							{
-								String qs="update release booking set m=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set m=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[12]);
 								pss.setString(2, id);
@@ -354,7 +373,7 @@ public class mysqlOperate {
 							}
 							else if(B[i]=='n')
 							{
-								String qs="update release booking set n=? where id=? and year=? and month=? and day=?";
+								String qs="update releasebooking set n=? where id=? and year=? and month=? and day=?";
 								PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, A[13]);
 								pss.setString(2, id);
@@ -367,7 +386,7 @@ public class mysqlOperate {
 				}
 			}
 			else{
-				String sq="insert into release booking (id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				String sq="insert into releasebooking (id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				PreparedStatement sp=conn.prepareStatement(sq);
 				rb.setId(id);rb.setDay(day);
 				rb.setYear(year);rb.setA(A[0]);
@@ -411,4 +430,38 @@ public class mysqlOperate {
 			ps.setChar(5, rb.getA());*/
 		return true;		
 	}
+	/*public boolean appointment(String tid,String sid,char A[],String year,String month,String day)
+	{
+		 Connection conn = null;
+	        PreparedStatement pstmt = null; 
+	        try{
+	            // 注册 JDBC 驱动
+	        	System.out.println("注册 JDBC 驱动");
+	            Class.forName("com.mysql.jdbc.Driver");
+	            System.out.println("驱动注册成功");
+	            // 打开链接
+	            System.out.println("连接数据库...");
+	            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	        
+	            // 执行查询
+	            System.out.println(" 实例化Statement对...");
+	            
+	            char [] B=new char [14];
+	            B[0]='a';B[1]='b';B[2]='c';B[3]='d';B[4]='e';B[5]='f';B[6]='g';B[7]='h';B[8]='i';
+	   		 	B[9]='j';B[10]='k';B[11]='l';B[12]='m';B[13]='n';
+	   		 	int i;
+	   		 	for(i=0;i<14;i++)
+	   		 	{
+	   		 		if(A[i]!='0')
+	   		 		{
+		   		 		if(B[i]=='a')
+						{
+							
+						}
+	   		 		}
+	   		 	}
+		return false;
+		
+	}*/
+	
 }
