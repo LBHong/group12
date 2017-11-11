@@ -26,6 +26,15 @@ public class test {
 		    System.out.println(a[i]); 
 
 		}*/
+		String [] C=new String [14];
+		Mysqloperate sqlOprate=new Mysqloperate();
 		
+			C[0]="0";C[1]="1";C[2]="1";C[3]="1";C[4]="1";C[5]="1";C[6]="1";C[7]="1";C[8]="1";
+			C[9]="1";C[10]="1";C[11]="1";C[12]="1";C[13]="1";
+			boolean d;
+		
+			d=sqlOprate.releasebooking(C,"115031050","2018","12","12");
+		
+
 	}
 }
