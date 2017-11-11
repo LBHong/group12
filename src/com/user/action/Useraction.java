@@ -1,5 +1,7 @@
 package com.user.action;
 
+import java.util.Map;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.user.userstudent.student;
 import com.user.userteacher.teacher;
@@ -41,7 +43,7 @@ public class Useraction extends ActionSupport {
 		else if(faculty=="外国语学院"){xueyuan="14";}
 		else if(faculty=="基础学部"){xueyuan="15";}
 		number++;
-		string strValue= number.ToString().PadLeft(5,'0');
+		String strValue= number.ToString().PadLeft(5,'0');
 		String id='0'+xueyuan+strValue;
 		return id;
 	}

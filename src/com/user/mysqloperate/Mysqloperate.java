@@ -3,12 +3,13 @@ package com.user.mysqloperate;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-import com.user.userbook.BOOK;
 import com.user.userstudent.student;
 import com.user.userteacher.teacher;
 
@@ -16,9 +17,9 @@ public class Mysqloperate {
 
 	public Connection getConn() {
 	    String driver = "com.mysql.jdbc.Driver";
-	    String url = "jdbc:mysql://localhost:3306/project";
+	    String url = "jdbc:mysql://localhost:3306/project?useUnicode=true&characterEncoding=utf-8&useSSL=false";
 	    String Qusername = "root";
-	    String Qpassword = "";
+	    String Qpassword = "123456";
 	    Connection conn = null;
 	    try {
 	        Class.forName(driver); //classLoader,加载对应驱动
@@ -309,18 +310,19 @@ public class Mysqloperate {
 			return false;
 	}
 
+	
 	public List<teacher> chaxunallteachers(String faculty)
 	{
 		//Map<String,String> detailMap=new HashMap<String,String>();
 		Connection conn = null;
-	    PreparedStatement pstmt = null; 
+	    java.sql.PreparedStatement pstmt = null; 
 	    List<teacher> teacherList=new LinkedList<teacher>();
 	    try{
 	    	
-	    	 conn = getconn();
+	    	 conn = getConn();
 	    	
 	    	 String sql;
-	    	 sql = "SELECT username,password,email, telephone,instruction,id,faculty FROM student where faculty=?";
+	    	 sql = "SELECT username,password,email, telephone,instruction,id,faculty FROM teacher where faculty=?";
 	    	 pstmt = conn.prepareStatement(sql);
 	    	 pstmt.setString(1, faculty);
 	    	 ResultSet rs = pstmt.executeQuery();
@@ -335,13 +337,13 @@ public class Mysqloperate {
 	    	 while(rs.next())
 	    	 {
 	    		teacher te=new teacher();
-	    		detailMap.put("用户名",rs.getString("username"));
-	    		detailMap.put("密码",rs.getString("password"));
-	    		detailMap.put("邮箱",rs.getString("email"));
-	    		detailMap.put("手机号",rs.getString("telephone"));
-	    		detailMap.put("介绍",rs.getString("instruction"));
-	    		detailMap.put("科目",rs.getString("faculty"));
-	    		detailMap.put("id",rs.getString("id"));		
+//	    		detailMap.put("用户名",rs.getString("username"));
+//	    		detailMap.put("密码",rs.getString("password"));
+//	    		detailMap.put("邮箱",rs.getString("email"));
+//	    		detailMap.put("手机号",rs.getString("telephone"));
+//	    		detailMap.put("介绍",rs.getString("instruction"));
+//	    		detailMap.put("科目",rs.getString("faculty"));
+//	    		detailMap.put("id",rs.getString("id"));		
 	    		te.username=rs.getString("username");
 	    		te.password=rs.getString("password");
 	    		te.email=rs.getString("email");
@@ -375,19 +377,21 @@ public class Mysqloperate {
 	public void teacherfabu(char[] a,String year,String month,String day)
 	{
 		/***********************************/
-		conn1=getConn();
+		 Connection conn1=getConn();
 		String sql="SELECT username,password,email, telephone,instruction,faculty,id FROM teacher where id=?";
 	}
-	public String[] teachershow(String id,String year,String month,String day)
+	public String[] teachershow(String id,String year,String month,String day) throws SQLException
 	{
 		
 		String []D=new String[14];
 	    	
-	    	 conn = getconn();
-	    	
+	    	 Connection conn = getConn();
+	    	 java.sql.PreparedStatement pstmt = null; 
 	    	 String sql;
-	    	 sql = "SELECT id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM release booking where id=? and year=? and month=? and day=?";
-	    	 pstmt = conn.prepareStatement(sql);
+	    	 sql = "SELECT id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=?";
+	    	
+				pstmt = conn.prepareStatement(sql);
+			
 	    	 pstmt.setString(1, id);
 	    	 pstmt.setString(2,year);
 	    	 pstmt.setString(3,month);
@@ -406,4 +410,13 @@ public class Mysqloperate {
 	    	 }
 	    	 return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
