@@ -93,6 +93,7 @@ public class Useraction extends ActionSupport {
 		if(this.map!=null){return "success";}
 		else{return "failure";}
 	}
+	
 
 	/******************************************************************************************/
 	public String getUsername() {
