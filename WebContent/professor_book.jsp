@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<% 
+  /* String s = (String) request.getAttribute("test");  */
+  String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +30,9 @@
 .myalign1{
       align:center;
   }
+.specialdays{
+   background-color:#ff0000;//特殊日期的背景图片
+ }
 </style>
 </head>
 <body>
@@ -209,10 +217,12 @@
 							</li>
 						</ul>
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+				   
 					<div class="panel-body">
 						<div id="calendar"></div>
 					</div>
-				</div>
+					
+			</div>
 		</div>
 		
 	   <div class="panel panel-default">
@@ -221,38 +231,99 @@
 					    <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
 					</div>
 					<div class="panel-body">
-						<form class="form-horizontal" action="" method="post">
+						<form class="form-horizontal" action="release" method="post" onsubmit="return getselectedtime()">
 							<fieldset>
 							    <!-- Appointment information-->
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<label class="col-md-3 control-label" for="name">Time Interval</label>
 									<div class="col-md-9">
 										<input id="timeinterval" name="timeinterval" type="text" placeholder="要发布的时段" class="form-control">
 									</div>
-								</div>
-								
+								</div> -->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="timeinterval">Time Interval</label>
+									   <div class="col-md-3">
+										   <div class="checkbox">
+											<label>
+												<input type="checkbox" value="1" name="times">8：00-8：30
+											</label>
+										   </div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="2" name="times">8：30-9：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="3" name="times">9：00-9：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="4" name="times">9：30-10：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="5" name="times">10：00-10：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="6" name="times">10：30-11：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="7" name="times">11：00-11：30
+											</label>
+										</div>
+									  </div>
+									  <div class="col-md-3">
+										   <div class="checkbox">
+											<label>
+												<input type="checkbox" value="8" name="times">14：00-14：30
+											</label>
+										   </div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="9" name="times">14：30-15：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="10" name="times">15：00-15：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="11" name="times">15：30-16：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="12" name="times">16：00-16：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="13" name="times">16：30-17：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="14" name="times">17：00-17：30
+											</label>
+										</div>
+									  </div>
+									</div>
+									<input type="hidden" value="" name="alltimes" id="alltimes">
+									<input type="hidden" value=<%=id%> name="id">
 								 <!-- Appointment information-->
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Date</label>
 									<div class="col-md-9">
-										<input id="timeinterval" name="timeinterval" type="text" placeholder="日期" class="form-control">
-									</div>
-								</div>
-								
-								
-								<!-- Email input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Your E-mail</label>
-									<div class="col-md-9">
-										<input id="email" name="email" type="text" placeholder="Your email" class="form-control">
-									</div>
-								</div>
-								
-								<!-- phone input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Your Telephone</label>
-									<div class="col-md-9">
-										<input id="phone" name="phone" type="text" placeholder="Your phone" class="form-control">
+										<input id="date" name="date" type="text" placeholder="日期" class="form-control">
 									</div>
 								</div>
 								
@@ -266,6 +337,29 @@
 						</form>
 					</div>
 				</div>
+				<script>
+				    function getselectedtime() {
+				    	
+					 checkboxes = document
+							.getElementsByName("times");
+					check_val =new Array();
+					 for(i=0;i<checkboxes.length;i++){ 
+						 if(checkboxes[i].checked)
+						check_val.push(checkboxes[i].value);
+					}
+					text = document
+							.getElementById("alltimes");
+				 	text.value = check_val.join("|");
+				 	
+				 	if(text.value==""){
+				 		alert("请选择至少一个时间段发布！");
+				 		return false;
+				 	}else{
+				 		alert(text.value);
+				 		return true;
+				 	}
+				   }
+						    </script>
 			<div class="col-sm-12">
 				<p class="back-link">OnlineBookingSystem by 王春阳</p>
 			</div>
@@ -290,6 +384,7 @@
 	scaleFontColor: "#c5c7cc"
 	});
 };
+alert(<%=id%>);
 	</script>
 		
 </body>

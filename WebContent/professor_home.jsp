@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+ <%--  <s:set var="id" value="id" scope="request" /> --%>
+<%
+/* String id=request.getParameter("id");
+session.setAttribute("id", id); */
+String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -378,6 +385,7 @@
 	scaleFontColor: "#c5c7cc"
 	});
 };
+     alert(<%=id%>);
 	</script>
 		
 </body>

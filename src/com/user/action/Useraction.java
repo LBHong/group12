@@ -3,6 +3,10 @@ package com.user.action;
 import java.sql.SQLException;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.user.userstudent.student;
 import com.user.userteacher.teacher;
@@ -78,7 +82,7 @@ public String comeoutidp(){
 		
 		int thenum=sqloperate.getprofessornum()+1;
 		String strValue=String.format("%05d",thenum);
-		String id='0'+xueyuan+strValue;
+		String id='1'+xueyuan+strValue;
 		return id;
 	}
 	
@@ -103,14 +107,17 @@ public String comeoutidp(){
     }
 	public String alogin() {
 		String loginresult=sqloperate.login(password,id);
-	
-			// TODO Auto-generated catch block
 		
+			// TODO Auto-generated catch block
+		//ServletActionContext.getRequest().setAttribute("a", b);
+		//ServletActionContext.getRequest().getSession().setAttribute("user", u);
 		if(loginresult=="student_success"){
 			loginflag="student_success"; 	System.out.println(loginflag);
+			ServletActionContext.getRequest().getSession().setAttribute("id", id);
 			return "student_success";}
 		else if(loginresult=="teacher_success"){
 			loginflag="teacher_success"; 	System.out.println(loginflag);
+			ServletActionContext.getRequest().getSession().setAttribute("id", id);
 			return "teacher_success";
 		}else if(loginresult=="wrong_id"){
 			loginflag="wrong_id"; 	System.out.println(loginflag);

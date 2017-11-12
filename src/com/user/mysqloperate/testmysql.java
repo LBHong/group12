@@ -19,7 +19,11 @@ public class testmysql {
 		//System.out.println(mysql.login("1234","023456"));
     	// mysql.addprofessornum(3);
     	 //mysql.addstudentnum(2);
-    	 System.out.println(mysql.getstudentnum());
-    	 System.out.println(mysql.getprofessornum());
+    	// System.out.println(mysql.getstudentnum());
+    	 //System.out.println(mysql.getprofessornum());
+    	 /*String[] A={"1","1","1","0","0","0","0","0","0","0","0","0","0","0"};
+    	 mysql.releasebooking(A,"12341234","2000","10","20");*/
+    	 String[] A={"1","0","1","0","0","0","0","0","0","0","1","0","0","0"};
+    	 mysql.releasebooking(A,"12241234","2000","10","20");
     }
 }

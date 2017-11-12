@@ -1,6 +1,27 @@
+var speciald=new Array();
+speciald=["2016/12/5","2016/12/9","2017/11/6"];//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
 $('#calendar').datepicker({
-		});
+	beforeShowDay:function(date){
+					                var d=date;
+					                var curr_date=d.getDate();
+					                var curr_month=d.getMonth()+1;
+					                var curr_year=d.getFullYear();
+					                var formatDate=curr_year+"/"+curr_month+"/"+curr_date;
+					                //特殊日期的匹配
+					                if($.inArray(formatDate,speciald)!=-1){
+					                    return {classes:'specialdays'};
+    }
+					                return;
+	 }    
+});
+$('#calendar').datepicker({
+						  onSelect: gotoDate,
+						  buttonImage: '/images/2.jpg'
+							}).on('changeDate',gotoDate);
 
+function gotoDate(ev){
+		window.location.href="login.jsp";
+}
 !function ($) {
     $(document).on("click","ul.nav li.parent > a ", function(){          
         $(this).find('em').toggleClass("fa-minus");      

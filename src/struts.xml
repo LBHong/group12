@@ -14,6 +14,10 @@
                <result name="success">/ID_information.jsp</result>
                <result name="failure">/register.jsp</result>
        </action>
+        <action name="release" class="com.user.action.Releaseaction" method="teacherfabu">
+               <result name="success">/professor_home.jsp</result>
+               <result name="failure">/professor_home.jsp</result>
+       </action>
        <!--  <action name="remove" class="action.BookAction" method="remove">
                <result>/index.jsp</result>
        </action>
