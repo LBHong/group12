@@ -430,10 +430,10 @@ public class mysqlOperate {
 			ps.setChar(5, rb.getA());*/
 		return true;		
 	}
-	/*public boolean appointment(String tid,String sid,char A[],String year,String month,String day)
+	public boolean appointment(String tid,String sid,char A[],String year,String month,String day)
 	{
 		 Connection conn = null;
-	        PreparedStatement pstmt = null; 
+	         
 	        try{
 	            // ×¢²á JDBC Çý¶¯
 	        	System.out.println("×¢²á JDBC Çý¶¯");
@@ -456,12 +456,404 @@ public class mysqlOperate {
 	   		 		{
 		   		 		if(B[i]=='a')
 						{
-							
+		   		 			String sql;
+		   		 			PreparedStatement pstmt = null;
+		   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and a=?";
+		   		 			pstmt = conn.prepareStatement(sql); 
+		   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+		   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+		   		 			ResultSet rs = pstmt.executeQuery();
+		   		 			if(rs.next())
+		   		 			{
+		   		 				String sq;PreparedStatement pstm = null;
+		   		 				sq="update releasebooking set a=? where id=? and year=? and month=? and day=?";
+		   		 				pstm=conn.prepareStatement(sq);
+		   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+		   		 				pstm.setString(4, month);pstm.setString(5, day);
+		   		 				pstm.executeUpdate();
+		   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+		   		 				PreparedStatement pstm1 = null;
+		   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+		   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+		   		 				pstm1.setString(5, "8:00-8:30");pstm1.setString(6, sid);
+		   		 				pstm1.executeUpdate();
+		   		 				pstm1.close();
+		   		 				pstm.close();
+		   		 			}
+		   		 			else{rs.close();pstmt.close();return false;}
+		   		 		}
+		   		 		else if(B[i]=='b')
+		   		 		{
+		   		 			String sql;
+		   		 			PreparedStatement pstmt = null;
+		   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and b=?";
+		   		 			pstmt = conn.prepareStatement(sql); 
+		   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+		   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+		   		 			ResultSet rs = pstmt.executeQuery();
+		   		 			if(rs.next())
+		   		 			{
+		   		 				String sq;PreparedStatement pstm = null;
+		   		 				sq="update releasebooking set b=? where id=? and year=? and month=? and day=?";
+		   		 				pstm=conn.prepareStatement(sq);
+		   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+		   		 				pstm.setString(4, month);pstm.setString(5, day);
+		   		 				pstm.executeUpdate();
+		   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+		   		 				PreparedStatement pstm1 = null;
+		   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+		   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+		   		 				pstm1.setString(5, "8:30-9:00");pstm1.setString(6, sid);
+		   		 				pstm1.executeUpdate();
+		   		 				pstm1.close();
+		   		 				pstm.close();
+		   		 			}
+		   		 			else{rs.close();pstmt.close();return false;}
+		   		 			}
+			   		 	else if(B[i]=='c')
+		   		 		{
+		   		 			String sql;
+		   		 			PreparedStatement pstmt = null;
+		   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and c=?";
+		   		 			pstmt = conn.prepareStatement(sql); 
+		   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+		   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+		   		 			ResultSet rs = pstmt.executeQuery();
+		   		 			if(rs.next())
+		   		 			{
+		   		 				String sq;PreparedStatement pstm = null;
+		   		 				sq="update releasebooking set c=? where id=? and year=? and month=? and day=?";
+		   		 				pstm=conn.prepareStatement(sq);
+		   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+		   		 				pstm.setString(4, month);pstm.setString(5, day);
+		   		 				pstm.executeUpdate();
+		   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+		   		 				PreparedStatement pstm1 = null;
+		   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+		   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+		   		 				pstm1.setString(5, "9:00-9:30");pstm1.setString(6, sid);
+		   		 				pstm1.executeUpdate();
+		   		 				pstm1.close();
+		   		 				pstm.close();
+		   		 			}
+		   		 			else{rs.close();pstmt.close();return false;}
+		   		 			}
+				   		 else if(B[i]=='d')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and d=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set d=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "9:30-10:00");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='e')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and e=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set e=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "10:00-10:30");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='f')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and f=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set f=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "10:30-11:00");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='g')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and g=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set g=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "10:30-11:00");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='h')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and h=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set h=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "14:00-14:30");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='i')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and i=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set i=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "14:30-15:00");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='j')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and j=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set j=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "15:00-15:30");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='k')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and k=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set k=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "15:30-16:00");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='l')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and l=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set l=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "16:00-16:30");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='m')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and m=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set m=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "16:30-17:00");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
+					   		else if(B[i]=='n')
+			   		 		{
+			   		 			String sql;
+			   		 			PreparedStatement pstmt = null;
+			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and n=?";
+			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
+			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
+			   		 			ResultSet rs = pstmt.executeQuery();
+			   		 			if(rs.next())
+			   		 			{
+			   		 				String sq;PreparedStatement pstm = null;
+			   		 				sq="update releasebooking set n=? where id=? and year=? and month=? and day=?";
+			   		 				pstm=conn.prepareStatement(sq);
+			   		 				pstm.setString(1, "2");pstm.setString(2, tid);pstm.setString(3,year);
+			   		 				pstm.setString(4, month);pstm.setString(5, day);
+			   		 				pstm.executeUpdate();
+			   		 				sq="insert into successbookig (teacherid, year,month,day,time,studentid)  values(?,?,?,?,?,?)";
+			   		 				PreparedStatement pstm1 = null;
+			   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
+			   		 				pstm1.setString(3,month);pstm1.setString(4,day);
+			   		 				pstm1.setString(5, "17:00-17:30");pstm1.setString(6, sid);
+			   		 				pstm1.executeUpdate();
+			   		 				pstm1.close();
+			   		 				pstm.close();
+			   		 			}
+			   		 			else{rs.close();pstmt.close();return false;}
+			   		 			}
 						}
 	   		 		}
-	   		 	}
+	   		 	}catch(Exception e){
+	   				System.out.print("ÐÅÏ¢Ìí¼ÓÊ§°Ü£¡");
+	   				e.printStackTrace();
+	   			}
 		return false;
 		
-	}*/
+	}
 	
 }
