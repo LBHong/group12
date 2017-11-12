@@ -15,6 +15,12 @@ public class Useraction extends ActionSupport {
 	private String instruction;
 	private String faculty;
 	private String id;
+	
+	private  String date;
+	private  String alltimes;
+	
+	
+
 	private String identity;
 	private Mysqloperate sqloperate=new Mysqloperate();
 	private student st=null;
@@ -93,13 +99,48 @@ public class Useraction extends ActionSupport {
 		if(this.map!=null){return "success";}
 		else{return "failure";}
 	}
-	
+	public String teacherfabu(){
+		String date=getDate();
+		String alltimes=getAlltimes();
+		String [] malltimes=alltimes.split("|");
+		String [] mdate=date.split("-");
+		boolean f;String A[]=new String[14];
+		for(int i=0;i<malltimes.length;i++)
+		{
+			try {
+
+			    int aaa = Integer.parseInt(malltimes[i]);
+			    A[aaa]="1";
+
+			} catch (NumberFormatException e) {
+
+			    e.printStackTrace();
+
+			}
+			
+		}
+		
+		f=sqloperate.releasebooking(A, id, mdate[0], mdate[1], mdate[2]);
+	}
 
 	/******************************************************************************************/
+	
 	public String getUsername() {
 		return username;
 	}
 
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getAlltimes() {
+		return alltimes;
+	}
+	public void setAlltimes(String alltimes) {
+		this.alltimes = alltimes;
+	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
