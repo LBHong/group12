@@ -114,7 +114,7 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="images/" class="img-responsive" alt="loading">
+				<img src="images/2.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name">Username</div>

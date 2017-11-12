@@ -104,7 +104,7 @@ margin-top:13px;
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">Register</div>
 				<div class="panel-body">
-					<form role="form" class="form-horizontal" action="register"><!-- form-horizontal -->
+					<form role="form" class="form-horizontal" action="register" method="post" onsubmit="return validcheck1(this)"><!-- form-horizontal -->
 						<fieldset>
                 
 						 	<div class="myfloatr imgwidth">
@@ -120,55 +120,56 @@ margin-top:13px;
 						    <div class="form-group">
 							    <label class="col-md-3 control-label myfont1" for="username">realname:</label>
 								<div class="col-md-6">
-								<input id="realname" class="form-control" placeholder="Realname" name="realname" type="text" autofocus="autofocus">
+								<input id="username" class="form-control" placeholder="Realname" name="username" type="text" autofocus="autofocus">
 							    </div>
 						    </div>	
 										
 							<div class="form-group">
 							    <label class="col-md-3 control-label myfont1" for="password">password:</label>
 								<div class="col-md-6">
-								<input  id="password" class="form-control" placeholder="Password" name="Password" type="password" >
+								<input  id="password" class="form-control" placeholder="Password，6-16位" name="password" type="password" >
 								</div>
 							</div>
 							
 							<div class="form-group">
 							    <label class="col-md-3 control-label myfont1" for="phonenumer">telephone:</label>
 								<div class="col-md-6">
-								<input  id="phonenumber" class="form-control" placeholder="please input your phone number" name="phonenumber" type="text" >
+								<input  id="telephone" class="form-control" placeholder="please input your phone number" name="telephone" type="text" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
 								</div>
 							</div>
 							
 							<div class="form-group">
-							    <label class="col-md-3 control-label myfont1" for="email">eamil:</label>
+							    <label class="col-md-3 control-label myfont1" for="email">email:</label>
 								<div class="col-md-9">
-								<input  id="eamil" class="form-control" placeholder="please input your valid email address" name="eamil" type="text" >
+								<input  id="email" class="form-control" placeholder="please input your valid email address" name="email" type="text" onblur="isEmail()">
+								<span id="checkmail"> </span>
 								</div>
 							</div>
 							
 							<div class="form-group">
 							<label class="col-md-3 control-label myfont1" for="message"><br/>Introduction:</label>
 									<div class="col-md-9">
-										<textarea class="form-control" id="message" name="message" placeholder="Please enter your Personal introduction here...(no more than 140 words)" rows="5"></textarea>
+										<textarea class="form-control" id="instruction" name="instruction" placeholder="Please enter your Personal introduction here...(no more than 140 words)" rows="5"></textarea>
 									</div>
 								</div>
 								
 							<div class="form-group">
 							  <label class="col-md-3 control-label myfont2">identity:</label>
 								 <label class="col-md-3 mymargintop2"><!-- 放在标签里可以直接点击标签选中单选按钮 -->
-									<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>student
+									<input type="radio" name="identity" id="optionsRadios1" value="student" checked>student
 						    	 </label>
 						    	 <label class="col-md-3 mymargintop2">
-									<input type="radio" name="optionsRadios" id="optionsRadios2" value="option3">professor
+									<input type="radio" name="identity" id="optionsRadios2" value="professor" >professor
 								</label>
-								<label class="col-md-3 mymargintop2">
-									<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">administrator
-								</label>
+								<!-- <label class="col-md-3 mymargintop2">
+									<input type="radio" name="identity" id="optionsRadios3" value="option3">administrator
+								</label> -->
 							</div>
 							
 					        <div class="form-group">
 								<label class="col-md-3 control-label myfont2">faculty:</label>
 								<div class="col-md-9">		
-							      <select class="form-control">
+							      <select class="form-control" name="faculty">
 											<option selected="selected">计算机科学与技术学院</option>
 											<option>航天学院</option>
 											<option>材料科学与工程学院</option>
@@ -193,9 +194,68 @@ margin-top:13px;
 									<input name="login" type="checkbox" value="login">Log in directly
 								</label>
 							</div>
-							<a href="login.jsp" class="btn btn-primary myfloatr mymarginr" >Register</a>
+							  
+							<button type="submit" class="btn btn-primary myfloatr mymarginr" >Register</button>
 					   </fieldset>
 					</form>
+					<script>
+						      function validcheck1(myform){
+					        		 if(myform.username.value.length==0){
+					        			 alert("请输入真实姓名!");
+					        			 myform.username.focus();//即设置焦点在对应的元素
+						        		 return false;
+					        		 }else if(myform.password.value.length<6){
+					        			 alert("请输入至少6位密码");
+					        			 myform.password.focus();//即设置焦点在对应的元素
+						        		 return false;
+					        		 }else if(myform.password.value.length>16){
+					        			 alert("密码至多16位");
+					        			 myform.password.focus();//即设置焦点在对应的元素
+						        		 return false;
+					        		 }else if(myform.telephone.value.length!=11){
+					        			 alert("请输入正确的11位手机号码");
+					        			 myform.telephone.focus();//即设置焦点在对应的元素
+						        		 return false;
+					        		 }else if(!isEmail()){
+					        			 alert("请输入有效邮箱地址");
+					        			 myform.email.focus();//即设置焦点在对应的元素
+						        		 return false;
+					        		 }else{
+					        			 return true;
+					        		 }
+						        		
+					        	 }
+						 
+						    //验证邮箱格式  
+						    function isEmail()   
+						    {  
+						    	 
+						          var email=document.getElementById("email").value;  
+						         if(email=="")  
+						        {  
+						            //alert("请输入邮箱！");  
+						            document.getElementById("checkmail").style.color="red";  
+						            document.getElementById("checkmail").innerHTML="✘请输入邮箱";  // 为一个之前隐形的span设置内容以作提示*/  
+						            return false;   
+						        }
+						        var pattern= /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;  
+						            strEmail=pattern.test(email);  
+						            if (strEmail)  
+						                {   
+						                document.getElementById("checkmail").style.color="green";//设置邮箱可用是的字体颜色  
+						                document.getElementById("checkmail").innerHTML="✔";  
+						                return true;  
+						                }  
+						            else  
+						            {  
+						                document.getElementById("checkmail").style.color="red";//设置邮箱不可用时的字体颜色  
+						                document.getElementById("checkmail").innerHTML="✘请输入正确的邮箱";  
+						                document.getElementById("email").focus(); 
+						                return false; 
+						                //alert("邮箱格式不正确！");  
+						            }  
+						    }      
+						   </script>
 				</div>
 			</div>
 		</div><!-- /.col-->

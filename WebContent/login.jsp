@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,11 +39,10 @@ body {
 			<div class="login-panel panel panel-default bgnottransparent">
 				<div class="panel-heading" >Log in</div>
 				<div class="panel-body">
-					<form role="form">
+					<form role="form" action="login" method="post" onsubmit="return validcheck(this)">
 						<fieldset>
 							<div class="form-group">
-							    
-								<input class="form-control" placeholder="账号" name="username" type="text" autofocus="">
+								<input class="form-control" placeholder="账号" name="id" type="text" autofocus="" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
 							</div>
 							<div class="form-group">
 								<input class="form-control" placeholder="密码" name="password" type="password" >
@@ -52,10 +52,37 @@ body {
 									<input name="remember" type="checkbox" value="Remember Me">Remember Me
 								</label>
 							</div>
-							<a href="professor_home.jsp" class="btn btn-primary myfloatr "> &nbsp&nbspLogin&nbsp&nbsp</a>
+							<%-- <a href="<s:url action="login"><s:param name="selectedbook">asdasd</s:param></s:url>" class="btn btn-primary myfloatr"> &nbsp&nbspLogin&nbsp&nbsp</a> --%>
+							<button type="submit" class="btn btn-primary myfloatr" >&nbsp&nbspLogin&nbsp&nbsp</button>
 							<a href="register.jsp" class="btn btn-primary myfloatr mymarginr" >Register</a></fieldset>
 					</form>
-				</div>
+					<script>
+						      function validcheck(myform){
+					        		 if(myform.id.value.length!=8){
+					        			 alert("请输入正确的8位有效id");
+					        			 myform.id.focus();//即设置焦点在对应的元素
+						        		 return false;
+					        		 }else if(myform.password.value.length==0){
+					        			 alert("请输入密码！！");
+					        			 myform.password.focus();//即设置焦点在对应的元素,使用name，而非id
+						        		 return false;
+						        	 }else{
+						        			return true;
+						        	 }
+					        	 }
+						      
+						   </script>
+				<%-- 	<s:set var="loginflag" value="loginflag" scope="request" />
+					<%
+									String s = (String) request.getAttribute("loginflag");
+					%>
+					<script type="text/javascript" language="javascript">
+                        if(<%=s%>=="success"){
+                        	alert(<%=s%>);
+                       
+                        /* window.document.location.href="login.jsp"; */
+                    </script>
+ --%>				</div>
 			</div>
 		</div><!-- /.col-->
 	</div><!-- /.row -->	

@@ -3,14 +3,18 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-      <!-- <package name="BookControl" namespace="/" extends="struts-default">
-       <action name="showlist" class="action.BookAction" method="showlist">
-               <result>/index.jsp</result>
+      <package name="login_register" namespace="/" extends="struts-default">
+       <action name="login" class="com.user.action.Useraction" method="alogin">
+               <result name="student_success">/student_home.jsp</result>
+               <result name="teacher_success">/professor_home.jsp</result>
+               <result name="wrong_id">/login.jsp</result>
+               <result name="wrong_password">/login.jsp</result>
        </action>
-       <action name="refresh" class="action.BookAction" method="refreshhome">
-               <result>/index.jsp</result>
+       <action name="register" class="com.user.action.Useraction" method="register">
+               <result name="success">/ID_information.jsp</result>
+               <result name="failure">/register.jsp</result>
        </action>
-       <action name="remove" class="action.BookAction" method="remove">
+       <!--  <action name="remove" class="action.BookAction" method="remove">
                <result>/index.jsp</result>
        </action>
        <action name="showselectedauthor" class="action.BookAction" method="showselectedauthor">
@@ -23,7 +27,7 @@
                <result>/updatebook.jsp</result>
        </action>
        <action name="addauthor" class="action.BookAction" method="addauthor">
-               <result>/updatebook.jsp</result>
-       </action>
-    </package>  -->
+               <result>/updatebook.jsp</result> 
+       </action>-->
+    </package>
 </struts>

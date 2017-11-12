@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,8 +42,23 @@ body {
 					 <a href="login.jsp" class="pull-right"><em class="fa fa-lg fa-close mycolor"></em></a>
 				     </div> 
 					<div class="panel-body">
-						<p>亲爱的左少杰老师,欢迎您注册使用本预约系统！</p>
-						<p>您的账号：<font class="myfont2">210039</font>&nbsp&nbsp&nbsp请牢记</p>
+					     	<s:set var="identity" value="identity" scope="request" />
+					     	<s:set var="username" value="username" scope="request" />
+					     	<s:set var="id" value="id" scope="request" />
+					         <%
+									String identity = (String) request.getAttribute("identity");
+					                String username = (String) request.getAttribute("username");
+					                String id = (String) request.getAttribute("id");
+					                
+					                String job;
+					                if(identity.equals("professor")){
+					                	job="教授";
+					                }else{
+					                	job="同学";
+					                }
+					         %>
+						<p>亲爱的<%=username%><%=job%>,欢迎您注册使用本预约系统！</p>
+						<p>您的账号：<font class="myfont2"><%=id%></font>&nbsp&nbsp&nbsp请牢记</p>
 						
 					</div>
 				</div>
