@@ -425,41 +425,64 @@ public class Mysqloperate {
 		try{
 			Connection conn=getConn();
 			
-			
 			//String sql="replace into release booking(id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			String sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=?";
 			java.sql.PreparedStatement ps=conn.prepareStatement(sql);
-			ps.setString(1,id);ps.setString(2, year);
-			ps.setString(3, month);ps.setString(4,day);
+			ps.setString(1,id);
+			ps.setString(2, year);
+			ps.setString(3, month);
+			ps.setString(4,day);
 			ResultSet rs = ps.executeQuery();
+			 
 			int i;
 			if(rs.next())
-			{
+			{   
+				/*String mode="SET SQL_SAFE_UPDATES = 0";
+				java.sql.PreparedStatement modeps=conn.prepareStatement(mode);
+				modeps.execute();
+				modeps.close();*/
+				/*String qs="update releasebooking set m=1 where id=12241234 and year=2000 and month=10 and day=20";
+				java.sql.PreparedStatement pss=conn.prepareStatement(qs);
+				pss.executeUpdate();*/
+			/*	String qs="update releasebooking set n=? where id=? and year=? and month=? and day=?";
+				java.sql.PreparedStatement pss=conn.prepareStatement(qs);
+				
+				pss.setString(1, "1");
+				pss.setString(2, id);
+				pss.setString(3, year);
+				pss.setString(4, month);
+				pss.setString(5, day);*/
+				
+				/*System.out.println(pss.executeUpdate());
+				pss.close();*/
 				for(i=0;i<14;i++)
-				{
-					if(A[i].equals("0")){}
+				{    
+					if(A[i].equals("0")){ }
 					else {
+						
 							if(B[i]=='a')
-							{
+							{  
 								String pan=rs.getString("a");
-								if(pan=="0"){
-								String qs="update release booking set a=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set a=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
+								
 								pss.setString(1, "1");
 								pss.setString(2, id);
 								pss.setString(3, year);
 								pss.setString(4, month);
 								pss.setString(5, day);
+								
 								pss.executeUpdate();
 								pss.close();
 								}
-								
 							}
 							else if(B[i]=='b')
 							{
 								String pan=rs.getString("b");
-								if(pan=="0"){
-								String qs="update release booking set b=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+									//System.out.println("1");
+								String qs="update releasebooking set b=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -473,8 +496,8 @@ public class Mysqloperate {
 							else if(B[i]=='c')
 							{
 								String pan=rs.getString("c");
-								if(pan=="0"){
-								String qs="update release booking set c=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set c=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -487,8 +510,8 @@ public class Mysqloperate {
 							else if(B[i]=='d')
 							{
 								String pan=rs.getString("d");
-								if(pan=="0"){
-								String qs="update release booking set d=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set d=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1,"1");
 								pss.setString(2, id);
@@ -501,8 +524,8 @@ public class Mysqloperate {
 							else if(B[i]=='e')
 							{
 								String pan=rs.getString("e");
-								if(pan=="0"){
-								String qs="update release booking set e=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set e=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -515,22 +538,23 @@ public class Mysqloperate {
 							else if(B[i]=='f')
 							{
 								String pan=rs.getString("f");
-								if(pan=="0"){
-								String qs="update release booking set f=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set f=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
 								pss.setString(3, year);
 								pss.setString(4, month);
-								pss.setString(5, day);pss.executeUpdate();
+								pss.setString(5, day);
+								pss.executeUpdate();
 								pss.close();
 								}
 							}
 							else if(B[i]=='g')
 							{
 								String pan=rs.getString("g");
-								if(pan=="0"){
-								String qs="update release booking set g=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set g=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -543,8 +567,8 @@ public class Mysqloperate {
 							else if(B[i]=='h')
 							{
 								String pan=rs.getString("h");
-								if(pan=="0"){
-								String qs="update release booking set h=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set h=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -557,8 +581,8 @@ public class Mysqloperate {
 							else if(B[i]=='i')
 							{
 								String pan=rs.getString("i");
-								if(pan=="0"){
-								String qs="update release booking set i=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set i=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -571,8 +595,8 @@ public class Mysqloperate {
 							else if(B[i]=='j')
 							{
 								String pan=rs.getString("j");
-								if(pan=="0"){
-								String qs="update release booking set j=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set j=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -585,8 +609,8 @@ public class Mysqloperate {
 							else if(B[i]=='k')
 							{
 								String pan=rs.getString("k");
-								if(pan=="0"){
-								String qs="update release booking set k=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set k=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -599,8 +623,8 @@ public class Mysqloperate {
 							else if(B[i]=='l')
 							{
 								String pan=rs.getString("l");
-								if(pan=="0"){
-								String qs="update release booking set l=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set l=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -613,8 +637,8 @@ public class Mysqloperate {
 							else if(B[i]=='m')
 							{
 								String pan=rs.getString("m");
-								if(pan=="0"){
-								String qs="update release booking set m=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set m=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);
@@ -627,8 +651,8 @@ public class Mysqloperate {
 							else if(B[i]=='n')
 							{
 								String pan=rs.getString("n");
-								if(pan=="0"){
-								String qs="update release booking set n=? where id=? and year=? and month=? and day=?";
+								if(pan.equals("0")){
+								String qs="update releasebooking set n=? where id=? and year=? and month=? and day=?";
 								java.sql.PreparedStatement pss=conn.prepareStatement(qs);
 								pss.setString(1, "1");
 								pss.setString(2, id);

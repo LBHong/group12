@@ -22,7 +22,7 @@ public class Releaseaction {
     public String teacherfabu(){
 		String date=getDate();
 		String alltimes=getAlltimes();
-		String [] malltimes=alltimes.split("|");
+		String [] malltimes=alltimes.split("\\|");
 		String [] mdate=date.split("-");
 		System.out.println(date);
 		System.out.println(alltimes);
@@ -35,7 +35,7 @@ public class Releaseaction {
 			try {
 				int aaa;
 			    aaa = Integer.parseInt(malltimes[i]);
-			    System.out.println(aaa);
+			    System.out.println(malltimes[i]);
 			    A[aaa-1]="1";
 
 			} catch (NumberFormatException e) {
