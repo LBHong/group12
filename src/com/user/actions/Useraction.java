@@ -1,9 +1,15 @@
 package com.user.actions;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.user.userstudent.student;
 import com.user.userteacher.teacher;
 import com.user.mysqloperate.Mysqloperate;
+import com.user.releasebooking.releasebooking;
 
 @SuppressWarnings("serial")
 public class Useraction extends ActionSupport {
@@ -16,9 +22,11 @@ public class Useraction extends ActionSupport {
 	private String faculty;
 	private String id;
 	
-	private  String date;
-	private  String alltimes;
 	
+	
+	private List<teacher> teacherlist;
+	
+	Map<String,String> detailMap=new HashMap<String,String>();
 	
 
 	private String identity;
@@ -27,6 +35,55 @@ public class Useraction extends ActionSupport {
 	private teacher te=null;
 	private Map<String,String> map;
 	public int number=0;
+	
+	
+	private  String date;
+	private  String alltimes;
+	private String sid;
+	
+
+	private  String successinstruction;
+	
+	public String studentappalication()
+	{
+		String tid=id;
+		String [] malltimes=alltimes.split("\\|");
+		String [] mdate=date.split("-");
+		String A[]=new String[14];
+		for(int i=0;i<malltimes.length;i++)
+		{
+			try {
+
+			    int aaa = Integer.parseInt(malltimes[i]);
+			    A[aaa-1]="1";
+
+			} catch (NumberFormatException e) {
+
+			    e.printStackTrace();
+
+			}
+			
+		}
+		boolean f;
+		f=sqloperate.appointment(tid, sid, A, mdate[0], mdate[1],mdate[2],successinstruction);
+		if(f==true){return "success";}
+		else {return "failure";}
+		
+	}
+	
+	public String getSid() {
+		return sid;
+	}
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+	
+	public String getSuccessinstruction() {
+		return successinstruction;
+	}
+	public void setSuccessinstruction(String successinstruction) {
+		this.successinstruction = successinstruction;
+	}
 	public String comeoutids(String faculty ){
 		
 		String xueyuan;
@@ -110,7 +167,7 @@ public class Useraction extends ActionSupport {
 			try {
 
 			    int aaa = Integer.parseInt(malltimes[i]);
-			    A[aaa]="1";
+			    A[aaa-1]="1";
 
 			} catch (NumberFormatException e) {
 
@@ -121,10 +178,73 @@ public class Useraction extends ActionSupport {
 		}
 		
 		f=sqloperate.releasebooking(A, id, mdate[0], mdate[1], mdate[2]);
+		return "success";
 	}
-
+	public String chaxunallteachers(){
+		List<teacher> tel;
+		tel=sqloperate.chaxunallteachers(faculty);
+		this.teacherlist=tel;
+		if(tel==null||tel.size()==0){
+    		return "failure";
+    	}
+    	else{
+    	return "success";
+    	}
+	}
+	
+	
+	
+	public String  teachershowtimes()
+	{
+		String key,value;
+		releasebooking rb=new releasebooking();
+		List<releasebooking> rblist=new LinkedList<releasebooking>();
+		rblist=sqloperate.Queryateacher(id);
+		
+		for(int i=0;i<rblist.size();i++)
+		{
+			rb=rblist.get(i);
+			key=rb.year+"-"+rb.month+"-"+rb.day;
+			if(rb.a.equals("1")){value+="1";}
+			if(rb.b.equals("1")){value+="|"+"2";}
+			if(rb.c.equals("1")){value+="|"+"3";}
+			if(rb.d.equals("1")){value+="|"+"4";}
+			if(rb.e.equals("1")){value+="|"+"5";}
+			if(rb.f.equals("1")){value+="|"+"6";}
+			if(rb.g.equals("1")){value+="|"+"7";}
+			if(rb.h.equals("1")){value+="|"+"8";}
+			if(rb.i.equals("1")){value+="|"+"9";}
+			if(rb.j.equals("1")){value+="|"+"10";}
+			if(rb.k.equals("1")){value+="|"+"11";}
+			if(rb.l.equals("1")){value+="|"+"12";}
+			if(rb.m.equals("1")){value+="|"+"13";}
+			if(rb.n.equals("1")){value+="|"+"14";}
+			if(value.equals(null))
+			{
+				return "failure";
+			}
+			
+			this.detailMap.put(key,value);
+		}
+		if(this.detailMap==null){return "failure";}
+		return "success";
+	}
+	
 	/******************************************************************************************/
 	
+	
+	public Map<String, String> getDetailMap() {
+		return detailMap;
+	}
+	public void setDetailMap(Map<String, String> detailMap) {
+		this.detailMap = detailMap;
+	}
+	public List<teacher> getTeacherlist() {
+		return teacherlist;
+	}
+	public void setTeacherlist(List<teacher> teacherlist) {
+		this.teacherlist = teacherlist;
+	}
 	public String getUsername() {
 		return username;
 	}
