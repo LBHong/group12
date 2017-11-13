@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.user.userteacher.teacher;
 import com.user.userstudent.student;
 import com.user.releasebooking.releasebooking;
-
+import com.user.successbooking.successbooking;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -40,9 +40,15 @@ public class main1 {
     	 {
     		 B[i]="1";
     	 }
-    
+    	 System.out.println("2");
     	 boolean c;
-    	c=sqlOprate.appointment("115031050","123",B,"2018","1","1","let's go");
-    	System.out.println("2");
+    	 List<successbooking> book;
+     	List<successbooking> b=sqlOprate.stushowtime("123");
+     	book=b;
+     	if(null == bList || bList.size() ==0 )
+     	{System.out.println("no");}
+     	else{ 				
+	}
+    	
 	}
 }

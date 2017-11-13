@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.user.userteacher.teacher;
 import com.user.userstudent.student;
 import com.user.releasebooking.releasebooking;
+import com.user.successbooking.successbooking;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,6 +17,7 @@ public class mysqlOperate {
     // 数据库的用户名与密码，需要根据自己的设置
     static final String USER = "root";
     static final String PASS = "123456";
+
 	public   Map<String,String> showstudent(String id)
 	{
 		Map<String,String> detailMap=new HashMap<String,String>();
@@ -941,5 +943,92 @@ public class mysqlOperate {
 		return booking;
 		
 	}
-	
+	public List<successbooking> teashowtime(String id)
+	{
+		Connection conn = null;
+        
+        PreparedStatement pstmt = null; 
+        List<successbooking> booking=new LinkedList<successbooking>();
+        try{
+            // 注册 JDBC 驱动
+        	System.out.println("注册 JDBC 驱动");
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("驱动注册成功");
+            // 打开链接
+            System.out.println("连接数据库...");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+        
+            // 执行查询
+            System.out.println(" 实例化Statement对...");
+            String sql;
+            sql = "SELECT teacherid, year,month,day,time,studentid,instruction FROM successbooking where teacherid=?";
+            pstmt = conn.prepareStatement(sql); 
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery();
+           // List<String> IDList=new ArrayList<String>();
+            while(rs.next())
+            {
+            	successbooking book=new successbooking();
+            	book.teacherid=rs.getString("teacherid");book.year=rs.getString("year");
+            	book.month=rs.getString("month");book.day=rs.getString("day");book.time=rs.getString("time");
+            	book.studentid=rs.getString("studentid");book.instruction=rs.getString("instruction");
+            	booking.add(book);System.out.println("ISBN: " + book.time);
+            }
+            	rs.close();
+            	pstmt.close();
+            	conn.close();
+        }
+            	catch(SQLException se){
+                    // 处理 JDBC 错误
+                    se.printStackTrace();
+                }catch(Exception e){
+                    // 处理 Class.forName 错误
+                    e.printStackTrace();
+                }
+		return booking;
+	}
+		public List<successbooking> stushowtime(String id)
+		{
+			Connection conn = null;
+	        
+	        PreparedStatement pstmt = null; 
+	        List<successbooking> booking=new LinkedList<successbooking>();
+	        try{
+	            // 注册 JDBC 驱动
+	        	System.out.println("注册 JDBC 驱动");
+	            Class.forName("com.mysql.jdbc.Driver");
+	            System.out.println("驱动注册成功");
+	            // 打开链接
+	            System.out.println("连接数据库...");
+	            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	        
+	            // 执行查询
+	            System.out.println(" 实例化Statement对...");
+	            String sql;
+	            sql = "SELECT teacherid, year,month,day,time,studentid,instruction FROM successbooking where studentid=?";
+	            pstmt = conn.prepareStatement(sql); 
+	            pstmt.setString(1, id);
+	            ResultSet rs = pstmt.executeQuery();
+	           // List<String> IDList=new ArrayList<String>();
+	            while(rs.next())
+	            {
+	            	successbooking book=new successbooking();
+	            	book.teacherid=rs.getString("teacherid");book.year=rs.getString("year");
+	            	book.month=rs.getString("month");book.day=rs.getString("day");book.time=rs.getString("time");
+	            	book.studentid=rs.getString("studentid");book.instruction=rs.getString("instruction");
+	            	booking.add(book);System.out.println("ISBN: " + book.month);
+	            }
+	            	rs.close();
+	            	pstmt.close();
+	            	conn.close();
+	        }
+	            	catch(SQLException se){
+	                    // 处理 JDBC 错误
+	                    se.printStackTrace();
+	                }catch(Exception e){
+	                    // 处理 Class.forName 错误
+	                    e.printStackTrace();
+	                }
+			return booking;
+	}
 }
