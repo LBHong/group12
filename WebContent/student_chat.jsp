@@ -1,5 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import="com.user.mysqloperate.Mysqloperate"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Set"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<% //登录用户信息
+  /* String s = (String) request.getAttribute("test");  */
+  String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
+  
+  Mysqloperate mysql=new Mysqloperate();
+  Map<String,String> infomation=mysql.showstudent(id);
+  String username=infomation.get("用户名");
+  String password=infomation.get("密码");
+  String email=infomation.get("邮箱");
+  String phone=infomation.get("手机号");
+  String introduction=infomation.get("介绍");
+  String theid=infomation.get("id"); 
+  String faculty=infomation.get("学院");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,10 +141,10 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="loading">
+				<img src="images/2.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
-				<div class="profile-usertitle-name">Username</div>
+				<div class="profile-usertitle-name"><%=username%></div>
 				<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
 			</div>
 			<div class="clear"></div>

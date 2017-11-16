@@ -1,5 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="s" uri="/struts-tags"%>
+<%@ page import="com.user.mysqloperate.Mysqloperate"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.user.successbooking.successbooking"%>
+
+ <%--  <s:set var="id" value="id" scope="request" /> --%>
+<%/* 登录之后的用户基本信息*/
+/* String id=request.getParameter("id");
+session.setAttribute("id", id); */
+    String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
+    Mysqloperate mysql=new Mysqloperate();
+    Map<String,String> infomation=mysql.showteacher(id);
+	String username=infomation.get("用户名");
+	String password=infomation.get("密码");
+	String email=infomation.get("邮箱");
+	String phone=infomation.get("手机号");
+	String introduction=infomation.get("介绍");
+	String theid=infomation.get("id"); 
+	String faculty=infomation.get("科目");
+	
+	List<successbooking> mysuccessbooking=mysql.teashowtime(id);
+	int successbookingnum=mysuccessbooking.size();
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,10 +147,10 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="loading">
+				<img src="images/3.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
-				<div class="profile-usertitle-name">Username</div>
+				<div class="profile-usertitle-name"><%=username%></div>
 				<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
 			</div>
 			<div class="clear"></div>

@@ -18,16 +18,18 @@
                <result name="success">/professor_book.jsp</result>
                <result name="failure">/professor_book.jsp</result>
        </action>
-       <!--  <action name="remove" class="action.BookAction" method="remove">
-               <result>/index.jsp</result>
+       <action name="searchprofessor" class="com.user.action.bookingaction" method="searchprofessor">
+               <result>/student_book.jsp</result>
        </action>
-       <action name="showselectedauthor" class="action.BookAction" method="showselectedauthor">
-               <result>/querybook.jsp</result>
+     
+       <action name="queryOneProfessorAllTimes" class="com.user.action.bookingaction" method="queryOneProfessorAllTimes">
+               <result>/student_book.jsp</result>
        </action>
-        <action name="updatebook" class="action.BookAction" method="updatebook">
-               <result>/updatebook.jsp</result>
+       <action name="appoint" class="com.user.action.bookingaction" method="studentappalication">
+               <result>/student_book.jsp</result>
+               <result name="failure">/student_book.jsp</result>
        </action>
-       <action name="addbook" class="action.BookAction" method="addbook">
+       <!--<action name="addbook" class="action.BookAction" method="addbook">
                <result>/updatebook.jsp</result>
        </action>
        <action name="addauthor" class="action.BookAction" method="addauthor">

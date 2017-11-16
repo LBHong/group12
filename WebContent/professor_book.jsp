@@ -1,9 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.user.mysqloperate.Mysqloperate"%>
+<%@ page import="java.util.Map"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
+<%@ page import="com.user.releasebooking.releasebooking"%>
+<%@ page import="java.util.List"%>
 <% 
   /* String s = (String) request.getAttribute("test");  */
   String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
+  
+  Mysqloperate mysql=new Mysqloperate();
+  Map<String,String> infomation=mysql.showteacher(id);
+  String username=infomation.get("用户名");
+  String password=infomation.get("密码");
+  String email=infomation.get("邮箱");
+  String phone=infomation.get("手机号");
+  String introduction=infomation.get("介绍");
+  String theid=infomation.get("id"); 
+  String faculty=infomation.get("科目");
+  
+  List<releasebooking> myreleasebooking=mysql.Queryateacher(id);
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +47,7 @@
       align:center;
   }
 .specialdays{
-   background-color:#ff0000;//特殊日期的背景图片
+   background-color:#ff0000;
  }
 </style>
 </head>
@@ -130,10 +146,10 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="loading">
+				<img src="images/3.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
-				<div class="profile-usertitle-name">Username</div>
+				<div class="profile-usertitle-name"><%=username%></div>
 				<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
 			</div>
 			<div class="clear"></div>
@@ -164,7 +180,7 @@
 						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 3
 					</a></li>
 				</ul>
-			</li>
+			  </li>
 			<li><a href="login.jsp"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->
@@ -323,7 +339,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Date</label>
 									<div class="col-md-9">
-										<input id="date" name="date" type="text" placeholder="日期" class="form-control">
+										<input id="date" name="date" type="text" placeholder="日期" class="form-control" onblur="setreleasedday()"/>
 									</div>
 								</div>
 								
@@ -337,6 +353,7 @@
 						</form>
 					</div>
 				</div>
+				
 				<script>
 				    function getselectedtime() {
 				    	
@@ -375,6 +392,102 @@
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script>
+	var speciald=new Array();
+	 <% 
+	    if(myreleasebooking!=null){
+       	 /* ArrayList<String> list = new ArrayList<>();
+   	     Set<String> ks=chosenTimes.keySet();
+            for(String s:ks){
+       	    list.add(s);
+            } */
+            for(int j=0;j<myreleasebooking.size();j++){
+            	String date=myreleasebooking.get(j).year+"-"+myreleasebooking.get(j).month+"-"+myreleasebooking.get(j).day;
+    %>
+          speciald[<%=j%>]='<%=date%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
+          alert(speciald[<%=j%>]);
+            <%}
+        
+        }%>
+          
+          
+     $('#calendar').datepicker({
+	    beforeShowDay:function(date){
+			 var d=date;
+			 var curr_date=d.getDate();
+			 var curr_month=d.getMonth()+1;
+			 var curr_year=d.getFullYear();
+			 var formatDate=curr_year+"-"+curr_month+"-"+curr_date;
+			//特殊日期的匹配
+			if($.inArray(formatDate,speciald)!=-1){
+			return {classes:'specialdays'};
+   }
+			return;
+	 }    
+  });
+
+	  /*  $('#calendar').datepicker({dateFormat: "yy-mm-dd"}); */
+	   $('#calendar').datepicker({
+		  onSelect: gotoDate
+			}).on('changeDate',gotoDate);
+	   
+      function gotoDate(ev){
+      /* window.location.href="login.jsp"; 
+     /*  window.location.href = "XXXX.html" + "?Date=" + ev.date.getFullYear().toString() + "-"+ (ev.date.getMonth()+1).toString()+ "-"+ ev.date.getDate().toString();*/
+      /* var thedate=ev.date.getFullYear().toString()+"-"+(ev.date.getMonth()+1).toString()+"-"+ev.date.getDate().toString(); 
+    	  text = document.getElementById("date");
+    	  text.value=thedate; */
+    	  var flag=false;
+    	  var thedate=ev.date.getFullYear().toString()+"-"+(ev.date.getMonth()+1).toString()+"-"+ev.date.getDate().toString(); 
+    	  text = document.getElementById("date");
+    	  text.value=thedate;
+    	  <%-- var abletimestring;
+    	  <% /* 先判断点击了正确的有发布的日子 */
+	        if(myreleasebooking!=null){
+	        	for(int j=0;j<myreleasebooking.size();j++){
+	            	String use=myreleasebooking.get(j).year+"-"+myreleasebooking.get(j).month+"-"+myreleasebooking.get(j).day;
+         %>  
+              if(thedate=="<%=use%>"){
+            	  alert("right");
+            	  abletimestring="<%=use%>";
+            	  flag=true;
+            	  /* break; */
+              }
+	     <%}
+	     }%>
+    	  //alert(thedate);
+    	   checkboxes = document.getElementsByName("times");
+    	  if(flag){
+    		  
+        	
+        	  
+    	      abletimes =new Array();
+    	      
+    	      /* for(i=0;i<checkboxes.length;i++){ 
+    		     if(checkboxes[i].checked)
+    		     check_val.push(checkboxes[i].value);
+    	      } */
+    	        
+    	      abletimes=abletimestring.split("|");
+    	      for(i=0;i<checkboxes.length;i++){ 
+    	    	  checkboxes[i].checked=false;
+    	    	  checkboxes[i].onclick=function(){/*动态添加事件  */
+    	    		  alert("该时段老师未发布，不可勾选");
+    	    	       return false;
+    	    	  }
+     	      } 
+    	      for(i=0;i<abletimes.length;i++){
+    	    	  checkboxes[abletimes[i]-1].checked=true;
+    	    	  checkboxes[abletimes[i]-1].onclick=null;/*动态删除事件  */
+    	      }
+    	  }else{
+    		  /* alert("请选择教授已发布了的日期(红色背景日期)去预约！"); */
+    		  for(i=0;i<checkboxes.length;i++){ //没添加过的时段随意填写
+    	    	  checkboxes[i].checked=false;
+    		  }
+    	  } --%>
+      }
+	</script>
+	<script>
     window.onload = function () {
 	var chart1 = document.getElementById("line-chart").getContext("2d");
 	window.myLine = new Chart(chart1).Line(lineChartData, {
@@ -384,8 +497,9 @@
 	scaleFontColor: "#c5c7cc"
 	});
 };
-alert(<%=id%>);
+    alert("<%=theid%>");
 	</script>
+	
 		
 </body>
 </html>

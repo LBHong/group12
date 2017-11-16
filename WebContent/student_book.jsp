@@ -1,5 +1,53 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.user.mysqloperate.Mysqloperate"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Set"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<% //登录用户信息
+  /* String s = (String) request.getAttribute("test");  */
+  String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
+  
+  Mysqloperate mysql=new Mysqloperate();
+  Map<String,String> infomation=mysql.showstudent(id);
+  String username=infomation.get("用户名");
+  String password=infomation.get("密码");
+  String email=infomation.get("邮箱");
+  String phone=infomation.get("手机号");
+  String introduction=infomation.get("介绍");
+  String theid=infomation.get("id"); 
+  String faculty=infomation.get("学院");
+%>
+<% //查找老师后的信息
+    ArrayList<Map<String,String>> professorList=(ArrayList<Map<String,String>>)session.getAttribute("professorList");
+    ArrayList<String> testlist=new ArrayList<>();
+    /* String myid="";
+    if(professorList!=null){
+    	int teachernum=professorList.size();
+        testlist.add("1");
+        testlist.add("2");
+        myid=professorList.get(0).get("id");
+    } */
+%>
+<% //选择老师后的发布时间信息
+    Map<String,String> chosenTimes=(Map<String,String>)session.getAttribute("chosenTimes");
+    String chosenTeacherId=(String)session.getAttribute("chosenTeacherId");
+    String chosenTeacherName="";
+    String chosenphone="";
+    String chosenemail="";
+    if(chosenTeacherId!=null){
+    	/* Set<String> ks=chosenTimes.keySet();
+        for(String s:ks){
+        	 System.out.println(chosenTimes.get(s));
+        } */
+    	Map<String,String> m=mysql.showteacher(chosenTeacherId);
+    	chosenTeacherName=m.get("用户名");
+    	chosenphone=m.get("手机号");
+    	chosenemail=m.get("邮箱");
+    }
+    
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +73,9 @@
 .myalign1{
       align:center;
   }
+  .specialdays{
+   background-color:#ff0000;
+ }
 </style>
 </head>
 <body>
@@ -122,10 +173,10 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="loading">
+				<img src="images/2.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
-				<div class="profile-usertitle-name">Username</div>
+				<div class="profile-usertitle-name"><%=username%></div>
 				<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
 			</div>
 			<div class="clear"></div>
@@ -181,9 +232,9 @@
 		</div><!--/.row-->
 		
 	   <div class="row">
-	       <form action="showselectedauthor" method="post">
+	       <form action="searchprofessor" method="post">
                <div class="input-group  mymargin"> 
-                 <input name="selectedauthor" type="text" class="form-control input-md" 
+                 <input name="professorname" type="text" class="form-control input-md" 
                  placeholder="请输入教授的名字查询教授的空闲时段"  list="authorlist"/>
 				   <!-- <datalist id="authorlist" style="color:#ff0000" >
 						        <option>cnm</option>
@@ -196,6 +247,46 @@
 		  </form>
 		</div>
 		
+		<div class="panel panel-default articles">
+			<div class="panel-heading">
+			     相关用户
+			   <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
+			</div>
+			<div class="panel-body articles-container">
+			     <%
+			         if(professorList!=null){
+			        	 for(Map<String,String> m:professorList){
+			        		 String thisname=m.get("用户名");
+			        		 String thisid=m.get("id");
+			        		 String thisintro=m.get("介绍");
+			        		 String thisfaculty=m.get("科目");
+			        		 String thisphone=m.get("手机号");
+			        		 String thisemail=m.get("邮箱");
+			        		 
+			        		/*  out.println("<h1>\"hahahha\"</h1>"); */
+				             out.println("<div class=\"article border-bottom\">");
+				        	 out.println("<div class=\"col-xs-12\">");
+				        	 out.println("<div class=\"row\">");
+				        	 out.println("<div class=\"col-xs-2 col-md-2 date\">");
+				        	 out.println("<div class=\"large\"><img src=\"http://placehold.it/50/30a5ff/fff\" class=\"img-responsive img-circle\" alt=\"loading\"></div>");
+				        	 out.println("</div>");		
+				        	 out.println("<div class=\"col-xs-10 col-md-10\">"); 
+				        	 out.println("<h4><a href=\"queryOneProfessorAllTimes?teacherid="+thisid+"\">"+thisname+"</a><small class=\"pull-right\">电话:"+thisphone+"&nbsp&nbsp&nbsp&nbsp邮箱:"+thisemail+"</small></h4><!-- 点击之后跳转到与该用户的chat中 -->");
+				        	
+				        	 out.println("<p>简介：哈尔滨工业大学<strong>"+thisfaculty+"教授</strong>,"+thisintro+"</p>");
+				        	 out.println("</div>");
+				        	 out.println("</div>");
+				        	 out.println("</div>");
+				        	 out.println("<div class=\"clear\">");
+				        	 out.println("</div><!--End .article-->");
+				        	 out.println("</div>");
+			        	 }
+			        }
+			     %>
+					
+				</div>
+			 </div><!--End .articles-->
+				
 		<div class="panel panel-container">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -236,13 +327,91 @@
 					    <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
 					</div>
 					<div class="panel-body">
-						<form class="form-horizontal" action="" method="post">
+						<form class="form-horizontal" action="appoint" method="post" onsubmit="return check(this)">
 							<fieldset>
 							    <!-- Appointment information-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">Time Interval</label>
+									<label class="col-md-3 control-label" for="timeinterval">Time Interval</label>
+									   <div class="col-md-3">
+										   <div class="checkbox">
+											<label>
+												<input type="checkbox" value="1" name="times">8：00-8：30
+											</label>
+										   </div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="2" name="times">8：30-9：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="3" name="times">9：00-9：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="4" name="times">9：30-10：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="5" name="times">10：00-10：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+<!-- onclick="return unchange()" -->	<input type="checkbox" value="6" name="times">10：30-11：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="7" name="times">11：00-11：30
+											</label>
+										</div>
+									  </div>
+									  <div class="col-md-3">
+										   <div class="checkbox">
+											<label>
+												<input type="checkbox" value="8" name="times" >14：00-14：30
+											</label>
+										   </div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="9" name="times">14：30-15：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="10" name="times">15：00-15：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="11" name="times">15：30-16：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="12" name="times">16：00-16：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="13" name="times">16：30-17：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="14" name="times">17：00-17：30
+											</label>
+										</div>
+									  </div>
+									</div>
+								
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="date">Date</label>
 									<div class="col-md-9">
-										<input id="timeinterval" name="timeinterval" type="text" placeholder="选定的时段" class="form-control">
+										<input id="date" name="date" type="text" placeholder="选定的时段" class="form-control" readonly="readonly">
 									</div>
 								</div>
 								
@@ -250,31 +419,24 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Selected Professor</label>
 									<div class="col-md-9">
-										<input id="selectedprofessor" name="selectedprofessor" type="text" placeholder="选定的教授" class="form-control">
+										<input id="selectedprofessor" name="selectedprofessor" type="text" placeholder="选定的教授" class="form-control" readonly="readonly">
 									</div>
 								</div>
 								
-								<!-- Name input-->
-								<div class="form-group">
-									<label class="col-md-3 control-label" for="name">Name</label>
-									<div class="col-md-9">
-										<input id="name" name="name" type="text" placeholder="Your name" class="form-control">
-									</div>
-								</div>
 							
 								<!-- Email input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Your E-mail</label>
+									<label class="col-md-3 control-label" for="email">Professor E-mail</label>
 									<div class="col-md-9">
-										<input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+										<input id="email" name="email" type="text" placeholder="Your email" class="form-control" readonly="readonly"> 
 									</div>
 								</div>
 								
 								<!-- phone input-->
 								<div class="form-group">
-									<label class="col-md-3 control-label" for="email">Your Telephone</label>
+									<label class="col-md-3 control-label" for="phone">Professor Telephone</label>
 									<div class="col-md-9">
-										<input id="phone" name="phone" type="text" placeholder="Your phone" class="form-control">
+										<input id="phone" name="phone" type="text" placeholder="Your phone" class="form-control" readonly="readonly">
 									</div>
 								</div>
 								
@@ -282,9 +444,14 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="message">Your message</label>
 									<div class="col-md-9">
-										<textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+										<textarea class="form-control" id="message" name="successinstruction" placeholder="Please enter your message here..." rows="5" ></textarea>
 									</div>
 								</div>
+								
+								
+								<input id="studentid" name="sid" type="hidden" value=<%=id%>>
+								<input id="teacherid" name="tid" type="hidden" value=<%=chosenTeacherId%>>
+								<input id="alltimes"  name="alltimes" type="hidden">
 								
 								<!-- Form actions -->
 								<div class="form-group">
@@ -294,6 +461,38 @@
 								</div>
 							</fieldset>
 						</form>
+						
+				<script>
+				function check(myform){
+			    	 if(myform.date.value.length==0){
+			    		 alert("请选择一个日期");
+			    		 return false;
+			    	 }else{
+			    		 return getselectedtime();
+			    	 }
+			     }
+				    function getselectedtime() {
+				    	
+					 checkboxes = document
+							.getElementsByName("times");
+					check_val =new Array();
+					 for(i=0;i<checkboxes.length;i++){ 
+						 if(checkboxes[i].checked)
+						check_val.push(checkboxes[i].value);
+					}
+					text = document
+							.getElementById("alltimes");
+				 	text.value = check_val.join("|");
+				 	
+				 	if(text.value==""){
+				 		alert("请选择至少一个时间段发布！");
+				 		return false;
+				 	}else{
+				 		alert(text.value);
+				 		return true;
+				 	}
+				   }
+				 </script>
 					</div>
 				</div>
 			<div class="col-sm-12">
@@ -310,6 +509,102 @@
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
+	
+	<script type="text/javascript">
+	    	 var speciald=new Array();
+	    	 <% 
+	    	      
+	             if(chosenTimes!=null){
+	            	 ArrayList<String> list = new ArrayList<>();
+	        	     Set<String> ks=chosenTimes.keySet();
+	                 for(String s:ks){
+	            	    list.add(s);
+	                 }
+	                 for(int j=0;j<list.size();j++){
+		     %>
+		           speciald[<%=j%>]='<%=list.get(j)%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
+		           alert(speciald[<%=j%>]);
+	                 <%}
+		         
+	             }%>
+		           
+		           
+		      $('#calendar').datepicker({
+			    beforeShowDay:function(date){
+					 var d=date;
+					 var curr_date=d.getDate();
+					 var curr_month=d.getMonth()+1;
+					 var curr_year=d.getFullYear();
+					 var formatDate=curr_year+"-"+curr_month+"-"+curr_date;
+					//特殊日期的匹配
+					if($.inArray(formatDate,speciald)!=-1){
+					return {classes:'specialdays'};
+		    }
+					return;
+			 }    
+		   });
+	     
+	   $('#calendar').datepicker({
+		  onSelect: gotoDate
+			}).on('changeDate',gotoDate);
+      function gotoDate(ev){
+	      var flag=false;
+    	  var thedate=ev.date.getFullYear().toString()+"-"+(ev.date.getMonth()+1).toString()+"-"+ev.date.getDate().toString(); 
+    	  var abletimestring;
+    	  <% /* 先判断点击了正确的有发布的日子 */
+	        if(chosenTimes!=null){
+     	      Set<String> ks=chosenTimes.keySet();
+              for(String use:ks){
+         %>  
+              if(thedate=="<%=use%>"){
+            	  alert("right");
+            	  abletimestring="<%=chosenTimes.get(use)%>";
+            	  flag=true;
+            	  /* break; */
+              }
+	     <%}
+	     }%>
+    	  //alert(thedate);
+    	  if(flag){
+    		  text1 = document.getElementById("date");
+        	  text1.value=thedate;
+        	  
+        	  text2 = document.getElementById("selectedprofessor");
+        	  text2.value="<%=chosenTeacherName%>";
+        	  
+        	  text3 = document.getElementById("phone");
+        	  text3.value="<%= chosenphone%>";
+        	  
+        	  text4 = document.getElementById("email");
+        	  text4.value="<%=chosenemail%>";
+        	  
+        	  checkboxes = document.getElementsByName("times");
+        	  
+    	      abletimes =new Array();
+    	      
+    	      /* for(i=0;i<checkboxes.length;i++){ 
+    		     if(checkboxes[i].checked)
+    		     check_val.push(checkboxes[i].value);
+    	      } */
+    	        
+    	      abletimes=abletimestring.split("|");
+    	      for(i=0;i<checkboxes.length;i++){ 
+    	    	  checkboxes[i].checked=false;
+    	    	  checkboxes[i].onclick=function(){/*动态添加事件  */
+    	    		  alert("该时段老师未发布，不可勾选");
+    	    	       return false;
+    	    	  }
+     	      } 
+    	      for(i=0;i<abletimes.length;i++){
+    	    	  checkboxes[abletimes[i]-1].checked=true;
+    	    	  checkboxes[abletimes[i]-1].onclick=null;/*动态删除事件  */
+    	      }
+    	  }else{
+    		  alert("请选择教授已发布了的日期(红色背景日期)去预约！");
+    	  }
+    	  
+      }
+	</script>
 	<script>
     window.onload = function () {
 	var chart1 = document.getElementById("line-chart").getContext("2d");
@@ -320,6 +615,8 @@
 	scaleFontColor: "#c5c7cc"
 	});
 };
+   <%--  alert("<%=username%>"); --%>
+   alert("<%=chosenTeacherName%>");
 	</script>
 		
 </body>

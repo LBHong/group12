@@ -5,6 +5,9 @@ package com.user.mysqloperate;
 
 import java.sql.SQLException;
 
+import com.user.releasebooking.releasebooking;
+import com.user.successbooking.successbooking;
+
 /**
  * @author lenovo
  *
@@ -12,8 +15,8 @@ import java.sql.SQLException;
 public class testmysql {
     public static void main(String args[]){
     	 Mysqloperate mysql=new Mysqloperate();
-    	 //mysql.addstudent("Íõ´ºÑô", "1234", "188458895380", "wangchunyangsz@163.com", "023456", "¼ÆËã»úÑ§ÔºÑ§Éú","¼ÆËã»úÑ§Ôº");
-    	 //mysql.addteacher("ÀîĞñÑô", "1234", "188458895380", "lxy@163.com", "120000","¼ÆËã»úÑ§Ôº","¼ÆËã»úÑ§ÔºÀÏÊ¦");
+    	 //mysql.addstudent("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "1234", "188458895380", "wangchunyangsz@163.com", "023456", "ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§ÔºÑ§ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§Ôº");
+    	 //mysql.addteacher("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "1234", "188458895380", "lxy@163.com", "120000","ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§Ôº","ï¿½ï¿½ï¿½ï¿½ï¿½Ñ§Ôºï¿½ï¿½Ê¦");
     	 //System.out.println(mysql.showstudent("1256"));
     	 //System.out.println(mysql.showteacher("120000"));
 		//System.out.println(mysql.login("1234","023456"));
@@ -23,7 +26,12 @@ public class testmysql {
     	 //System.out.println(mysql.getprofessornum());
     	 /*String[] A={"1","1","1","0","0","0","0","0","0","0","0","0","0","0"};
     	 mysql.releasebooking(A,"12341234","2000","10","20");*/
-    	 String[] A={"0","1","1","1","1","1","1","1","1","1","1","1","1","1"};
-    	 mysql.releasebooking(A,"12241234","2000","10","20");
+    	// String[] A={"0","1","1","1","1","1","1","1","1","1","1","1","1","1"};
+    	// mysql.releasebooking(A,"12241234","2000","10","20");
+    	 //System.out.println(mysql.getIdByNameOfPro("æå½¬å¼˜"));
+    	 for(successbooking abook:mysql.teashowtime("10500001")){
+    		 System.out.println(abook.studentid+abook.year+":"+abook.month+":"+abook.day+abook.teacherid+abook.time+abook.instruction);
+    	 }
+    	
     }
 }

@@ -1,5 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+    <%@ page import="com.user.mysqloperate.Mysqloperate"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Set"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.user.successbooking.successbooking"%>
+<% //登录用户信息
+  /* String s = (String) request.getAttribute("test");  */
+  String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
+  
+  Mysqloperate mysql=new Mysqloperate();
+  Map<String,String> infomation=mysql.showstudent(id);
+  String username=infomation.get("用户名");
+  String password=infomation.get("密码");
+  String email=infomation.get("邮箱");
+  String phone=infomation.get("手机号");
+  String introduction=infomation.get("介绍");
+  String theid=infomation.get("id"); 
+  String faculty=infomation.get("学院");
+  
+  List<successbooking> mysuccessbooking=mysql.stushowtime(id);
+  int successbookingnum=mysuccessbooking.size();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,7 +142,7 @@
 				<img src="images/2.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
-				<div class="profile-usertitle-name">Username</div>
+				<div class="profile-usertitle-name"><%=username%></div>
 				<div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
 			</div>
 			<div class="clear"></div>
@@ -185,7 +210,7 @@
 				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 					<div class="panel panel-blue panel-widget border-right">
 						<div class="row no-padding"><em class="fa fa-xl fa-calendar color-orange"></em>
-							<div class="large">3</div>
+							<div class="large"><%=successbookingnum%></div>
 							<div class="text-muted">Appointments</div>
 						</div>
 					</div>
@@ -282,65 +307,37 @@
 					<div class="panel-body">
 						<ul class="todo-list"><!-- 所有未完成预约 -->
 						
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-1" />
-									<label for="checkbox-1">1.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-2" />
-									<label for="checkbox-2">2.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-3" />
-									<label for="checkbox-3">3.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-4" />
-									<label for="checkbox-4">4.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-5" />
-									<label for="checkbox-5">5.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
-							
-							<li class="todo-list-item">
-								<div class="checkbox">
-									<input type="checkbox" id="checkbox-6" />
-									<label for="checkbox-6">6.与prodessor LK 在正心210于2017/10/25 约见，联系方式：1234567890/wajfksf@163.com</label>
-								</div>
-								<div class="pull-right action-buttons"><a href="#" class="trash">
-									<em class="fa fa-trash"></em>
-								</a></div>
-							</li>
+							<% 
+						    int i=0;
+						     for(successbooking asuccessbooking:mysuccessbooking){
+			        		 i++;
+			        		 String astudentid=asuccessbooking.studentid;
+			        		 String ayear=asuccessbooking.year;
+			        		 String amonth=asuccessbooking.month;
+			        		 String aday=asuccessbooking.day;
+			        	     String ateacherid=asuccessbooking.teacherid;
+			        	     String atime=asuccessbooking.time;
+			        		 String ainstruction=asuccessbooking.instruction;
+			        		 
+			        		 Map<String,String> sinfomation=mysql.showteacher(ateacherid);
+			        	     String susername=sinfomation.get("用户名");
+			        		 String semail=sinfomation.get("邮箱");
+			        		 String sphone=sinfomation.get("手机号");
+			        		 String sintroduction=sinfomation.get("介绍");
+			        		 String stheid=sinfomation.get("id"); 
+			        		 String sfaculty=sinfomation.get("科目");
+
+				             out.println("<li class=\"todo-list-item\">");
+				             out.println("<div class=\"checkbox\">");
+				             out.println("<input type=\"checkbox\" id=\"checkbox-"+i+"\" />");/*注意这个id要是变量 */
+				             out.println("<label for=\"checkbox-"+i+"\">与"+susername+"教授于"+ayear+"-"+amonth+"-"+aday+"约见，见面时间:"+atime+",联系方式："+sphone+"/"+semail+"</label>");
+				             out.println("</div>");
+				             out.println("<div class=\"pull-right action-button\"><a href=\"#\" class=\"trash\">");
+				             out.println("<em class=\"fa fa-trash\"></em>");
+				             out.println("</a></div>");
+				             out.println("</li>");
+						     }
+				             %>
 							
 						</ul>
 					</div>
@@ -378,6 +375,7 @@
 	scaleFontColor: "#c5c7cc"
 	});
 };
+    alert("<%=id%>");
 	</script>
 		
 </body>
