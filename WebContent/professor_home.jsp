@@ -23,7 +23,6 @@ session.setAttribute("id", id); */
 	
 	List<successbooking> mysuccessbooking=mysql.teashowtime(id);
 	int successbookingnum=mysuccessbooking.size();
-	
 %>
 <!DOCTYPE html>
 <html>

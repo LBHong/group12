@@ -46,8 +46,7 @@ public class bookingaction {
 		  }
 		  return "success";
 	  }
-	  
-		
+	
 		public String  queryOneProfessorAllTimes()
 		{
 			String key;
@@ -89,7 +88,6 @@ public class bookingaction {
 				System.out.println(teacherid);
 				return "success";
 			}
-			
 		}
 		public String studentappalication()
 		{
@@ -128,6 +126,7 @@ public class bookingaction {
 		   return "success";}
 		else {return "failure";}
 		}
+		
       public boolean refreshtimesafterapppoint(){
     	   String key;
 			ArrayList<String> value;

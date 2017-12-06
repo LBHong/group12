@@ -5,6 +5,7 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="com.user.releasebooking.releasebooking"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.Set"%>
 <% 
   /* String s = (String) request.getAttribute("test");  */
   String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
@@ -19,7 +20,8 @@
   String theid=infomation.get("id"); 
   String faculty=infomation.get("科目");
   
-  List<releasebooking> myreleasebooking=mysql.Queryateacher(id);
+  List<releasebooking> myreleasebooking=mysql.Queryateacher(id);/* 所有老师发布了的没有被预约走的时间段的日期 */
+  Map<String,String> AllTimes=mysql.QueryAllTimesOfAteacher(id);/* 所有老师发布了的没有被预约走的时间段的日期与当天具体时段 */
 %>
 <!DOCTYPE html>
 <html>
@@ -440,26 +442,26 @@
     	  var thedate=ev.date.getFullYear().toString()+"-"+(ev.date.getMonth()+1).toString()+"-"+ev.date.getDate().toString(); 
     	  text = document.getElementById("date");
     	  text.value=thedate;
-    	  <%-- var abletimestring;
+    	  /* 将当天点选这天老师的未被预约的时间展示出来，需要提前准备好所有的具体时间信息*/
+    	  var abletimestring;
     	  <% /* 先判断点击了正确的有发布的日子 */
-	        if(myreleasebooking!=null){
-	        	for(int j=0;j<myreleasebooking.size();j++){
-	            	String use=myreleasebooking.get(j).year+"-"+myreleasebooking.get(j).month+"-"+myreleasebooking.get(j).day;
+	        if(AllTimes!=null){
+	        	Set<String> ks=AllTimes.keySet();
+	        	for(String use:ks){
          %>  
               if(thedate=="<%=use%>"){
-            	  alert("right");
-            	  abletimestring="<%=use%>";
+            	  alert("选了已经发布过预约信息的日期");
+            	  abletimestring="<%=AllTimes.get(use)%>";
             	  flag=true;
             	  /* break; */
               }
 	     <%}
 	     }%>
     	  //alert(thedate);
-    	   checkboxes = document.getElementsByName("times");
+    	   
     	  if(flag){
     		  
-        	
-        	  
+    		  checkboxes = document.getElementsByName("times");
     	      abletimes =new Array();
     	      
     	      /* for(i=0;i<checkboxes.length;i++){ 
@@ -470,21 +472,22 @@
     	      abletimes=abletimestring.split("|");
     	      for(i=0;i<checkboxes.length;i++){ 
     	    	  checkboxes[i].checked=false;
-    	    	  checkboxes[i].onclick=function(){/*动态添加事件  */
-    	    		  alert("该时段老师未发布，不可勾选");
-    	    	       return false;
-    	    	  }
+    	    	  checkboxes[i].onclick=null;
      	      } 
     	      for(i=0;i<abletimes.length;i++){
     	    	  checkboxes[abletimes[i]-1].checked=true;
-    	    	  checkboxes[abletimes[i]-1].onclick=null;/*动态删除事件  */
+    	    	  checkboxes[abletimes[i]-1].onclick=function(){/* 动态添加事件   */
+    	    		  alert("该时段老师已经发布过了，无需勾选");
+	    	          return false;
+    	    	  }/*动态删除事件  */
     	      }
     	  }else{
-    		  /* alert("请选择教授已发布了的日期(红色背景日期)去预约！"); */
+    		  alert("该天老师没有发布过空闲时段"); 
     		  for(i=0;i<checkboxes.length;i++){ //没添加过的时段随意填写
     	    	  checkboxes[i].checked=false;
+    	    	  checkboxes[i].onclick=null;
     		  }
-    	  } --%>
+    	  }
       }
 	</script>
 	<script>
@@ -496,7 +499,7 @@
 	scaleGridLineColor: "rgba(0,0,0,.05)",
 	scaleFontColor: "#c5c7cc"
 	});
-};
+    };
     alert("<%=theid%>");
 	</script>
 	

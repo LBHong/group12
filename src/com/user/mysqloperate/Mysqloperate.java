@@ -1238,4 +1238,42 @@ public class Mysqloperate {
                    }
                   return booking;
    }
+   public Map<String,String> QueryAllTimesOfAteacher(String teacherID){
+	   Map<String,String> timesmap=new  HashMap<String,String>();//存放（2017-11-12，1|2|3）形式的键值对
+	   String key;
+		ArrayList<String> value;
+		releasebooking rb=new releasebooking();
+		List<releasebooking> rblist=new LinkedList<releasebooking>();
+		rblist=Queryateacher(teacherID);
+		
+		for(int i=0;i<rblist.size();i++)
+		{
+			rb=rblist.get(i);
+			key=rb.year+"-"+rb.month+"-"+rb.day;
+			value=new ArrayList<String>();
+			if(rb.a.equals("1")){value.add("1");}
+			if(rb.b.equals("1")){value.add("2");}
+			if(rb.c.equals("1")){value.add("3");}
+			if(rb.d.equals("1")){value.add("4");}
+			if(rb.e.equals("1")){value.add("5");}
+			if(rb.f.equals("1")){value.add("6");}
+			if(rb.g.equals("1")){value.add("7");}
+			if(rb.h.equals("1")){value.add("8");}
+			if(rb.i.equals("1")){value.add("9");}
+			if(rb.j.equals("1")){value.add("10");}
+			if(rb.k.equals("1")){value.add("11");}
+			if(rb.l.equals("1")){value.add("12");}
+			if(rb.m.equals("1")){value.add("13");}
+			if(rb.n.equals("1")){value.add("14");}
+			String finalvalue="";
+			for(int ii=0;ii<value.size()-1;ii++){
+				  finalvalue+=value.get(ii)+"|";
+			}
+			finalvalue+=value.get(value.size()-1);
+		   timesmap.put(key,finalvalue);
+		}
+		
+		return timesmap;
+   }
+
 }

@@ -25,6 +25,9 @@
   List<successbooking> mysuccessbooking=mysql.stushowtime(id);
   int successbookingnum=mysuccessbooking.size();
 %>
+<% //相关的附属信息
+   int professornum=mysql.getprofessornum();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +44,16 @@
 <style>
 .myfont1{
   font-size:18px;
+  
+}
+.imagemargin{
+   margin-left:10px;
+   margin-right:10px;
+   margin-top:5px;
+   margin-bottom:5px;
+}
+.textmargin{
+    vertical-align:middle;
 }
 </style>
 </head>
@@ -54,11 +67,13 @@
 					<span class="icon-bar"></span></button>  -->
 				<a class="navbar-brand" href="#"><span>Online</span>BookingSystem</a>
 				<ul class="nav navbar-top-links navbar-right"><!-- navbar-left/navbar-right -->
+					
 					<li class="dropdown"><!-- 新消息导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 						<em class="fa fa-envelope"></em><!-- 消息图案 -->
 						<span class="label label-danger">15</span><!-- 消息数量  -->
 					  </a>
+					  
 						<ul class="dropdown-menu dropdown-messages"><!-- 消息概述，列表呈现  -->
 							<li>
 								<div class="dropdown-messages-box">
@@ -92,17 +107,17 @@
 					</li>
 					<li class="dropdown"><!-- 预约提醒导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-bell"></em><span class="label label-info">5</span><!--未完成预约数量  -->
+						<em class="fa fa-bell"></em><span class="label label-info"><%=successbookingnum%></span><!--未完成预约数量  -->
 					  </a>
 						<ul class="dropdown-menu dropdown-alerts"><!-- 列出所有未完成预约 dropdown-alerts-->
 							<li>
 								<div class="dropdown-messages-box">
 								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
+									   <img alt="image" class="img-circle imagemargin" src="http://placehold.it/40/30a5ff/fff">
 									</a>
 									<div class="message-body">
 									    <small class="pull-right">2017/10/25</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> LXY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
+										<a href="#" class="textalign"><strong class="myfont1"> LXY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
 									</div>
 								</div>
 							</li>
@@ -118,7 +133,7 @@
 									</div>
 							 </div>
 							</li>
-							<li class="divider"></li>
+						<%--     <li class="divider"></li>
 							<li>
 							    <div class="dropdown-messages-box">
 								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
@@ -129,7 +144,7 @@
 										<a href="#"><strong class="myfont1"> LBH(professor)</strong></a><!-- 点击跳转至预约情况页面 -->
 									</div>
 							  </div>
-							</li>
+							</li> --%>
 						</ul>
 					</li>
 				</ul>
@@ -202,7 +217,7 @@
 				<div class="col-xs-6 col-md-3 col-lg-3 no-padding"><!-- 屏幕小的时候会成两排 -->
 					<div class="panel panel-teal panel-widget border-right">
 						<div class="row no-padding"><em class="fa fa-xl fa-users color-blue"></em>
-							<div class="large">120</div>
+							<div class="large"><%=professornum%></div>
 							<div class="text-muted">All Professors</div>
 						</div>
 					</div>
@@ -277,7 +292,7 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div class="panel panel-default">
+				<div class="panel panel-default" id="bookingpanel">
 					<div class="panel-heading">
 						待赴预约
 						<ul class="pull-right panel-settings panel-button-tab-right">
@@ -308,7 +323,7 @@
 						<ul class="todo-list"><!-- 所有未完成预约 -->
 						
 							<% 
-						    int i=0;
+						     int i=0;
 						     for(successbooking asuccessbooking:mysuccessbooking){
 			        		 i++;
 			        		 String astudentid=asuccessbooking.studentid;
@@ -374,7 +389,9 @@
 	scaleGridLineColor: "rgba(0,0,0,.05)",
 	scaleFontColor: "#c5c7cc"
 	});
-};
+	/* document.getElementById("btn-input").focus(); */
+	document.getElementById("bookingpanel").scrollIntoView();/* 用于网站内跳转 */
+    };
     alert("<%=id%>");
 	</script>
 		
