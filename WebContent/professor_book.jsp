@@ -413,6 +413,7 @@
           
           
      $('#calendar').datepicker({
+    	 startDate: '+1d',/* 只能发布明天以后的时间 */
 	    beforeShowDay:function(date){
 			 var d=date;
 			 var curr_date=d.getDate();

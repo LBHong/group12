@@ -44,16 +44,41 @@
 <style>
 .myfont1{
   font-size:18px;
-  
 }
 .imagemargin{
    margin-left:10px;
    margin-right:10px;
-   margin-top:5px;
-   margin-bottom:5px;
 }
 .textmargin{
-    vertical-align:middle;
+  margin-right:10px;
+}
+.verticalparent{
+   align-items: center;    /*垂直居中  */
+   display: flex;
+}
+.verticalparent2{
+   position: relative;
+}
+.verticalchild2{
+  position: absolute;
+  margin: 0,auto;
+}
+.externalwidth{
+   width:100%;
+}
+.seccolor{
+	color:#ff0080;
+}
+.secfont{
+     line-height:20px;
+	font-size:16px;
+}
+.myimage{
+   width: 40px;
+   height:40px;
+}
+.thirdfont{
+ font-size:14px;
 }
 </style>
 </head>
@@ -110,19 +135,46 @@
 						<em class="fa fa-bell"></em><span class="label label-info"><%=successbookingnum%></span><!--未完成预约数量  -->
 					  </a>
 						<ul class="dropdown-menu dropdown-alerts"><!-- 列出所有未完成预约 dropdown-alerts-->
-							<li>
-								<div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle imagemargin" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/10/25</small><!-- 预约日期 -->
-										<a href="#" class="textalign"><strong class="myfont1"> LXY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
+							<%//预约提醒导航
+							 int i=0;
+						     for(successbooking asuccessbooking:mysuccessbooking){
+						    	 String astudentid=asuccessbooking.studentid;
+				        		 String ayear=asuccessbooking.year;
+				        		 String amonth=asuccessbooking.month;
+				        		 String aday=asuccessbooking.day;
+				        	     String ateacherid=asuccessbooking.teacherid;
+				        	     /*   String atime=asuccessbooking.time;
+				        		 String ainstruction=asuccessbooking.instruction; */
+				        		 
+				        		 Map<String,String> sinfomation=mysql.showteacher(ateacherid);
+				        	     String susername=sinfomation.get("用户名");
+				        		 /* String semail=sinfomation.get("邮箱");
+				        		 String sphone=sinfomation.get("手机号");
+				        		 String sintroduction=sinfomation.get("介绍");
+				        		 String stheid=sinfomation.get("id"); */
+				        		 String sfaculty=sinfomation.get("科目");
+
+				        		    out.println("<li>");
+									out.println("<div class=\"dropdown-messages-box\">");
+									out.println("<div class=\"message-body  verticalparent\">");
+									out.println(" <a href=\"profile.html\" class=\"pull-left\" onclick=\"return scrolltodetails()\">");/* <!-- 点击图像显示对方个人主页 --> */
+									out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+									out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
+									out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
+									out.println("</div>");
+									out.println("</div>");
+									out.println("</li>");
+									out.println("<li class=\"divider\"></li>");
+						     }
+						     
+							%>
+						  <script>
+						   function scrolltodetails(){
+							   document.getElementById("bookingpanel").scrollIntoView();/* 用于网站内跳转 */
+							  return false;
+						   }
+						  </script>
+							<%-- <li>
 							  <div class="dropdown-messages-box">
 								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
 									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
@@ -132,7 +184,7 @@
 										<a href="#"><strong class="myfont1"> WCY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
 									</div>
 							 </div>
-							</li>
+							</li> --%>
 						<%--     <li class="divider"></li>
 							<li>
 							    <div class="dropdown-messages-box">
@@ -323,7 +375,7 @@
 						<ul class="todo-list"><!-- 所有未完成预约 -->
 						
 							<% 
-						     int i=0;
+						     i=0;
 						     for(successbooking asuccessbooking:mysuccessbooking){
 			        		 i++;
 			        		 String astudentid=asuccessbooking.studentid;
@@ -344,8 +396,31 @@
 
 				             out.println("<li class=\"todo-list-item\">");
 				             out.println("<div class=\"checkbox\">");
-				             out.println("<input type=\"checkbox\" id=\"checkbox-"+i+"\" />");/*注意这个id要是变量 */
-				             out.println("<label for=\"checkbox-"+i+"\">与"+susername+"教授于"+ayear+"-"+amonth+"-"+aday+"约见，见面时间:"+atime+",联系方式："+sphone+"/"+semail+"</label>");
+				             out.println("<input type=\"checkbox\" id=\"checkbox-"+i+"\"/>");/*注意这个id要是变量 */
+				             
+				             out.println("<a class=\"dropdown-toggle count-info\" data-toggle=\"dropdown\"href=\"\"><label for=\"checkbox-"+i+"\">与"+susername+"教授于"+ayear+"-"+amonth+"-"+aday+"约见，见面时间:"+atime+"</label></a>");
+				             out.println("<ul class=\"dropdown-menu dropdown-messages\">");
+				             out.println("<li>");
+				             out.println("<div class=\"dropdown-messages-box\">");
+				             out.println("<img alt=\"image\" class=\"img-circle myimage\"");
+				             out.println("src=\"http://mpic.tiankong.com/4c6/3b6/4c63b6daa54b259e01791ab9a4b2e653/640.jpg@360h\">");
+				             out.println("<div class=\"message-body\">");
+				             out.println("<div><font class=\"secfont\"><strong>"+susername+"</strong></font><br/><font class=\"thirdfont\">"+sfaculty+"</font></div>");
+				              out.println("<small class=\"text-muted seccolor\" >"+sphone+"/"+semail+"</small></div>");
+				             out.println("</div>");
+				             out.println("</li>");
+				             out.println("<li class=\"divider\"></li>");
+				             out.println("<li>");
+				             out.println("<div class=\"dropdown-messages-box\">");
+				             out.println("<img alt=\"image\" class=\"img-circle myimage\"");
+				             out.println("src=\"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2484490458,2674950783&fm=27&gp=0.jpg\">"); 
+				             out.println("<div class=\"message-body\"><small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+" "+atime+"</small>");
+				             out.println("<div><font class=\"secfont\"><strong>预约信息:</strong><br/>"+ainstruction+"</font></div>");
+	
+				             out.println("</div>");
+				             out.println("</li>");
+				             out.println("</ul>");
+				             
 				             out.println("</div>");
 				             out.println("<div class=\"pull-right action-button\"><a href=\"#\" class=\"trash\">");
 				             out.println("<em class=\"fa fa-trash\"></em>");
@@ -358,7 +433,7 @@
 					</div>
 					<div class="panel-footer">
 						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Delete selected appointments" /><span class="input-group-btn">
+							<input id="btn-input" type="text" class="form-control input-md" placeholder="Delete selected appointments"  readonly="readonly"/><span class="input-group-btn">
 								<button class="btn btn-primary btn-md" id="btn-todo">Delete</button>
 						</span></div>
 					</div>
@@ -390,7 +465,7 @@
 	scaleFontColor: "#c5c7cc"
 	});
 	/* document.getElementById("btn-input").focus(); */
-	document.getElementById("bookingpanel").scrollIntoView();/* 用于网站内跳转 */
+	
     };
     alert("<%=id%>");
 	</script>

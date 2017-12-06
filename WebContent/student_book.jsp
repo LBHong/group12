@@ -73,7 +73,7 @@
 .myalign1{
       align:center;
   }
-  .specialdays{
+ .specialdays{
    background-color:#ff0000;
  }
 </style>
@@ -511,6 +511,7 @@
 	<script src="js/custom.js"></script>
 	
 	<script type="text/javascript">
+	   /*  $('#calender').datepicker('option', 'minDate', '2017-12-10');  */
 	    	 var speciald=new Array();
 	    	 <% 
 	    	      
@@ -530,6 +531,7 @@
 		           
 		           
 		      $('#calendar').datepicker({
+		    	startDate: '+1d',/* 只能预约明天以后的时间 */
 			    beforeShowDay:function(date){
 					 var d=date;
 					 var curr_date=d.getDate();
