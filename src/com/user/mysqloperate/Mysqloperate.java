@@ -1174,20 +1174,17 @@ public class Mysqloperate {
    {
 	   successbooking next,pre;
 	   pre=list.get(i);next=list.get(j);
-	   System.out.println(pre.getYear());
-	   System.out.println(next.getYear());
-	   System.out.println(pre.getMonth());
-	   System.out.println(next.getMonth());
-	   if(pre.getYear().compareTo(next.getYear())>0)return 1;
-	   else if(pre.getYear().compareTo(next.getYear())==0)
+	   int pyear=Integer.valueOf(pre.getYear());int nyear=Integer.valueOf(next.getYear());
+	   if(pyear-nyear>0)return 1;
+	   else if(pyear-nyear==0)
 	   {
-		   System.out.println(pre.getMonth());
-		   System.out.println(next.getMonth());
-		   if(pre.getMonth().compareTo(next.getMonth())>0)return 1;
-		   else if(pre.getMonth().compareTo(next.getMonth())==0)
+		   int pmonth=Integer.valueOf(pre.getMonth());int nmonth=Integer.valueOf(next.getMonth());
+		   if(pmonth-nmonth>0)return 1;
+		   else if(pmonth-nmonth==0)
 		   {
-			   if(pre.getDay().compareTo(next.getDay())>0)return 1;
-			   else if(pre.getDay().compareTo(next.getDay())==0)
+			   int pday=Integer.valueOf(pre.getDay());int nday=Integer.valueOf(next.getDay());
+			   if(pday-nday>0)return 1;
+			   else if(pday-nday==0)
 			   {
 				   String [] spre=pre.getTime().split(":");
 				   String [] snext=next.getTime().split(":");
@@ -1210,9 +1207,9 @@ public class Mysqloperate {
 	   {
 		   for(int j=number-1;j>i;j--)
 		   {
-			   System.out.println("start");
-			   System.out.println(j-1);
-			   System.out.println(list.get(j).getMonth());
+//			   System.out.println("start");
+//			   System.out.println(j-1);
+//			   System.out.println(list.get(j).getMonth());
 			   int q=huanbuhuan(j-1,j,list);
 			   if(q==1) swap(j-1,j,list);
 			   
@@ -1334,5 +1331,84 @@ public class Mysqloperate {
 		
 		return timesmap;
    }
-
+   /***********************************************///明天任务查询
+   public List<successbooking> teachertomorrowtask(String teacherid,String year,String month,String day)
+	{
+      Connection conn = null;
+      java.sql.PreparedStatement pstmt = null; 
+      List<successbooking> booking=new LinkedList<successbooking>();
+      try{
+          conn = getConn();
+          // 执行查询
+          String sql;
+          sql = "SELECT teacherid, year,month,day,time,studentid FROM successbooking where teacherid=? and year=? and month=? and day=?";
+          pstmt = conn.prepareStatement(sql); 
+          pstmt.setString(1, teacherid);
+          pstmt.setString(2, year);
+          pstmt.setString(3, month);
+          pstmt.setString(4, day);
+          ResultSet rs = pstmt.executeQuery();
+         // List<String> IDList=new ArrayList<String>();
+          while(rs.next())
+          {
+        	  successbooking book=new successbooking();
+          	book.teacherid =rs.getString("teacherid");book.year=rs.getString("year");
+          	book.month=rs.getString("month");book.day=rs.getString("day");
+          	book.time=rs.getString("time");book.studentid=rs.getString("studentid");
+          	booking.add(book);
+          }
+          	rs.close();
+          	pstmt.close();
+          	conn.close();
+      }
+          	catch(SQLException se){
+                  // 处理 JDBC 错误
+                  se.printStackTrace();
+              }catch(Exception e){
+                  // 处理 Class.forName 错误
+                  e.printStackTrace();
+              }
+		return booking;
+		
+	}
+   public List<successbooking> studenttomorrowtask(String studentid,String year,String month,String day)
+	{
+     Connection conn = null;
+     java.sql.PreparedStatement pstmt = null; 
+     List<successbooking> booking=new LinkedList<successbooking>();
+     try{
+         conn = getConn();
+         // 执行查询
+         String sql;
+         sql = "SELECT teacherid, year,month,day,time,studentid FROM successbooking where studentid=? and year=? and month=? and day=?";
+         pstmt = conn.prepareStatement(sql); 
+         pstmt.setString(1, studentid);
+         pstmt.setString(2, year);
+         pstmt.setString(3, month);
+         pstmt.setString(4, day);
+         ResultSet rs = pstmt.executeQuery();
+        // List<String> IDList=new ArrayList<String>();
+         while(rs.next())
+         {
+       	  successbooking book=new successbooking();
+         	book.teacherid =rs.getString("teacherid");book.year=rs.getString("year");
+         	book.month=rs.getString("month");book.day=rs.getString("day");
+         	book.time=rs.getString("time");book.studentid=rs.getString("studentid");
+         	booking.add(book);
+         }
+         	rs.close();
+         	pstmt.close();
+         	conn.close();
+     }
+         	catch(SQLException se){
+                 // 处理 JDBC 错误
+                 se.printStackTrace();
+             }catch(Exception e){
+                 // 处理 Class.forName 错误
+                 e.printStackTrace();
+             }
+		return booking;
+		
+	}
+   /**************************************************/
 }
