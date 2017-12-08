@@ -344,7 +344,7 @@
 									  </div>
 									</div>
 									<input type="hidden" value="" name="alltimes" id="alltimes">
-									<input type="hidden" value=<%=id%> name="id">
+									<input type="hidden" value=<%=id%> name="id2">
 								 <!-- Appointment information-->
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Date</label>
@@ -363,7 +363,7 @@
 						</form>
 							</div>
 							<div class="tab-pane fade" id="tab2">
-								<form class="form-horizontal" action="release" method="post" onsubmit="return getdeletetime()">
+								<form class="form-horizontal" action="delete" method="post" onsubmit="return getdeletetime()">
 							<fieldset>
 							    <!-- Appointment information-->
 								<!-- <div class="form-group">

@@ -21,9 +21,9 @@ public class Mysqloperate {
 
 	public Connection getConn() {
 	    String driver = "com.mysql.jdbc.Driver";
-	    String url = "jdbc:mysql://localhost:3306/project?useUnicode=true&characterEncoding=utf-8&useSSL=false";
+	    String url = "jdbc:mysql://localhost:3306/project";
 	    String Qusername = "root";
-	    String Qpassword = "123456";
+	    String Qpassword = "1234";
 	    Connection conn = null;
 	    try {
 	    	Class.forName(driver);
@@ -1335,6 +1335,269 @@ public class Mysqloperate {
 		}
 		
 		return timesmap;
+   }
+   public boolean teacherdelete(String teacherid,String year,String month,String day,String time)
+   {
+	   String [] B=new String [15];int qq;
+		 B[0]="8:00-8:30";B[1]="8:30-9:00";B[2]="9:00-9:30";B[3]="9:30-10:00";B[4]="10:00-10:30";
+		 B[5]="10:30-11:00";B[6]="11:00-11:30";B[7]="14:00-14:30";B[8]="14:30-15:00";B[9]="15:00-15:30";
+		 B[10]="15:30-16:00";B[11]="16:00-16:30";B[12]="16:30-17:00";B[13]="17:00:17:30";B[14]="1";
+	   Connection conn = null;
+	   try{
+		   conn=getConn();
+		   if(time.equals(B[0])){
+				String sql="update releasebooking set a=? where id=? and year=? and month=? and day=? ";
+				PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+				pre.setString(1, "0");pre.setString(2,teacherid);
+				pre.setString(3, year);pre.setString(4, month);
+				pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+			}
+	   
+	   else if(time.equals(B[1])){
+			String sql="update releasebooking set b=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[2])){
+			String sql="update releasebooking set c=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[3])){
+			String sql="update releasebooking set d=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[4])){
+			String sql="update releasebooking set e=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[5])){
+			String sql="update releasebooking set f=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[6])){
+			String sql="update releasebooking set g=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[7])){
+			String sql="update releasebooking set h=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[8])){
+			String sql="update releasebooking set i=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[9])){
+			String sql="update releasebooking set j=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[10])){
+			String sql="update releasebooking set k=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[11])){
+			String sql="update releasebooking set l=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else if(time.equals(B[12])){
+			String sql="update releasebooking set m=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+	   else {
+			String sql="update releasebooking set n=? where id=? and year=? and month=? and day=? ";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, "0");pre.setString(2,teacherid);
+			pre.setString(3, year);pre.setString(4, month);
+			pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+		}
+		   String sq="DELETE FROM successbooking where teacherid=? and year=? and month=? and day=? and time=?";
+			 PreparedStatement pp=(PreparedStatement)conn.prepareStatement(sq);
+			 pp.setString(1,teacherid);
+			 pp.setString(2, year);
+			 pp.setString(3, month);
+			 pp.setString(4, day);pp.setString(5, time);
+				int sr = pp.executeUpdate();
+				pp.close();
+	   }catch(SQLException se){
+           // 处理 JDBC 错误
+           se.printStackTrace();
+       }catch(Exception e){
+           // 处理 Class.forName 错误
+           e.printStackTrace();
+       }
+	   return false;
+	   
+   }
+   public boolean studentdelete(String year,String month,String day,String time,String studentid)
+   {
+	   String [] B=new String [15];int qq;
+		 B[0]="8:00-8:30";B[1]="8:30-9:00";B[2]="9:00-9:30";B[3]="9:30-10:00";B[4]="10:00-10:30";
+		 B[5]="10:30-11:00";B[6]="11:00-11:30";B[7]="14:00-14:30";B[8]="14:30-15:00";B[9]="15:00-15:30";
+		 B[10]="15:30-16:00";B[11]="16:00-16:30";B[12]="16:30-17:00";B[13]="17:00:17:30";B[14]="1";
+	   Connection conn = null;
+	   try{
+		   conn=getConn();
+		   
+				   String qs="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
+				   
+				   PreparedStatement ppp=(PreparedStatement)conn.prepareStatement(qs);
+				   ppp.setString(1,year);ppp.setString(2, month);
+				   ppp.setString(3, day);ppp.setString(4, time);ppp.setString(5, studentid);
+					ResultSet rs = ppp.executeQuery();
+					rs.next();
+					
+					String teacher=rs.getString("teacherid");System.out.println(teacher);
+					rs.close();ppp.close();
+					if(time.equals(B[0])){
+						String sql="update releasebooking set a=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[1])){
+						String sql="update releasebooking set b=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[2])){
+						String sql="update releasebooking set c=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[3])){
+						String sql="update releasebooking set d=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[4])){
+						String sql="update releasebooking set e=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[5])){
+						String sql="update releasebooking set f=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[6])){
+						String sql="update releasebooking set g=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[7])){
+						String sql="update releasebooking set h=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[8])){
+						String sql="update releasebooking set i=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[9])){
+						String sql="update releasebooking set j=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq =pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[10])){
+						String sql="update releasebooking set k=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else if(time.equals(B[11])){
+						String sql="update releasebooking set l=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");
+						pre.setString(2,teacher);
+						pre.setString(3, year);
+						pre.setString(4, month);
+						pre.setString(5, day);pre.execute();pre.close();
+					}
+					else if(time.equals(B[12])){
+						String sql="update releasebooking set m=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					else{
+						String sql="update releasebooking set n=? where id=? and year=? and month=? and day=? ";
+						PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+						pre.setString(1, "1");pre.setString(2,teacher);
+						pre.setString(3, year);pre.setString(4, month);
+						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
+					}
+					
+					String sq="DELETE FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
+					 PreparedStatement pp=(PreparedStatement)conn.prepareStatement(sq);
+					 pp.setString(1,year);pp.setString(2, month);
+					 pp.setString(3, day);pp.setString(4, time);pp.setString(5, studentid);
+						int sr = pp.executeUpdate();
+						pp.close();
+						
+		   }catch(SQLException se){
+	           // 处理 JDBC 错误
+	           se.printStackTrace();
+	       }catch(Exception e){
+	           // 处理 Class.forName 错误
+	           e.printStackTrace();
+	       }
+		   return true;
    }
 
 }

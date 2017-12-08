@@ -29,6 +29,10 @@
                <result>/student_book.jsp</result>
                <result name="failure">/student_book.jsp</result>
        </action>
+       <action name="teacherdelete" class="com.user.action.Releaseaction" method="teacherdelete">
+               <result>/professor_book.jsp</result>
+               <result name="failure">/professor_book.jsp</result>
+       </action>
        <!--<action name="addbook" class="action.BookAction" method="addbook">
                <result>/updatebook.jsp</result>
        </action>
