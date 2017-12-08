@@ -257,7 +257,7 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade in active" id="tab1">
-								<form class="form-horizontal" action="release" method="post" onsubmit="return getselectedtime()">
+								<form class="form-horizontal" action="delete" method="post" onsubmit="return getselectedtime()">
 							<fieldset>
 							    <!-- Appointment information-->
 								<!-- <div class="form-group">
@@ -349,7 +349,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Date</label>
 									<div class="col-md-9">
-										<input id="date" name="date" type="text" placeholder="日期" class="form-control" onblur="setreleasedday()"/>
+										<input id="date" name="date" type="text" placeholder="日期" class="form-control"/>
 									</div>
 								</div>
 								
@@ -363,8 +363,110 @@
 						</form>
 							</div>
 							<div class="tab-pane fade" id="tab2">
-								<h4>Tab 2</h4>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget rutrum purus. Donec hendrerit ante ac metus sagittis elementum. Mauris feugiat nisl sit amet neque luctus, a tincidunt odio auctor.</p>
+								<form class="form-horizontal" action="release" method="post" onsubmit="return getdeletetime()">
+							<fieldset>
+							    <!-- Appointment information-->
+								<!-- <div class="form-group">
+									<label class="col-md-3 control-label" for="name">Time Interval</label>
+									<div class="col-md-9">
+										<input id="timeinterval" name="timeinterval" type="text" placeholder="要发布的时段" class="form-control">
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="timeinterval">Time Interval</label>
+									   <div class="col-md-3">
+										   <div class="checkbox">
+											<label>
+												<input type="checkbox" value="1" name="times2">8：00-8：30
+											</label>
+										   </div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="2" name="times2">8：30-9：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="3" name="times2">9：00-9：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="4" name="times2">9：30-10：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="5" name="times2">10：00-10：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="6" name="times2">10：30-11：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="7" name="times2">11：00-11：30
+											</label>
+										</div>
+									  </div>
+									  <div class="col-md-3">
+										   <div class="checkbox">
+											<label>
+												<input type="checkbox" value="8" name="times2">14：00-14：30
+											</label>
+										   </div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="9" name="times2">14：30-15：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="10" name="times2">15：00-15：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="11" name="times2">15：30-16：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="12" name="times2">16：00-16：30
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="13" name="times2">16：30-17：00
+											</label>
+										</div>
+										<div class="checkbox">
+											<label>
+												<input type="checkbox" value="14" name="times2">17：00-17：30
+											</label>
+										</div>
+									  </div>
+									</div>
+									<input type="hidden" value="" name="alltimes2" id="alltimes2">
+									<input type="hidden" value=<%=id%> name="id2">
+								 <!-- Appointment information-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="name">Date</label>
+									<div class="col-md-9">
+										<input id="date2" name="date2" type="text" placeholder="日期" class="form-control"/>
+									</div>
+								</div>
+								
+								<!-- Form actions -->
+								<div class="form-group">
+									<div class="col-md-12 widget-right">
+										<button type="submit" class="btn btn-default btn-md pull-right">取消</button>
+									</div>
+								</div>
+							</fieldset>
+						</form>
 							</div>
 						</div>
 					</div>
@@ -392,6 +494,23 @@
 				 		return true;
 				 	}
 				   }
+				    function getdeletetime(){
+				   	 checkboxes = document.getElementsByName("times2");
+				      check_val =new Array();
+				      for(i=0;i<checkboxes.length;i++){ 
+					  if(checkboxes[i].checked)
+					  check_val.push(checkboxes[i].value);
+				        }
+				      text = document.getElementById("alltimes2");
+			 	      text.value = check_val.join("|");
+			 	      if(text.value==""){
+			 		      alert("请选择至少一个时间段取消！");
+			 		       return false;
+			 	     }else{
+			 		      alert(text.value);
+			 		      return true;
+			 	       }
+				      }
 						    </script>
 			<div class="col-sm-12">
 				<p class="back-link">OnlineBookingSystem by 王春阳</p>
@@ -457,6 +576,8 @@
     	  var thedate=ev.date.getFullYear().toString()+"-"+(ev.date.getMonth()+1).toString()+"-"+ev.date.getDate().toString(); 
     	  text = document.getElementById("date");
     	  text.value=thedate;
+    	  text2 = document.getElementById("date2");
+    	  text2.value=thedate;
     	  /* 将当天点选这天老师的未被预约的时间展示出来，需要提前准备好所有的具体时间信息*/
     	  var abletimestring;
     	  <% /* 先判断点击了正确的有发布的日子 */
@@ -474,11 +595,11 @@
 	     }%>
     	  //alert(thedate);
     	   
-    	  if(flag){
+    	  if(flag){ //选择了有空闲预约时间的日期
     		  
     		  checkboxes = document.getElementsByName("times");
+    		  checkboxes2 = document.getElementsByName("times2");
     	      abletimes =new Array();
-    	      
     	      /* for(i=0;i<checkboxes.length;i++){ 
     		     if(checkboxes[i].checked)
     		     check_val.push(checkboxes[i].value);
@@ -487,17 +608,24 @@
     	      abletimes=abletimestring.split("|");
     	      for(i=0;i<checkboxes.length;i++){ 
     	    	  checkboxes[i].checked=false;
-    	    	  checkboxes[i].onclick=null;
+    	    	  checkboxes[i].onclick=null;/*动态删除事件  */
+    	    	  checkboxes2[i].checked=false;//所有的设置为没选中
+    	    	  checkboxes2[i].onclick=function(){//所有设置为不可选中
+    	    		  alert("该时段您尚未发布，无需勾选");
+	    	          return false;
+    	    	  }/*动态删除事件  */
      	      } 
     	      for(i=0;i<abletimes.length;i++){
     	    	  checkboxes[abletimes[i]-1].checked=true;
     	    	  checkboxes[abletimes[i]-1].onclick=function(){/* 动态添加事件   */
-    	    		  alert("该时段老师已经发布过了，无需勾选");
+    	    		  alert("该时段您已经发布过了，无法勾选");
 	    	          return false;
-    	    	  }/*动态删除事件  */
+    	    	  }
+    	    	  checkboxes2[abletimes[i]-1].checked=true;
+    	    	  checkboxes2[abletimes[i]-1].onclick=null;
     	      }
     	  }else{
-    		  alert("该天老师没有发布过空闲时段"); 
+    		  alert("该天您没有发布过空闲时段"); 
     		  for(i=0;i<checkboxes.length;i++){ //没添加过的时段随意填写
     	    	  checkboxes[i].checked=false;
     	    	  checkboxes[i].onclick=null;
