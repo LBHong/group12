@@ -672,7 +672,7 @@ public class Mysqloperate {
 				
 				sp.setString(1, id);sp.setString(2, year);sp.setString(3, month);
 				sp.setString(4,day);sp.setString(5,A[0]);sp.setString(6, A[1]);
-				sp.setString(7, A[2]);sp.setString(8,A[2]);sp.setString(9, A[4]);
+				sp.setString(7, A[2]);sp.setString(8,A[3]);sp.setString(9, A[4]);
 				sp.setString(10, A[5]);sp.setString(11, A[6]);sp.setString(12, A[7]);
 				sp.setString(13, A[8]);sp.setString(14, A[9]);sp.setString(15, A[10]);
 				sp.setString(16, A[11]);sp.setString(17, A[12]);sp.setString(18, A[13]);
@@ -949,7 +949,7 @@ public class Mysqloperate {
 				   		 				java.sql.PreparedStatement pstm1 = null;pstm1=conn.prepareStatement(sq);
 				   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
 				   		 				pstm1.setString(3,month);pstm1.setString(4,day);
-				   		 				pstm1.setString(5, "10:30-11:00");pstm1.setString(6, sid);pstm1.setString(7, instruction);
+				   		 				pstm1.setString(5, "11:00-11:30");pstm1.setString(6, sid);pstm1.setString(7, instruction);
 				   		 				pstm1.executeUpdate(); rs.close();
 				   		 				pstm1.close();
 				   		 				pstm.close();
@@ -1269,8 +1269,10 @@ public class Mysqloperate {
 			for(int ii=0;ii<value.size()-1;ii++){
 				  finalvalue+=value.get(ii)+"|";
 			}
-			finalvalue+=value.get(value.size()-1);
-		   timesmap.put(key,finalvalue);
+			if(value.size()!=0){
+				finalvalue+=value.get(value.size()-1);//存在某一天发布过时间，但是全部被预约，现在是会取到这一天，但是不会有空闲
+				timesmap.put(key,finalvalue);
+			}//如果全部被预约就不作为一个有空闲时间传回
 		}
 		
 		return timesmap;

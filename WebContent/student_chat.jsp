@@ -30,6 +30,9 @@
 	<link href="css/datepicker3.css" rel="stylesheet">
 	<link href="css/styles.css" rel="stylesheet">
 	
+    <link href="css/datalist.css" type="text/css" rel="Stylesheet" /> 
+ 
+    
 	<!--Custom Font-->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 <style>
@@ -44,6 +47,9 @@
 .myalign1{
       align:center;
   }
+.datalistfont{
+  font-size:20px;
+}
 </style>
 </head>
 <body>
@@ -151,11 +157,12 @@
 		</div>
 		<div class="divider"></div>
 		
-		<form role="search"><!-- 写js脚本，在按下enter之后直接提交表单 -->
+		<form role="search" action="searchprofessor" method="post"><!-- 写js脚本，在按下enter之后直接提交表单 -->
 			<div class="form-group">
-				<input type="text" class="form-control" placeholder="输入要预约的教授的名字">
+				<input type="text" class="form-control" placeholder="输入要预约的教授的名字" name="professorname">
 			</div>
 		</form>
+	
 		<ul class="nav menu">
 			<li><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
@@ -195,26 +202,32 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">消 息</h1>
+				<h1 class="page-header">用户及相关预约历史</h1>
 			</div>
 		</div><!--/.row-->
 		
-	   <div class="row">
+	  <div class="row">
 	       <form action="showselectedauthor" method="post">
-               <div class="input-group  mymargin"> 
-                 <input name="selectedauthor" type="text" class="form-control input-md" 
-                 placeholder="请输入教授的名字查询教授用户"  list="authorlist"/>
-				   <!-- <datalist id="authorlist" style="color:#ff0000" >
-						        <option>cnm</option>
+               <div class="input-group  mymargin input_wrap"> 
+                 <input name="selectedauthor" type="text" class="form-control input-md " 
+                 placeholder="请输入教授的名字或选择院系查询教授用户" />
+				         <!-- <datalist id="authorlist"  >
+						        <option><font class="datalistfont">cnm</font></option>
 						    </datalist> -->
-				  <span class="input-group-btn">
+					<ul class="select_list">
+                        <li>问题1</li>
+                        <li>问题2</li>
+                          <li>问题3</li>
+                      <li>问题4</li>
+                       <li>问题5</li>
+                    </ul>
+                  <span class="input-group-btn">
 				     <input type="submit" class="btn btn-primary btn-md" value="Search">
-				     <!-- <input type="button" class="btn btn-primary btn-md" value="Search"> -->
 				  </span>
 				</div>
 		  </form>
 		</div>
-		
+				
 		<div class="panel panel-default articles">
 			<div class="panel-heading">
 			     相关用户
@@ -241,7 +254,7 @@
 				
 		<div class="panel panel-default chat">
 					<div class="panel-heading">
-						Chat
+						预约历史
 						<ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
@@ -317,6 +330,12 @@
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
+	<script src="js/datalist.js"></script>
+    <script >
+       $(document).ready(function(){
+       $(".input_wrap").myDatalist({"bgcolor":"gray","widths":1,"heights":1}); 
+       });
+   </script>
 	<script>
     window.onload = function () {
 	var chart1 = document.getElementById("line-chart").getContext("2d");

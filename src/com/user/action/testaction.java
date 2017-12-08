@@ -12,14 +12,16 @@ import java.util.Set;
  */
 public class testaction {
 	    public static void main(String args[]){
-	    /*	bookingaction book=new bookingaction();
+	     /* bookingaction book=new bookingaction();
 	    	book.setProfessorname("李彬弘");
 	    	book.searchprofessor();
-	    	book.setTeacherid("12241234");
-	        book.queryOneProfessorAllTimes();*/
-	        //Map<String,String> detailMap=book.timesMap;
-	       /*Set<String> ks=detailMap.keySet();
+	    	book.setTeacherid("10500001");
+	        book.queryOneProfessorAllTimes();
+	        Map<String,String> detailMap=book.getTimesMap();
+	       Set<String> ks=detailMap.keySet();
+	       
 	        for(String s:ks){
+	        	System.out.println(1);
 	        	 System.out.println(detailMap.get(s));
 	        }*/
 	        //System.out.println(book.professorList);
@@ -31,6 +33,12 @@ public class testaction {
 	        ac.setAlltimes("1|11");
 	        ac.setSuccessinstruction("这是本系统第一个预约");
 	        ac.studentappalication();*/
+	        
+	        Releaseaction release=new Releaseaction();
+	        release.setAlltimes("2");
+	        release.setDate("2018-1-3");
+	        release.setId("10500001");
+	        release.teacherfabu();
 	    }
 	
 }

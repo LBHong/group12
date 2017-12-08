@@ -24,9 +24,9 @@ public class Releaseaction {
 		String alltimes=getAlltimes();
 		String [] malltimes=alltimes.split("\\|");
 		String [] mdate=date.split("-");
-		System.out.println(date);
+		/*System.out.println(date);
 		System.out.println(alltimes);
-		System.out.println(id);
+		System.out.println(id);*/
 		Boolean f=false;
 		String A[]={"0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
 		for(int i=0;i<malltimes.length;i++)
@@ -35,7 +35,7 @@ public class Releaseaction {
 			try {
 				int aaa;
 			    aaa = Integer.parseInt(malltimes[i]);
-			    System.out.println(malltimes[i]);
+			    System.out.println(aaa);
 			    A[aaa-1]="1";
 
 			} catch (NumberFormatException e) {

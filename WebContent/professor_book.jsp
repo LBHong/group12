@@ -6,6 +6,7 @@
 <%@ page import="com.user.releasebooking.releasebooking"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Set"%>
+<%@ page import="java.util.ArrayList"%>
 <% 
   /* String s = (String) request.getAttribute("test");  */
   String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
@@ -20,7 +21,7 @@
   String theid=infomation.get("id"); 
   String faculty=infomation.get("科目");
   
-  List<releasebooking> myreleasebooking=mysql.Queryateacher(id);/* 所有老师发布了的没有被预约走的时间段的日期 */
+  /* List<releasebooking> myreleasebooking=mysql.Queryateacher(id);/* 所有老师发布了的没有被预约走的时间段的日期 */ 
   Map<String,String> AllTimes=mysql.QueryAllTimesOfAteacher(id);/* 所有老师发布了的没有被预约走的时间段的日期与当天具体时段 */
 %>
 <!DOCTYPE html>
@@ -245,11 +246,18 @@
 		
 	   <div class="panel panel-default">
 					<div class="panel-heading " >
-						空 闲 时 段 发 布
+						空 闲 时 段 发 布 及 取 消
 					    <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
 					</div>
-					<div class="panel-body">
-						<form class="form-horizontal" action="release" method="post" onsubmit="return getselectedtime()">
+					
+					 <div class="panel-body tabs">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#tab1" data-toggle="tab">发 布</a></li>
+							<li><a href="#tab2" data-toggle="tab">取 消</a></li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade in active" id="tab1">
+								<form class="form-horizontal" action="release" method="post" onsubmit="return getselectedtime()">
 							<fieldset>
 							    <!-- Appointment information-->
 								<!-- <div class="form-group">
@@ -353,6 +361,12 @@
 								</div>
 							</fieldset>
 						</form>
+							</div>
+							<div class="tab-pane fade" id="tab2">
+								<h4>Tab 2</h4>
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget rutrum purus. Donec hendrerit ante ac metus sagittis elementum. Mauris feugiat nisl sit amet neque luctus, a tincidunt odio auctor.</p>
+							</div>
+						</div>
 					</div>
 				</div>
 				
@@ -396,16 +410,16 @@
 	<script>
 	var speciald=new Array();
 	 <% 
-	    if(myreleasebooking!=null){
-       	 /* ArrayList<String> list = new ArrayList<>();
-   	     Set<String> ks=chosenTimes.keySet();
+	    if(AllTimes!=null){
+       	  ArrayList<String> list = new ArrayList<>();
+   	     Set<String> ks=AllTimes.keySet();
             for(String s:ks){
        	    list.add(s);
-            } */
-            for(int j=0;j<myreleasebooking.size();j++){
-            	String date=myreleasebooking.get(j).year+"-"+myreleasebooking.get(j).month+"-"+myreleasebooking.get(j).day;
+            }
+            for(int j=0;j<list.size();j++){
+            	
     %>
-          speciald[<%=j%>]='<%=date%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
+          speciald[<%=j%>]='<%=list.get(j)%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
           alert(speciald[<%=j%>]);
             <%}
         

@@ -183,11 +183,12 @@
 		</div>
 		<div class="divider"></div>
 		
-		<form role="search"><!-- 写js脚本，在按下enter之后直接提交表单 -->
+		<form role="search" action="searchprofessor" method="post"><!-- 写js脚本，在按下enter之后直接提交表单 -->
 			<div class="form-group">
-				<input type="text" class="form-control" placeholder="输入要预约的教授的名字">
+				<input type="text" class="form-control" placeholder="输入要预约的教授的名字" name="professorname">
 			</div>
 		</form>
+
 		<ul class="nav menu">
 			<li><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li class="active"><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>

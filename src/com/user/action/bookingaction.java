@@ -43,6 +43,12 @@ public class bookingaction {
 			  }
 			/*  ServletActionContext.getRequest().setAttribute("professorList",professorList );*/
 			  ServletActionContext.getRequest().getSession().setAttribute("professorList",professorList);
+			  ServletActionContext.getRequest().getSession().setAttribute("chosenTimes",this.timesMap);//重新查找了老师之后，存的时间和老师信息就是无效的，而且此时没有选择老师，需要清空section中的时间和老师
+		   	  ServletActionContext.getRequest().getSession().setAttribute("chosenTeacherId",teacherid);
+		  }else{//没有查到该老师
+			  ServletActionContext.getRequest().getSession().setAttribute("professorList",professorList);
+			  ServletActionContext.getRequest().getSession().setAttribute("chosenTimes",this.timesMap);
+		   	  ServletActionContext.getRequest().getSession().setAttribute("chosenTeacherId",teacherid);
 		  }
 		  return "success";
 	  }
@@ -78,8 +84,10 @@ public class bookingaction {
 				for(int ii=0;ii<value.size()-1;ii++){
 					  finalvalue+=value.get(ii)+"|";
 				}
-				finalvalue+=value.get(value.size()-1);
-				this.timesMap.put(key,finalvalue);
+				if(value.size()!=0){
+					finalvalue+=value.get(value.size()-1);//存在某一天发布过时间，但是全部被预约，现在是会取到这一天，但是不会有空闲
+					this.timesMap.put(key,finalvalue);
+				}//如果全部被预约就不作为一个有空闲时间传回
 			}
 			if(this.timesMap==null){return "failure";}
 			else{
