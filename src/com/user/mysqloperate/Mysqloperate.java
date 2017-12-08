@@ -21,9 +21,9 @@ public class Mysqloperate {
 
 	public Connection getConn() {
 	    String driver = "com.mysql.jdbc.Driver";
-	    String url = "jdbc:mysql://localhost:3306/project";
+	    String url = "jdbc:mysql://localhost:3306/project?useUnicode=true&characterEncoding=utf-8&useSSL=false";
 	    String Qusername = "root";
-	    String Qpassword = "1234";
+	    String Qpassword = "123456";
 	    Connection conn = null;
 	    try {
 	    	Class.forName(driver);
@@ -672,7 +672,7 @@ public class Mysqloperate {
 				
 				sp.setString(1, id);sp.setString(2, year);sp.setString(3, month);
 				sp.setString(4,day);sp.setString(5,A[0]);sp.setString(6, A[1]);
-				sp.setString(7, A[2]);sp.setString(8,A[2]);sp.setString(9, A[4]);
+				sp.setString(7, A[2]);sp.setString(8,A[3]);sp.setString(9, A[4]);
 				sp.setString(10, A[5]);sp.setString(11, A[6]);sp.setString(12, A[7]);
 				sp.setString(13, A[8]);sp.setString(14, A[9]);sp.setString(15, A[10]);
 				sp.setString(16, A[11]);sp.setString(17, A[12]);sp.setString(18, A[13]);
@@ -949,7 +949,7 @@ public class Mysqloperate {
 				   		 				java.sql.PreparedStatement pstm1 = null;pstm1=conn.prepareStatement(sq);
 				   		 				pstm1.setString(1, tid);pstm1.setString(2, year);
 				   		 				pstm1.setString(3,month);pstm1.setString(4,day);
-				   		 				pstm1.setString(5, "10:30-11:00");pstm1.setString(6, sid);pstm1.setString(7, instruction);
+				   		 				pstm1.setString(5, "11:00-11:30");pstm1.setString(6, sid);pstm1.setString(7, instruction);
 				   		 				pstm1.executeUpdate(); rs.close();
 				   		 				pstm1.close();
 				   		 				pstm.close();
@@ -1162,7 +1162,64 @@ public class Mysqloperate {
 		   			}
 	        return true;
 	}
-   
+   /*********************************************///排序辅助函数
+   public void swap(int i,int j,List<successbooking> list)
+   {
+	   successbooking b;
+	   b=list.get(i);
+	   list.set(i, list.get(j));
+	   list.set(j, b);
+   }
+   public int huanbuhuan(int i,int j,List<successbooking> list)
+   {
+	   successbooking next,pre;
+	   pre=list.get(i);next=list.get(j);
+	   System.out.println(pre.getYear());
+	   System.out.println(next.getYear());
+	   System.out.println(pre.getMonth());
+	   System.out.println(next.getMonth());
+	   if(pre.getYear().compareTo(next.getYear())>0)return 1;
+	   else if(pre.getYear().compareTo(next.getYear())==0)
+	   {
+		   System.out.println(pre.getMonth());
+		   System.out.println(next.getMonth());
+		   if(pre.getMonth().compareTo(next.getMonth())>0)return 1;
+		   else if(pre.getMonth().compareTo(next.getMonth())==0)
+		   {
+			   if(pre.getDay().compareTo(next.getDay())>0)return 1;
+			   else if(pre.getDay().compareTo(next.getDay())==0)
+			   {
+				   String [] spre=pre.getTime().split(":");
+				   String [] snext=next.getTime().split(":");
+				   int p=Integer.valueOf(spre[0]);
+				   int n=Integer.valueOf(snext[0]);
+				   if(p>n)return 1;
+				   else return 0;
+			   }
+			   else return 0;
+		   }
+		   else return 0;
+	   }
+	   else return 0;
+   }
+   public void paixu(List<successbooking> list)
+   {
+	   int number=list.size();
+	   System.out.println(number);
+	   for(int i=0;i<number;i++)
+	   {
+		   for(int j=number-1;j>i;j--)
+		   {
+			   System.out.println("start");
+			   System.out.println(j-1);
+			   System.out.println(list.get(j).getMonth());
+			   int q=huanbuhuan(j-1,j,list);
+			   if(q==1) swap(j-1,j,list);
+			   
+		   }
+	   }
+   }
+   /*************************************************/
    public List<successbooking> teashowtime(String id)
    {
           Connection conn = null;
@@ -1199,6 +1256,7 @@ public class Mysqloperate {
                        // 处理 Class.forName 错误
                        e.printStackTrace();
                    }
+           paixu(booking);
    return booking;
    }
    public List<successbooking> stushowtime(String id)
@@ -1236,6 +1294,7 @@ public class Mysqloperate {
                        // 处理 Class.forName 错误
                        e.printStackTrace();
                    }
+           paixu(booking);
                   return booking;
    }
    public Map<String,String> QueryAllTimesOfAteacher(String teacherID){
