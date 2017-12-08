@@ -3,8 +3,12 @@
  */
 package com.user.action;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.user.mysqloperate.Mysqloperate;
+import com.user.successbooking.successbooking;
 
 /**
  * @author lenovo
@@ -31,7 +35,7 @@ public class testaction {
 	    	ac.setTid("10500001");
 	        ac.setDate("2017-11-17");
 	        ac.setAlltimes("1|11");
-	        ac.setSuccessinstruction("这是本系统第一个预约");
+	        ac.setSuccessinstruction("杩欐槸鏈郴缁熺涓�涓绾�");
 	        ac.studentappalication();*/
 	        
 	        Releaseaction release=new Releaseaction();

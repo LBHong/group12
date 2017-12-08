@@ -35,6 +35,7 @@ public class bookingaction {
 	    private  String successinstruction;
 	 
 	 private Mysqloperate sqloperate=new Mysqloperate();
+	 /*******************************************************************************/
 	  public String searchprofessor(){
 		  idList=sqloperate.getIdByNameOfPro(professorname);
 		  if(idList!=null){
@@ -166,9 +167,9 @@ public class bookingaction {
 					  finalvalue+=value.get(ii)+"|";
 				}
 				if(value.size()!=0){
-					finalvalue+=value.get(value.size()-1);//存在某一天发布过时间，但是全部被预约，现在是会取到这一天，但是不会有空闲
+					finalvalue+=value.get(value.size()-1);//瀛樺湪鏌愪竴澶╁彂甯冭繃鏃堕棿锛屼絾鏄叏閮ㄨ棰勭害锛岀幇鍦ㄦ槸浼氬彇鍒拌繖涓�澶╋紝浣嗘槸涓嶄細鏈夌┖闂�
 					this.timesMap.put(key,finalvalue);
-				}//如果全部被预约就不作为一个有空闲时间传回
+				}//濡傛灉鍏ㄩ儴琚绾﹀氨涓嶄綔涓轰竴涓湁绌洪棽鏃堕棿浼犲洖
 				
 			}
 			if(this.timesMap==null){return false;}
@@ -178,7 +179,10 @@ public class bookingaction {
 				return true;
 			}
       }
-		public String getTid() {
+		
+      
+      /************************************************************************/
+      public String getTid() {
 		return tid;
 		}
 		public void setTid(String tid) {
