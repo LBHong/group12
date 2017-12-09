@@ -33,6 +33,14 @@
                <result>/professor_book.jsp</result>
                <result name="failure">/professor_book.jsp</result>
        </action>
+       <action name="studentdelete" class="com.user.action.Deleteaction" method="studentdelete">
+               <result>/student_home.jsp</result>
+               <result name="failure">/student_home.jsp</result>
+       </action>
+       <action name="teacherdeleteappoint" class="com.user.action.Deleteaction" method="teacherdeleteappoint">
+               <result>/professor_home.jsp</result>
+               <result name="failure">/professor_home.jsp</result>
+       </action>
        <!--<action name="addbook" class="action.BookAction" method="addbook">
                <result>/updatebook.jsp</result>
        </action>

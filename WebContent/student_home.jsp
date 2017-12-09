@@ -41,6 +41,9 @@
 <% //相关的附属信息
    int professornum=mysql.getprofessornum();
 %>
+<% //删除结束之后的反馈信息
+     String deleteresult = (String) request.getAttribute("deleteresult");    
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,6 +95,14 @@
 }
 .thirdfont{
  font-size:14px;
+}
+.myscroll1{
+  max-height:300px;
+  overflow-y: auto;
+}
+.myscroll2{
+  max-height:200px;
+  overflow-y: auto;
 }
 </style>
 </head>
@@ -147,7 +158,7 @@
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 						<em class="fa fa-bell"></em><span class="label label-info"><%=successbookingnum%></span><!--未完成预约数量  -->
 					  </a>
-						<ul class="dropdown-menu dropdown-alerts"><!-- 列出所有未完成预约 dropdown-alerts-->
+						<ul class="dropdown-menu dropdown-alerts myscroll2"><!-- 列出所有未完成预约 dropdown-alerts-->
 							<%//预约提醒导航
 							 int i=0,k=0;
 						     for(successbooking asuccessbooking:mysuccessbooking){
@@ -374,7 +385,7 @@
 							</li>
 						</ul>
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
-					<div class="panel-body">
+					<div class="panel-body myscroll1">
 						<ul class="todo-list"><!-- 所有未完成预约 -->
 						
 							<% 
@@ -425,7 +436,14 @@
 				             out.println("</ul>");
 				             
 				             out.println("</div>");
-				             out.println("<div class=\"pull-right action-button\"><a href=\"#\" class=\"trash\">");
+				             out.println("<div class=\"pull-right action-button\"><a href=\"studentdelete?studentid="+astudentid+"&year="+ayear+"&month="+amonth+"&day="+aday+"&time="+atime+"\" class=\"trash\">");
+				             /* out.println("");
+				             out.println("");
+				             out.print("");
+				             out.print("");
+				             out.print("");
+							 out.print("");
+							 out.print(""); */
 				             out.println("<em class=\"fa fa-trash\"></em>");
 				             out.println("</a></div>");
 				             out.println("</li>");
@@ -471,6 +489,12 @@
 	
     };
     alert("<%=id%>");
+    
+    if("<%=deleteresult%>"=="deleted"){
+ 	   alert("恭喜您！预约删除成功!");
+    }else if("<%=deleteresult%>"=="wrong"){
+ 	   alert("很遗憾！由于未知错误，删除预约失败");
+    }  
 	</script>
 		
 </body>

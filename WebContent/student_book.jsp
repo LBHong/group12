@@ -48,6 +48,9 @@
     }
     
 %>
+<% //预约结束之后的反馈信息
+     String appointresult = (String) request.getAttribute("appointresult");    
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,6 +79,10 @@
  .specialdays{
    background-color:#ff0000;
  }
+ .myscrollofuser{
+  max-height:500px;
+  overflow-y: auto;
+}
 </style>
 </head>
 <body>
@@ -253,7 +260,7 @@
 			     相关用户
 			   <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
 			</div>
-			<div class="panel-body articles-container">
+			<div class="panel-body articles-container myscrollofuser">
 			     <%
 			         if(professorList!=null){
 			        	 for(Map<String,String> m:professorList){
@@ -620,6 +627,14 @@
 };
    <%--  alert("<%=username%>"); --%>
    alert("<%=chosenTeacherName%>");
+   
+   //jsp变量在js中当字符串一定要加括号啊
+   if("<%=appointresult%>"=="finished"){
+	   alert("恭喜您！预约成功!");
+   }else if("<%=appointresult%>"=="used"){
+	   alert("很遗憾！您已经与其他老师预约了该时间段，请注意查看");
+   }  
+   
 	</script>
 		
 </body>

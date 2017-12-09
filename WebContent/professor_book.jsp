@@ -257,7 +257,7 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade in active" id="tab1">
-								<form class="form-horizontal" action="delete" method="post" onsubmit="return getselectedtime()">
+								<form class="form-horizontal" action="release" method="post" onsubmit="return getselectedtime()">
 							<fieldset>
 							    <!-- Appointment information-->
 								<!-- <div class="form-group">
@@ -344,7 +344,7 @@
 									  </div>
 									</div>
 									<input type="hidden" value="" name="alltimes" id="alltimes">
-									<input type="hidden" value=<%=id%> name="id2">
+									<input type="hidden" value=<%=id%> name="id">
 								 <!-- Appointment information-->
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Date</label>
@@ -363,7 +363,7 @@
 						</form>
 							</div>
 							<div class="tab-pane fade" id="tab2">
-								<form class="form-horizontal" action="delete" method="post" onsubmit="return getdeletetime()">
+								<form class="form-horizontal" action="teacherdelete" method="post" onsubmit="return getdeletetime()">
 							<fieldset>
 							    <!-- Appointment information-->
 								<!-- <div class="form-group">
@@ -625,10 +625,17 @@
     	    	  checkboxes2[abletimes[i]-1].onclick=null;
     	      }
     	  }else{
+    		  checkboxes = document.getElementsByName("times");
+    		  checkboxes2 = document.getElementsByName("times2");
     		  alert("该天您没有发布过空闲时段"); 
     		  for(i=0;i<checkboxes.length;i++){ //没添加过的时段随意填写
     	    	  checkboxes[i].checked=false;
     	    	  checkboxes[i].onclick=null;
+    	    	  checkboxes2[i].checked=false;
+    	    	  checkboxes2[i].onclick=function(){/* 动态添加事件   */
+    	    		  alert("该时段您尚未发布过");
+	    	          return false;
+    	    	  };
     		  }
     	  }
       }

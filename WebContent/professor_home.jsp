@@ -5,7 +5,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.user.successbooking.successbooking"%>
-
+<%@ page import="java.util.Calendar"%>
  <%--  <s:set var="id" value="id" scope="request" /> --%>
 <%/* 登录之后的用户基本信息*/
 /* String id=request.getParameter("id");
@@ -23,6 +23,15 @@ session.setAttribute("id", id); */
 	
 	List<successbooking> mysuccessbooking=mysql.teashowtime(id);
 	int successbookingnum=mysuccessbooking.size();
+	
+	 Calendar today=Calendar.getInstance();
+	  int nowyear=today.get(Calendar.YEAR);
+	  int nowmonth=today.get(Calendar.MONTH)+1;
+	  int nowdate=today.get(Calendar.DATE);
+	  System.out.println(nowyear+"-"+nowmonth+"-"+nowdate);
+%>
+<% //删除结束之后的反馈信息
+     String deleteresult = (String) request.getAttribute("teacherdeleteresult");    
 %>
 <!DOCTYPE html>
 <html>
@@ -40,6 +49,49 @@ session.setAttribute("id", id); */
 <style>
 .myfont1{
   font-size:18px;
+}
+.imagemargin{
+   margin-left:10px;
+   margin-right:10px;
+}
+.textmargin{
+  margin-right:10px;
+}
+.verticalparent{
+   align-items: center;    /*垂直居中  */
+   display: flex;
+}
+.verticalparent2{
+   position: relative;
+}
+.verticalchild2{
+  position: absolute;
+  margin: 0,auto;
+}
+.externalwidth{
+   width:100%;
+}
+.seccolor{
+	color:#ff0080;
+}
+.secfont{
+     line-height:20px;
+	font-size:16px;
+}
+.myimage{
+   width: 40px;
+   height:40px;
+}
+.thirdfont{
+ font-size:14px;
+}
+.myscroll1{
+  max-height:300px;
+  overflow-y: auto;
+}
+.myscroll2{
+  max-height:200px;
+  overflow-y: auto;
 }
 </style>
 </head>
@@ -93,42 +145,58 @@ session.setAttribute("id", id); */
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 						<em class="fa fa-bell"></em><span class="label label-info">5</span><!--未完成预约数量  -->
 					  </a>
-						<ul class="dropdown-menu dropdown-alerts"><!-- 列出所有未完成预约 dropdown-alerts-->
-							<li>
-								<div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/10/25</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> LXY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-							  <div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/10/28</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> WCY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-							 </div>
-							</li>
-							<li class="divider"></li>
-							<li>
-							    <div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/11/10</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> LBH(professor)</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-							  </div>
-							</li>
+						<ul class="dropdown-menu dropdown-alerts myscroll2"><!-- 列出所有未完成预约 dropdown-alerts-->
+							<%//预约提醒导航
+							 int i=0,k=0;
+						     for(successbooking asuccessbooking:mysuccessbooking){
+						    	 String astudentid=asuccessbooking.studentid;
+				        		 String ayear=asuccessbooking.year;
+				        		 String amonth=asuccessbooking.month;
+				        		 String aday=asuccessbooking.day;
+				        	     String ateacherid=asuccessbooking.teacherid;
+				        	        Calendar cal=Calendar.getInstance();
+				        	        cal.set(nowyear,nowmonth,nowdate);
+				        	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+				        	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
+				        	        long time2 = cal.getTimeInMillis();          
+				        	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+				        	        int datediff=Integer.parseInt(String.valueOf(between_days));
+				        	       
+				        	     if(datediff<2){
+				        	    	 k++;
+				        	    	 /*   String atime=asuccessbooking.time;
+					        		 String ainstruction=asuccessbooking.instruction; */
+					        		 
+					        		 Map<String,String> sinfomation=mysql.showteacher(ateacherid);
+					        	     String susername=sinfomation.get("用户名");
+					        		 /* String semail=sinfomation.get("邮箱");
+					        		 String sphone=sinfomation.get("手机号");
+					        		 String sintroduction=sinfomation.get("介绍");
+					        		 String stheid=sinfomation.get("id"); */
+					        		 String sfaculty=sinfomation.get("科目");
+
+					        		    out.println("<li>");
+										out.println("<div class=\"dropdown-messages-box\">");
+										out.println("<div class=\"message-body  verticalparent\">");
+										out.println(" <a href=\"profile.html\" class=\"pull-left\" onclick=\"return scrolltodetails()\">");/* <!-- 点击图像显示对方个人主页 --> */
+										out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+										out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
+										out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
+										out.println("</div>");
+										out.println("</div>");
+										out.println("</li>");
+										out.println("<li class=\"divider\"></li>");
+				        	     }
+				        	     
+						     }
+						     
+							%>
+						  <script>
+						   function scrolltodetails(){
+							   document.getElementById("bookingpanel").scrollIntoView();/* 用于网站内跳转 */
+							  return false;
+						   }
+						  </script>
 						</ul>
 					</li>
 				</ul>
@@ -276,8 +344,8 @@ session.setAttribute("id", id); */
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
+				<div class="panel panel-default" id="bookingpanel">
+					<div class="panel-heading" >
 						待赴预约
 						<ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
@@ -303,10 +371,10 @@ session.setAttribute("id", id); */
 							</li>
 						</ul>
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
-					<div class="panel-body">
+					<div class="panel-body myscroll1">
 						<ul class="todo-list"><!-- 所有未完成预约 -->
-						    <% 
-						    int i=0;
+						   <% 
+						     i=0;
 						     for(successbooking asuccessbooking:mysuccessbooking){
 			        		 i++;
 			        		 String astudentid=asuccessbooking.studentid;
@@ -317,20 +385,50 @@ session.setAttribute("id", id); */
 			        	     String atime=asuccessbooking.time;
 			        		 String ainstruction=asuccessbooking.instruction;
 			        		 
-			        		 Map<String,String> sinfomation=mysql.showstudent(astudentid);
+			        		 Map<String,String> sinfomation=mysql.showteacher(ateacherid);
 			        	     String susername=sinfomation.get("用户名");
 			        		 String semail=sinfomation.get("邮箱");
 			        		 String sphone=sinfomation.get("手机号");
 			        		 String sintroduction=sinfomation.get("介绍");
 			        		 String stheid=sinfomation.get("id"); 
-			        		 String sfaculty=sinfomation.get("学院");
+			        		 String sfaculty=sinfomation.get("科目");
 
 				             out.println("<li class=\"todo-list-item\">");
 				             out.println("<div class=\"checkbox\">");
-				             out.println("<input type=\"checkbox\" id=\"checkbox-"+i+"\" />");/*注意这个id要是变量 */
-				             out.println("<label for=\"checkbox-"+i+"\">与"+susername+"同学于"+ayear+"-"+amonth+"-"+aday+"约见，见面时间:"+atime+",联系方式："+sphone+"/"+semail+"</label>");
+				             out.println("<input type=\"checkbox\" id=\"checkbox-"+i+"\"/>");/*注意这个id要是变量 */
+				             
+				             out.println("<a class=\"dropdown-toggle count-info\" data-toggle=\"dropdown\"href=\"\"><label for=\"checkbox-"+i+"\">与"+susername+"教授于"+ayear+"-"+amonth+"-"+aday+"约见，见面时间:"+atime+"</label></a>");
+				             out.println("<ul class=\"dropdown-menu dropdown-messages\">");
+				             out.println("<li>");
+				             out.println("<div class=\"dropdown-messages-box\">");
+				             out.println("<img alt=\"image\" class=\"img-circle myimage\"");
+				             out.println("src=\"http://mpic.tiankong.com/4c6/3b6/4c63b6daa54b259e01791ab9a4b2e653/640.jpg@360h\">");
+				             out.println("<div class=\"message-body\">");
+				             out.println("<div><font class=\"secfont\"><strong>"+susername+"</strong></font><br/><font class=\"thirdfont\">"+sfaculty+"</font></div>");
+				              out.println("<small class=\"text-muted seccolor\" >"+sphone+"/"+semail+"</small></div>");
 				             out.println("</div>");
-				             out.println("<div class=\"pull-right action-button\"><a href=\"#\" class=\"trash\">");
+				             out.println("</li>");
+				             out.println("<li class=\"divider\"></li>");
+				             out.println("<li>");
+				             out.println("<div class=\"dropdown-messages-box\">");
+				             out.println("<img alt=\"image\" class=\"img-circle myimage\"");
+				             out.println("src=\"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2484490458,2674950783&fm=27&gp=0.jpg\">"); 
+				             out.println("<div class=\"message-body\"><small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+" "+atime+"</small>");
+				             out.println("<div><font class=\"secfont\"><strong>预约信息:</strong><br/>"+ainstruction+"</font></div>");
+	
+				             out.println("</div>");
+				             out.println("</li>");
+				             out.println("</ul>");
+				             
+				             out.println("</div>");
+				             out.println("<div class=\"pull-right action-button\"><a href=\"teacherdeleteappoint?teacherid="+ateacherid+"&year="+ayear+"&month="+amonth+"&day="+aday+"&time="+atime+"\" class=\"trash\">");
+				             /* out.println("");
+				             out.println("");
+				             out.print("");
+				             out.print("");
+				             out.print("");
+							 out.print("");
+							 out.print(""); */
 				             out.println("<em class=\"fa fa-trash\"></em>");
 				             out.println("</a></div>");
 				             out.println("</li>");
@@ -375,6 +473,12 @@ session.setAttribute("id", id); */
 	});
 };
      alert(<%=id%>);
+     
+     if("<%=deleteresult%>"=="deleted"){
+   	   alert("恭喜您！预约删除成功!");
+      }else if("<%=deleteresult%>"=="wrong"){
+   	   alert("很遗憾！由于未知错误，删除预约失败");
+      }  
 	</script>
 		
 </body>

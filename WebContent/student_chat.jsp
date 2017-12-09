@@ -50,6 +50,10 @@
 .datalistfont{
   font-size:20px;
 }
+.myscroll{
+  max-height:30px;
+  overflow-y: auto;
+}
 </style>
 </head>
 <body>

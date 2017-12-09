@@ -132,8 +132,12 @@ public class bookingaction {
 		refreshtimesafterapppoint();
 		if(f){ 
 		   System.out.println(f);
+		   ServletActionContext.getRequest().setAttribute("appointresult","finished");
 		   return "success";}
-		else {return "failure";}
+		else {
+			ServletActionContext.getRequest().setAttribute("appointresult","used");
+			return "failure";
+			}
 		}
 		
       public boolean refreshtimesafterapppoint(){
@@ -180,7 +184,6 @@ public class bookingaction {
 			}
       }
 		
-      
       /************************************************************************/
       public String getTid() {
 		return tid;
