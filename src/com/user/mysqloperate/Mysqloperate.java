@@ -6,6 +6,7 @@ import com.user.successbooking.successbooking;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -886,6 +887,17 @@ public class Mysqloperate {
 			 pp.setString(4, day);pp.setString(5, time);
 				int sr = pp.executeUpdate();
 				pp.close();
+			String sql="DELETE FROM releasebooking where id=? and year=? and month=? and day=? and a=? and b=? and c=? and d=? and e=? and f=? and g=? and h=? and i=? and j=? and k=? and l=? and m=? and n=?";
+			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
+			pre.setString(1, teacherid);pre.setString(2,year);
+			pre.setString(3, month);pre.setString(4, day);
+			pre.setString(5, "0");
+			pre.setString(6, "0");pre.setString(7, "0");pre.setString(8, "0");
+			pre.setString(9, "0");pre.setString(10, "0");pre.setString(11, "0");
+			pre.setString(12, "0");pre.setString(13, "0");pre.setString(14, "0");
+			pre.setString(15, "0");pre.setString(16, "0");pre.setString(17, "0");
+			pre.setString(18, "0");
+			pre.executeUpdate();pre.close();
 	   }catch(SQLException se){
            // 处理 JDBC 错误
            se.printStackTrace();
@@ -1083,14 +1095,16 @@ public class Mysqloperate {
 	}
    public boolean addhistory(String teacherid,String year,String month,String day,String time,String studentid)
    {
+	   
 	   Connection conn = null;
 	   try{
 		   conn=getConn();
+		   
 		   String sq="DELETE FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
 		   PreparedStatement pp=(PreparedStatement)conn.prepareStatement(sq);
 		   pp.setString(1,year);pp.setString(2, month);
 		   pp.setString(3, day);pp.setString(4, time);pp.setString(5, studentid);
-				int sr = pp.executeUpdate();
+			    pp.executeUpdate();
 				pp.close();
 			String sql="insert into history (teacherid,year,month,day,time,studentid) values(?,?,?,?,?,?)";
 			java.sql.PreparedStatement sp=conn.prepareStatement(sql);
@@ -1103,6 +1117,24 @@ public class Mysqloperate {
 		}
 	   return false;
 	   
+   }
+   public boolean deleteall(String teacherid,String year,String month,String day)
+   {
+	   Connection conn = null;
+	   try{
+		   	conn=getConn();
+		   
+		   String sq="DELETE FROM releasebooking where id=? and year=? and month=? and day=?";
+		   PreparedStatement pp=(PreparedStatement)conn.prepareStatement(sq);
+		   pp.setString(1,teacherid);pp.setString(2, year);
+		   pp.setString(3, month);pp.setString(4, day);
+			   pp.executeUpdate();
+			pp.close();conn.close();
+	   }catch(Exception e){
+			System.out.print("信息添加失败！");
+			e.printStackTrace();
+		}
+	   return false;
    }
    public boolean addgrade(String teacherid,String year,String month,String day,String time,String studentid,int grade)
    {
@@ -1130,7 +1162,47 @@ public class Mysqloperate {
        }
 	   return true;
    }
-   public boolean appointment(String tid,String sid,String A[],String year,String month,String day,String instruction)
+   public String average(String teacherid)
+   {
+	   Connection conn = null;float num=(float) 0.0,score=0;
+	   try{
+		   conn=getConn();java.sql.PreparedStatement stmt = null;
+		   String ss="SELECT time,grade FROM history where teacherid=?";
+		   stmt = conn.prepareStatement(ss);
+		   stmt.setString(1, teacherid);ResultSet sr = stmt.executeQuery();
+		   String result="";
+		   while(sr.next())
+		   {
+			   
+			   if(sr.getInt("grade")==0){}
+			   else{
+			   num++;
+			   score+=sr.getInt("grade");}
+		   }
+		   if(num==0){ stmt.close(); conn.close();
+			   return "0";
+		   }
+		   else{
+			   float number=score/num;
+			   System.out.println(number);
+			   DecimalFormat df = new DecimalFormat("0.0");
+			   result = df.format(number);
+			   stmt.close(); conn.close();
+			   return result;
+		   }		 
+	   }catch(SQLException se){
+           // 处理 JDBC 错误
+           se.printStackTrace();
+       }catch(Exception e){
+           // 处理 Class.forName 错误
+           e.printStackTrace();
+       }
+	return teacherid;
+	   
+	   
+   }
+
+public boolean appointment(String tid,String sid,String A[],String year,String month,String day,String instruction)
 	{
 		 Connection conn = null;
 	         

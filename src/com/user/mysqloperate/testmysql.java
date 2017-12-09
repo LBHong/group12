@@ -20,8 +20,8 @@ public class testmysql {
  		C[9]="1";C[10]="1";C[11]="1";C[12]="1";C[13]="0";
  		boolean d;
  		 
- 		mysql.addgrade("115031050","2018","1","1","16:30-17:00","12",0);
- 		System.out.println("1256");
+ 		d=mysql.deleteall("115031050","201","12","1");
+ 		System.out.println("0");
     	 //mysql.addstudent("閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷�", "1234", "188458895380", "wangchunyangsz@163.com", "023456", "閿熸枻鎷烽敓鏂ゆ嫹閿熺獤谐璨壯嶆嫹閿燂拷","閿熸枻鎷烽敓鏂ゆ嫹閿熺獤谐锟�");
     	 //mysql.addteacher("閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷�", "1234", "188458895380", "lxy@163.com", "120000","閿熸枻鎷烽敓鏂ゆ嫹閿熺獤谐锟�","閿熸枻鎷烽敓鏂ゆ嫹閿熺獤谐鐚存嫹閿熺粸锟�");
     	 //System.out.println(mysql.showstudent("1256"));
