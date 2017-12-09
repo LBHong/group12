@@ -22,7 +22,7 @@ public class Mysqloperate {
 
 	public Connection getConn() {
 	    String driver = "com.mysql.jdbc.Driver";
-	    String url = "jdbc:mysql://localhost:3306/project";
+	    String url = "jdbc:mysql://localhost:3306/project?useUnicode=true&characterEncoding=utf-8&useSSL=false";
 	    String Qusername = "root";
 	    String Qpassword = "123456";//1234
 	    Connection conn = null;
@@ -43,13 +43,13 @@ public class Mysqloperate {
 			try{
 				  System.out.println("0");
 				Connection conn=getConn();
-				
+
 				String sql = "SELECT username,password,email,telephone,instruction,faculty,id FROM student where id=?";
 				pstmt = (PreparedStatement)conn.prepareStatement(sql);
 	            pstmt.setString(1, id);
 	            ResultSet rs = pstmt.executeQuery();
 	            System.out.println("1");
-	         // 展开结果集数据库 	
+	         // 展开结果集数据库
 	            if(rs.next()){
 	            	return null;
 	            }
@@ -91,7 +91,7 @@ public class Mysqloperate {
 		teacher t=new teacher();
 		PreparedStatement pstmt = null;
 		try{
-			
+
 			//Connection conn=DriverManager.getConnection(url,username1,password1);
 			Connection conn=getConn();
 			String sql = "SELECT username,password,email,telephone,instruction,faculty,id FROM teacher where id=?";
@@ -101,7 +101,7 @@ public class Mysqloperate {
             if(rs.next()){
             	return null;
             }
-			
+
 			sql="insert into teacher(username,password,email,telephone,instruction,faculty,id) values(?,?,?,?,?,?,?)";
 			PreparedStatement ps=(PreparedStatement) conn.prepareStatement(sql);
 			t.setUsername(username);
@@ -136,17 +136,17 @@ public class Mysqloperate {
 	{
 		Map<String,String> detailMap=new HashMap<String,String>();
 		Connection conn = null;
-	    java.sql.PreparedStatement pstmt = null; 
+	    java.sql.PreparedStatement pstmt = null;
 	    try{
-	    	
+
 	    	 conn = getConn();
-	    	
+
 	    	 String sql;
 	    	 sql = "SELECT username,password,email, telephone,instruction,id,faculty FROM student where id=?";
 	    	 pstmt = conn.prepareStatement(sql);
 	    	 pstmt.setString(1, id);
 	    	 ResultSet rs = pstmt.executeQuery();
-	    	
+
 	    	 if(!rs.next())
 	    	 {
 	    		 return null;
@@ -157,12 +157,12 @@ public class Mysqloperate {
 		    		detailMap.put("邮箱",rs.getString("email"));
 		    		detailMap.put("手机号",rs.getString("telephone"));
 		    		detailMap.put("介绍",rs.getString("instruction"));
-		    		detailMap.put("id",rs.getString("id")); 
-		    		detailMap.put("学院",rs.getString("faculty")); 
+		    		detailMap.put("id",rs.getString("id"));
+		    		detailMap.put("学院",rs.getString("faculty"));
 	    	        return detailMap;
 	    	 }
 	    }catch(SQLException se){
-	      
+
 	        se.printStackTrace();
 	    }catch(Exception e){
 	        e.printStackTrace();
@@ -174,24 +174,24 @@ public class Mysqloperate {
 	        }
 	    }
 		return null;
-	
+
 	}
 
 	public   Map<String,String> showteacher(String id)
 	{
 		Map<String,String> detailMap=new HashMap<String,String>();
 		Connection conn = null;
-	    java.sql.PreparedStatement pstmt = null; 
+	    java.sql.PreparedStatement pstmt = null;
 	    try{
-	    	
+
 	    	 conn =getConn();
-	    	
+
 	    	 String sql;
 	    	 sql = "SELECT username,password,email, telephone,instruction,faculty,id FROM teacher where id=?";
 	    	 pstmt = conn.prepareStatement(sql);
 	    	 pstmt.setString(1, id);
 	    	 ResultSet rs = pstmt.executeQuery();
-	    
+
 	    	 if(!rs.next())
 	    	 {
 	    		  System.out.println("haha");
@@ -205,11 +205,11 @@ public class Mysqloperate {
 		    		detailMap.put("手机号",rs.getString("telephone"));
 		    		detailMap.put("介绍",rs.getString("instruction"));
 		    		detailMap.put("科目",rs.getString("faculty"));
-		    		detailMap.put("id",rs.getString("id"));	
+		    		detailMap.put("id",rs.getString("id"));
 		    		 System.out.println("no");
 	    		return detailMap;
 	    	 }
-	    	 
+
 	    }catch(SQLException se){
 	        // 锟斤拷锟斤拷 JDBC 锟斤拷锟斤拷
 	        se.printStackTrace();
@@ -225,7 +225,7 @@ public class Mysqloperate {
 	        }
 	    }
 		return null;
-	
+
 	}
 
 	public String login(String password,String id)
@@ -239,7 +239,7 @@ public class Mysqloperate {
 	        		return "wrong_id";
 	        	}
 	        	else{
-	        		String key="密码";		
+	        		String key="密码";
 		        	String value=detailMap.get(key);
 		            if(password.equals(value))
 		        	{
@@ -249,7 +249,7 @@ public class Mysqloperate {
 		            	System.out.println("r");
 		        			return "wrong_password";
 		        	}
-	        	}       	
+	        	}
 	        }
 	        else if(id.charAt(0)=='1')
 	        {
@@ -259,7 +259,7 @@ public class Mysqloperate {
 	        		return "wrong_id";
 	        	}
 	        	else{
-	        		String key="密码";		
+	        		String key="密码";
 		        	String value=detailMap.get(key);
 		            if(password.equals(value))
 		        	{
@@ -269,19 +269,19 @@ public class Mysqloperate {
 		            	System.out.println("r");
 		        			return "wrong_password";
 		        	}
-	        	}       
+	        	}
 	        }else{
 	            return "wrong_id";
 	        }
-	    
+
 	}
    public int getstudentnum(){
 	   Connection conn = null;
-	    java.sql.PreparedStatement pstmt = null; 
+	    java.sql.PreparedStatement pstmt = null;
 	    try{
-	    	
+
 	    	 conn =getConn();
-	    	
+
 	    	 String sql;
 	    	 sql = "SELECT studentnum FROM console";
 	    	 pstmt = conn.prepareStatement(sql);
@@ -307,11 +307,11 @@ public class Mysqloperate {
    }
    public int getprofessornum(){
 	   Connection conn = null;
-	    java.sql.PreparedStatement pstmt = null; 
+	    java.sql.PreparedStatement pstmt = null;
 	    try{
-	    	
+
 	    	 conn =getConn();
-	    	
+
 	    	 String sql;
 	    	 sql = "SELECT professornum FROM console";
 	    	 pstmt = conn.prepareStatement(sql);
@@ -337,20 +337,20 @@ public class Mysqloperate {
    }
    public Boolean addprofessornum(int addnum){
 	   Connection conn = null;
-	    java.sql.PreparedStatement pstmt = null; 
+	    java.sql.PreparedStatement pstmt = null;
 	    Boolean flag=false;
 	    try{
-	    	
+
 	    	 conn =getConn();
 	    	 int nownum= getprofessornum();
 	    	 int newnum=nownum+addnum;
-	    	 
+
 	    	 String sql;
 	    	 sql = "UPDATE console SET professornum="+newnum+" WHERE professornum="+nownum+";";
-	    	 
+
 	    	 pstmt = conn.prepareStatement(sql);
 	    	 int rowsAffected = pstmt.executeUpdate();
-	        
+
 	    	 if(rowsAffected>0){
 					flag=true;
 				}
@@ -369,20 +369,20 @@ public class Mysqloperate {
    }
    public Boolean addstudentnum(int addnum){
 	   Connection conn = null;
-	    java.sql.PreparedStatement pstmt = null; 
+	    java.sql.PreparedStatement pstmt = null;
 	    Boolean flag=false;
 	    try{
-	    	
+
 	    	 conn =getConn();
 	    	 int nownum= getstudentnum();
 	    	 int newnum=nownum+addnum;
-	    	 
+
 	    	 String sql;
 	    	 sql = "UPDATE console SET studentnum="+newnum+" WHERE studentnum="+nownum+";";
-	    	 
+
 	    	 pstmt = conn.prepareStatement(sql);
 	    	 int rowsAffected = pstmt.executeUpdate();
-	        
+
 	    	 if(rowsAffected>0){
 					flag=true;
 				}
@@ -401,10 +401,10 @@ public class Mysqloperate {
    }
    public  ArrayList<String> getIdByNameOfPro(String username){
 	   Connection conn = null;
-	    java.sql.PreparedStatement pstmt = null; 
+	    java.sql.PreparedStatement pstmt = null;
 	    ArrayList<String>idlist=new ArrayList<>();
 	    try{
-	    	
+
 	    	 conn = getConn();
 	    	 String sql;
 	    	 sql = "SELECT id FROM teacher where username=?";
@@ -422,7 +422,7 @@ public class Mysqloperate {
 	    		 return idlist;
 	    	 }
 	    }catch(SQLException se){
-		      
+
 	        se.printStackTrace();
 	    }catch(Exception e){
 	        e.printStackTrace();
@@ -440,10 +440,10 @@ public class Mysqloperate {
 		 char [] B=new char [14];
 		 B[0]='a';B[1]='b';B[2]='c';B[3]='d';B[4]='e';B[5]='f';B[6]='g';B[7]='h';B[8]='i';
 		 B[9]='j';B[10]='k';B[11]='l';B[12]='m';B[13]='n';
-	
+
 		try{
 			Connection conn=getConn();
-			
+
 			//String sql="replace into release booking(id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			String sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=?";
 			java.sql.PreparedStatement ps=conn.prepareStatement(sql);
@@ -452,16 +452,16 @@ public class Mysqloperate {
 			ps.setString(3, month);
 			ps.setString(4,day);
 			ResultSet rs = ps.executeQuery();
-			 
+
 			int i;
 			if(rs.next())
-			{   
-				
+			{
+
 				for(i=0;i<14;i++)
-				{    
+				{
 					if(A[i].equals("0")){ }
 					else {
-						
+
 						if(B[i]=='a')
 						{	String sq="SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM  releasebooking where id=? and year=? and month=? and day=? and a=?";
 							PreparedStatement sp=(PreparedStatement) conn.prepareStatement(sq);
@@ -502,7 +502,7 @@ public class Mysqloperate {
 							sp.close();
 						}
 						else if(B[i]=='c')
-						{	
+						{
 							String sq="SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM  releasebooking where id=? and year=? and month=? and day=? and c=?";
 							PreparedStatement sp=(PreparedStatement)conn.prepareStatement(sq);
 							sp.setString(1, id);sp.setString(2, year);
@@ -602,7 +602,7 @@ public class Mysqloperate {
 							sp.close();
 						}
 						else if(B[i]=='h')
-						{	
+						{
 							String sq="SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM  releasebooking where id=? and year=? and month=? and day=? and h=?";
 							PreparedStatement sp=(PreparedStatement)conn.prepareStatement(sq);
 							sp.setString(1, id);sp.setString(2, year);
@@ -640,7 +640,7 @@ public class Mysqloperate {
 							pss.close();}
 							sr.close();
 							sp.close();
-							
+
 						}
 						else if(B[i]=='j')
 						{
@@ -704,7 +704,7 @@ public class Mysqloperate {
 						}
 						else if(B[i]=='m')
 						{
-							
+
 							String sq="SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM  releasebooking where id=? and year=? and month=? and day=? and m=?";
 							PreparedStatement sp=(PreparedStatement)conn.prepareStatement(sq);
 							sp.setString(1, id);sp.setString(2, year);
@@ -720,7 +720,7 @@ public class Mysqloperate {
 							pss.setString(4, month);
 							pss.setString(5, day);pss.executeUpdate();
 							pss.close();}
-							
+
 							sr.close();
 							sp.close();
 						}
@@ -747,11 +747,11 @@ public class Mysqloperate {
 							}
 					}
 				}
-			
+
 			else{
 				String sq="insert into releasebooking (id,year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement sp=conn.prepareStatement(sq);
-				
+
 				sp.setString(1, id);sp.setString(2, year);sp.setString(3, month);
 				sp.setString(4,day);sp.setString(5,A[0]);sp.setString(6, A[1]);
 				sp.setString(7, A[2]);sp.setString(8,A[3]);sp.setString(9, A[4]);
@@ -768,8 +768,8 @@ public class Mysqloperate {
 				System.out.print("信息添加失败！");
 				e.printStackTrace();
 			}
-			
-		return true;		
+
+		return true;
 	}
    public boolean teacherdelete(String teacherid,String year,String month,String day,String time)
    {
@@ -787,7 +787,7 @@ public class Mysqloperate {
 				pre.setString(3, year);pre.setString(4, month);
 				pre.setString(5, day);qq = pre.executeUpdate();pre.close();
 			}
-	   
+
 	   else if(time.equals(B[1])){
 			String sql="update releasebooking set b=? where id=? and year=? and month=? and day=? ";
 			PreparedStatement pre=(PreparedStatement)conn.prepareStatement(sql);
@@ -906,7 +906,7 @@ public class Mysqloperate {
            e.printStackTrace();
        }
 	   return false;
-	   
+
    }
    public boolean studentdelete(String year,String month,String day,String time,String studentid)
    {
@@ -917,15 +917,15 @@ public class Mysqloperate {
 	   Connection conn = null;
 	   try{
 		   conn=getConn();
-		   
+
 				   String qs="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   
+
 				   PreparedStatement ppp=(PreparedStatement)conn.prepareStatement(qs);
 				   ppp.setString(1,year);ppp.setString(2, month);
 				   ppp.setString(3, day);ppp.setString(4, time);ppp.setString(5, studentid);
 					ResultSet rs = ppp.executeQuery();
 					rs.next();
-					
+
 					String teacher=rs.getString("teacherid");System.out.println(teacher);
 					rs.close();ppp.close();
 					if(time.equals(B[0])){
@@ -1028,14 +1028,14 @@ public class Mysqloperate {
 						pre.setString(3, year);pre.setString(4, month);
 						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
 					}
-					
+
 					String sq="DELETE FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
 					 PreparedStatement pp=(PreparedStatement)conn.prepareStatement(sq);
 					 pp.setString(1,year);pp.setString(2, month);
 					 pp.setString(3, day);pp.setString(4, time);pp.setString(5, studentid);
 						int sr = pp.executeUpdate();
 						pp.close();conn.close();
-						
+
 		   }catch(SQLException se){
 	           // 处理 JDBC 错误
 	           se.printStackTrace();
@@ -1048,18 +1048,18 @@ public class Mysqloperate {
    public List<releasebooking> Queryateacher(String id)
 	{
        Connection conn = null;
-       
-       java.sql.PreparedStatement pstmt = null; 
+
+       java.sql.PreparedStatement pstmt = null;
        List<releasebooking> booking=new LinkedList<releasebooking>();
        try{
-           
+
            conn = getConn();
-       
+
            // 执行查询
-          
+
            String sql;
            sql = "SELECT id, year,month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=?";
-           pstmt = conn.prepareStatement(sql); 
+           pstmt = conn.prepareStatement(sql);
            pstmt.setString(1, id);
            ResultSet rs = pstmt.executeQuery();
           // List<String> IDList=new ArrayList<String>();
@@ -1077,7 +1077,7 @@ public class Mysqloperate {
            	book.l=rs.getString("l");book.m=rs.getString("m");
            	book.n=rs.getString("n");
            	booking.add(book);
-           	
+
            }
            	rs.close();
            	pstmt.close();
@@ -1091,7 +1091,7 @@ public class Mysqloperate {
                    e.printStackTrace();
                }
 		return booking;
-		
+
 	}
    public boolean addhistory(String teacherid,String year,String month,String day,String time,String studentid)
    {
@@ -1116,7 +1116,7 @@ public class Mysqloperate {
 			e.printStackTrace();
 		}
 	   return false;
-	   
+
    }
    public boolean deleteall(String teacherid,String year,String month,String day)
    {
@@ -1152,7 +1152,7 @@ public class Mysqloperate {
 			sp.setString(1,teacherid);sp.setString(2, year);sp.setString(3, month);
 			sp.setString(4,day);sp.setString(5,time);sp.setString(6, studentid);sp.setInt(7,grade);
 			sp.executeUpdate();sp.close();conn.close();
-		   
+
 	   }catch(SQLException se){
            // 处理 JDBC 错误
            se.printStackTrace();
@@ -1205,10 +1205,10 @@ public class Mysqloperate {
 public boolean appointment(String tid,String sid,String A[],String year,String month,String day,String instruction)
 	{
 		 Connection conn = null;
-	         
+
 	        try{
 	            conn=getConn();
-	            
+
 	            char [] B=new char [14];
 	            B[0]='a';B[1]='b';B[2]='c';B[3]='d';B[4]='e';B[5]='f';B[6]='g';B[7]='h';B[8]='i';
 	   		 	B[9]='j';B[10]='k';B[11]='l';B[12]='m';B[13]='n';
@@ -1222,7 +1222,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 			   		 			String ss;
 			   		 			java.sql.PreparedStatement stmt = null;
 			   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-			   		 			stmt = conn.prepareStatement(ss); 
+			   		 			stmt = conn.prepareStatement(ss);
 			   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 			   		 			stmt.setString(4, "8:00-8:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 			   		 			if(sr.next()){ return false;}
@@ -1230,7 +1230,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and a=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1259,13 +1259,13 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			else{rs.close();pstmt.close();}
 					   		 		}sr.close();stmt.close();
 							}
-			   		 		
+
 			   		 		else if(B[i]=='b')
 			   		 		{
 				   		 		String ss;
 			   		 			java.sql.PreparedStatement stmt = null;
 			   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-			   		 			stmt = conn.prepareStatement(ss); 
+			   		 			stmt = conn.prepareStatement(ss);
 			   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 			   		 			stmt.setString(4, "8:30-9:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 			   		 			if(sr.next()){ return false;}
@@ -1273,7 +1273,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 			   		 			String sql;
 			   		 			java.sql.PreparedStatement pstmt = null;
 			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and b=?";
-			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt = conn.prepareStatement(sql);
 			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 			   		 			ResultSet rs = pstmt.executeQuery();
@@ -1303,7 +1303,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 					   		 	String ss;
 			   		 			java.sql.PreparedStatement stmt = null;
 			   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-			   		 			stmt = conn.prepareStatement(ss); 
+			   		 			stmt = conn.prepareStatement(ss);
 			   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 			   		 			stmt.setString(4, "9:00-9:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 			   		 			if(sr.next()){return false;}
@@ -1311,7 +1311,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 			   		 			String sql;
 			   		 			java.sql.PreparedStatement pstmt = null;
 			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and c=?";
-			   		 			pstmt = conn.prepareStatement(sql); 
+			   		 			pstmt = conn.prepareStatement(sql);
 			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 			   		 			ResultSet rs = pstmt.executeQuery();
@@ -1341,7 +1341,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "9:30-10:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1349,7 +1349,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and d=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1378,7 +1378,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "10:00-10:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1386,7 +1386,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and e=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1415,7 +1415,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "10:30-11:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1423,7 +1423,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and f=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1452,7 +1452,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "11:00-11:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1460,7 +1460,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and g=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1490,7 +1490,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "14:00-14:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1498,7 +1498,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and h=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1527,7 +1527,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "14:30-15:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1535,7 +1535,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and i=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1564,7 +1564,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "15:00-15:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1572,7 +1572,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and j=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1601,7 +1601,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "15:30-16:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1609,7 +1609,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and k=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1638,7 +1638,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "16:00-16:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1646,7 +1646,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and l=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1675,7 +1675,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "16:30-17:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1683,7 +1683,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and m=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1712,7 +1712,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 						   			String ss;
 				   		 			java.sql.PreparedStatement stmt = null;
 				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   		 			stmt = conn.prepareStatement(ss); 
+				   		 			stmt = conn.prepareStatement(ss);
 				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
 				   		 			stmt.setString(4, "17:00-17:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
 				   		 			if(sr.next()){return false;}
@@ -1720,7 +1720,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 			String sql;
 				   		 			java.sql.PreparedStatement pstmt = null;
 				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and n=?";
-				   		 			pstmt = conn.prepareStatement(sql); 
+				   		 			pstmt = conn.prepareStatement(sql);
 				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
 				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
 				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1746,7 +1746,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 				   		 		}
 							}
 		   		 		}
-	   		         
+
 		   		 	}catch(Exception e){
 		   				System.out.print("信息添加失败！");
 		   				e.printStackTrace();
@@ -1754,21 +1754,75 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 		   			}
 	        return true;
 	}
-   
+   /*********************************************///排序辅助函数
+   public void swap(int i,int j,List<successbooking> list)
+   {
+	   successbooking b;
+	   b=list.get(i);
+	   list.set(i, list.get(j));
+	   list.set(j, b);
+   }
+   public int huanbuhuan(int i,int j,List<successbooking> list)
+   {
+	   successbooking next,pre;
+	   pre=list.get(i);next=list.get(j);
+	   int pyear=Integer.valueOf(pre.getYear());int nyear=Integer.valueOf(next.getYear());
+	   if(pyear-nyear>0)return 1;
+	   else if(pyear-nyear==0)
+	   {
+		   int pmonth=Integer.valueOf(pre.getMonth());int nmonth=Integer.valueOf(next.getMonth());
+		   if(pmonth-nmonth>0)return 1;
+		   else if(pmonth-nmonth==0)
+		   {
+			   int pday=Integer.valueOf(pre.getDay());int nday=Integer.valueOf(next.getDay());
+			   if(pday-nday>0)return 1;
+			   else if(pday-nday==0)
+			   {
+				   String [] spre=pre.getTime().split(":");
+				   String [] snext=next.getTime().split(":");
+				   int p=Integer.valueOf(spre[0]);
+				   int n=Integer.valueOf(snext[0]);
+				   if(p>n)return 1;
+				   else return 0;
+			   }
+			   else return 0;
+		   }
+		   else return 0;
+	   }
+	   else return 0;
+   }
+   public void paixu(List<successbooking> list)
+   {
+	   int number=list.size();
+	   System.out.println(number);
+	   for(int i=0;i<number;i++)
+	   {
+		   for(int j=number-1;j>i;j--)
+		   {
+//			   System.out.println("start");
+//			   System.out.println(j-1);
+//			   System.out.println(list.get(j).getMonth());
+			   int q=huanbuhuan(j-1,j,list);
+			   if(q==1) swap(j-1,j,list);
+
+		   }
+	   }
+   }
+   /*************************************************/
    public List<successbooking> teashowtime(String id)
    {
           Connection conn = null;
-           
-        
+
+
            List<successbooking> booking=new LinkedList<successbooking>();
            try{
-              
+
                conn = getConn();
                // 执行查询
-               java.sql.PreparedStatement pstmt = null; 
+               java.sql.PreparedStatement pstmt = null;
                String sql;
                sql = "SELECT teacherid, year,month,day,time,studentid,instruction FROM successbooking where teacherid=?";
-               pstmt = conn.prepareStatement(sql); 
+               pstmt = conn.prepareStatement(sql);
                pstmt.setString(1, id);
                ResultSet rs = pstmt.executeQuery();
               // List<String> IDList=new ArrayList<String>();
@@ -1791,21 +1845,22 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
                        // 处理 Class.forName 错误
                        e.printStackTrace();
                    }
+           paixu(booking);
    return booking;
    }
    public List<successbooking> stushowtime(String id)
    {
            Connection conn = null;
-           java.sql.PreparedStatement pstmt = null; 
+           java.sql.PreparedStatement pstmt = null;
            List<successbooking> booking=new LinkedList<successbooking>();
            try{
            	 conn = getConn();
-           
+
                // 执行查询
                System.out.println(" 实例化Statement对...");
                String sql;
                sql = "SELECT teacherid, year,month,day,time,studentid,instruction FROM successbooking where studentid=?";
-               pstmt = conn.prepareStatement(sql); 
+               pstmt = conn.prepareStatement(sql);
                pstmt.setString(1, id);
                ResultSet rs = pstmt.executeQuery();
               // List<String> IDList=new ArrayList<String>();
@@ -1828,6 +1883,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
                        // 处理 Class.forName 错误
                        e.printStackTrace();
                    }
+           paixu(booking);
                   return booking;
    }
    public Map<String,String> QueryAllTimesOfAteacher(String teacherID){
@@ -1837,7 +1893,7 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 		releasebooking rb=new releasebooking();
 		List<releasebooking> rblist=new LinkedList<releasebooking>();
 		rblist=Queryateacher(teacherID);
-		
+
 		for(int i=0;i<rblist.size();i++)
 		{
 			rb=rblist.get(i);
@@ -1864,8 +1920,87 @@ public boolean appointment(String tid,String sid,String A[],String year,String m
 			finalvalue+=value.get(value.size()-1);
 		   timesmap.put(key,finalvalue);
 		}
-		
+
 		return timesmap;
    }
+   /***********************************************///明天任务查询
+   public List<successbooking> teachertomorrowtask(String teacherid,String year,String month,String day)
+	{
+      Connection conn = null;
+      java.sql.PreparedStatement pstmt = null;
+      List<successbooking> booking=new LinkedList<successbooking>();
+      try{
+          conn = getConn();
+          // 执行查询
+          String sql;
+          sql = "SELECT teacherid, year,month,day,time,studentid FROM successbooking where teacherid=? and year=? and month=? and day=?";
+          pstmt = conn.prepareStatement(sql);
+          pstmt.setString(1, teacherid);
+          pstmt.setString(2, year);
+          pstmt.setString(3, month);
+          pstmt.setString(4, day);
+          ResultSet rs = pstmt.executeQuery();
+         // List<String> IDList=new ArrayList<String>();
+          while(rs.next())
+          {
+        	  successbooking book=new successbooking();
+          	book.teacherid =rs.getString("teacherid");book.year=rs.getString("year");
+          	book.month=rs.getString("month");book.day=rs.getString("day");
+          	book.time=rs.getString("time");book.studentid=rs.getString("studentid");
+          	booking.add(book);
+          }
+          	rs.close();
+          	pstmt.close();
+          	conn.close();
+      }
+          	catch(SQLException se){
+                  // 处理 JDBC 错误
+                  se.printStackTrace();
+              }catch(Exception e){
+                  // 处理 Class.forName 错误
+                  e.printStackTrace();
+              }
+		return booking;
 
+	}
+   public List<successbooking> studenttomorrowtask(String studentid,String year,String month,String day)
+	{
+     Connection conn = null;
+     java.sql.PreparedStatement pstmt = null;
+     List<successbooking> booking=new LinkedList<successbooking>();
+     try{
+         conn = getConn();
+         // 执行查询
+         String sql;
+         sql = "SELECT teacherid, year,month,day,time,studentid FROM successbooking where studentid=? and year=? and month=? and day=?";
+         pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, studentid);
+         pstmt.setString(2, year);
+         pstmt.setString(3, month);
+         pstmt.setString(4, day);
+         ResultSet rs = pstmt.executeQuery();
+        // List<String> IDList=new ArrayList<String>();
+         while(rs.next())
+         {
+       	  successbooking book=new successbooking();
+         	book.teacherid =rs.getString("teacherid");book.year=rs.getString("year");
+         	book.month=rs.getString("month");book.day=rs.getString("day");
+         	book.time=rs.getString("time");book.studentid=rs.getString("studentid");
+         	booking.add(book);
+         }
+         	rs.close();
+         	pstmt.close();
+         	conn.close();
+     }
+         	catch(SQLException se){
+                 // 处理 JDBC 错误
+                 se.printStackTrace();
+             }catch(Exception e){
+                 // 处理 Class.forName 错误
+                 e.printStackTrace();
+             }
+		return booking;
+
+	}
+   /**************************************************/
 }
