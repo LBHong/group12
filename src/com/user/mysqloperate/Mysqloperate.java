@@ -773,8 +773,8 @@ public class Mysqloperate {
 
 		return true;
 	}
-   
-   
+
+
    public List<releasebooking> Queryateacher(String id)
 	{
        Connection conn = null;
@@ -824,14 +824,14 @@ public class Mysqloperate {
 
 	}
 
-   
+
    public boolean appointment(String tid,String sid,String A[],String year,String month,String day,String instruction)
   	{
   		 Connection conn = null;
-  	         
+
   	        try{
   	            conn=getConn();
-  	            
+
   	            char [] B=new char [14];
   	            B[0]='a';B[1]='b';B[2]='c';B[3]='d';B[4]='e';B[5]='f';B[6]='g';B[7]='h';B[8]='i';
   	   		 	B[9]='j';B[10]='k';B[11]='l';B[12]='m';B[13]='n';
@@ -845,7 +845,7 @@ public class Mysqloperate {
   			   		 			String ss;
   			   		 			java.sql.PreparedStatement stmt = null;
   			   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  			   		 			stmt = conn.prepareStatement(ss); 
+  			   		 			stmt = conn.prepareStatement(ss);
   			   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   			   		 			stmt.setString(4, "8:00-8:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   			   		 			if(sr.next()){ return false;}
@@ -853,7 +853,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and a=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -882,13 +882,13 @@ public class Mysqloperate {
   				   		 			else{rs.close();pstmt.close();}
   					   		 		}sr.close();stmt.close();
   							}
-  			   		 		
+
   			   		 		else if(B[i]=='b')
   			   		 		{
   				   		 		String ss;
   			   		 			java.sql.PreparedStatement stmt = null;
   			   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  			   		 			stmt = conn.prepareStatement(ss); 
+  			   		 			stmt = conn.prepareStatement(ss);
   			   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   			   		 			stmt.setString(4, "8:30-9:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   			   		 			if(sr.next()){ return false;}
@@ -896,7 +896,7 @@ public class Mysqloperate {
   			   		 			String sql;
   			   		 			java.sql.PreparedStatement pstmt = null;
   			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and b=?";
-  			   		 			pstmt = conn.prepareStatement(sql); 
+  			   		 			pstmt = conn.prepareStatement(sql);
   			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   			   		 			ResultSet rs = pstmt.executeQuery();
@@ -926,7 +926,7 @@ public class Mysqloperate {
   					   		 	String ss;
   			   		 			java.sql.PreparedStatement stmt = null;
   			   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  			   		 			stmt = conn.prepareStatement(ss); 
+  			   		 			stmt = conn.prepareStatement(ss);
   			   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   			   		 			stmt.setString(4, "9:00-9:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   			   		 			if(sr.next()){return false;}
@@ -934,7 +934,7 @@ public class Mysqloperate {
   			   		 			String sql;
   			   		 			java.sql.PreparedStatement pstmt = null;
   			   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and c=?";
-  			   		 			pstmt = conn.prepareStatement(sql); 
+  			   		 			pstmt = conn.prepareStatement(sql);
   			   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   			   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   			   		 			ResultSet rs = pstmt.executeQuery();
@@ -964,7 +964,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "9:30-10:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -972,7 +972,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and d=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1001,7 +1001,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "10:00-10:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1009,7 +1009,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and e=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1038,7 +1038,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "10:30-11:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1046,7 +1046,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and f=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1075,7 +1075,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "11:00-11:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1083,7 +1083,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and g=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1113,7 +1113,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "14:00-14:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1121,7 +1121,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and h=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1150,7 +1150,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "14:30-15:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1158,7 +1158,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and i=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1187,7 +1187,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "15:00-15:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1195,7 +1195,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and j=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1224,7 +1224,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "15:30-16:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1232,7 +1232,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and k=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1261,7 +1261,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "16:00-16:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1269,7 +1269,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and l=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1298,7 +1298,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "16:30-17:00");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1306,7 +1306,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and m=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1335,7 +1335,7 @@ public class Mysqloperate {
   						   			String ss;
   				   		 			java.sql.PreparedStatement stmt = null;
   				   		 			ss="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-  				   		 			stmt = conn.prepareStatement(ss); 
+  				   		 			stmt = conn.prepareStatement(ss);
   				   		 			stmt.setString(1,year);stmt.setString(2, month);stmt.setString(3, day);
   				   		 			stmt.setString(4, "17:00-17:30");stmt.setString(5,sid);ResultSet sr = stmt.executeQuery();
   				   		 			if(sr.next()){return false;}
@@ -1343,7 +1343,7 @@ public class Mysqloperate {
   				   		 			String sql;
   				   		 			java.sql.PreparedStatement pstmt = null;
   				   		 			sql = "SELECT id, year, month,day,a,b,c,d,e,f,g,h,i,j,k,l,m,n FROM releasebooking where id=? and year=? and month=? and day=? and n=?";
-  				   		 			pstmt = conn.prepareStatement(sql); 
+  				   		 			pstmt = conn.prepareStatement(sql);
   				   		 			pstmt.setString(1, tid);pstmt.setString(2, year);
   				   		 			pstmt.setString(3, month);pstmt.setString(4, day);pstmt.setString(5, "1");
   				   		 			ResultSet rs = pstmt.executeQuery();
@@ -1369,7 +1369,7 @@ public class Mysqloperate {
   				   		 		}
   							}
   		   		 		}
-  	   		         
+
   		   		 	}catch(Exception e){
   		   				System.out.print("信息添加失败！");
   		   				e.printStackTrace();
@@ -1380,11 +1380,11 @@ public class Mysqloperate {
 
    public boolean addhistory(String teacherid,String year,String month,String day,String time,String studentid)
    {
-	   
+
 	   Connection conn = null;
 	   try{
 		   conn=getConn();
-		   
+
 		   String sq="DELETE FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
 		   PreparedStatement pp=(PreparedStatement)conn.prepareStatement(sq);
 		   pp.setString(1,year);pp.setString(2, month);
@@ -1408,7 +1408,7 @@ public class Mysqloperate {
 	   Connection conn = null;
 	   try{
 		   	conn=getConn();
-		   
+
 		   String sq="DELETE FROM releasebooking where id=? and year=? and month=? and day=?";
 		   PreparedStatement pp=(PreparedStatement)conn.prepareStatement(sq);
 		   pp.setString(1,teacherid);pp.setString(2, year);
@@ -1458,7 +1458,7 @@ public class Mysqloperate {
 		   String result="";
 		   while(sr.next())
 		   {
-			   
+
 			   if(sr.getInt("grade")==0){}
 			   else{
 			   num++;
@@ -1474,7 +1474,7 @@ public class Mysqloperate {
 			   result = df.format(number);
 			   stmt.close(); conn.close();
 			   return result;
-		   }		 
+		   }
 	   }catch(SQLException se){
            // 处理 JDBC 错误
            se.printStackTrace();
@@ -1483,8 +1483,8 @@ public class Mysqloperate {
            e.printStackTrace();
        }
 	return teacherid;
-	   
-	   
+
+
    }
 
 
@@ -1621,13 +1621,13 @@ public class Mysqloperate {
            paixu(booking);
                   return booking;
    }
-   
+
    public List<history> stushowhistory(String id){
 	   Connection conn = null;
        java.sql.PreparedStatement pstmt = null;
        List<history> booking=new LinkedList<history>();
        try{
-    	    
+
        	 conn = getConn();
 
            // 执行查询
@@ -1661,7 +1661,8 @@ public class Mysqloperate {
                    // 处理 Class.forName 错误
                    e.printStackTrace();
                }
-      // paixu(booking);这里还要有个排序
+            paixuhistory(booking);
+
               return booking;
    }
    public Map<String,String> QueryAllTimesOfAteacher(String teacherID){
@@ -1849,15 +1850,15 @@ public class Mysqloperate {
 	   Connection conn = null;
 	   try{
 		   conn=getConn();
-		   
+
 				   String qs="SELECT teacherid,year,month,day,time,studentid,instruction FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
-				   
+
 				   PreparedStatement ppp=(PreparedStatement)conn.prepareStatement(qs);
 				   ppp.setString(1,year);ppp.setString(2, month);
 				   ppp.setString(3, day);ppp.setString(4, time);ppp.setString(5, studentid);
 					ResultSet rs = ppp.executeQuery();
 					rs.next();
-					
+
 					String teacher=rs.getString("teacherid");System.out.println(teacher);
 					rs.close();ppp.close();
 					if(time.equals(B[0])){
@@ -1960,14 +1961,14 @@ public class Mysqloperate {
 						pre.setString(3, year);pre.setString(4, month);
 						pre.setString(5, day);qq = pre.executeUpdate();pre.close();
 					}
-					
+
 					String sq="DELETE FROM successbooking where year=? and month=? and day=? and time=? and studentid=?";
 					 PreparedStatement pp=(PreparedStatement)conn.prepareStatement(sq);
 					 pp.setString(1,year);pp.setString(2, month);
 					 pp.setString(3, day);pp.setString(4, time);pp.setString(5, studentid);
 						int sr = pp.executeUpdate();
 						pp.close();
-						
+
 		   }catch(SQLException se){
 	           // 处理 JDBC 错误
 	           se.printStackTrace();
@@ -2057,7 +2058,7 @@ public class Mysqloperate {
 		return booking;
 
 	}
-   
+
    public boolean addinstruction(String teacherid,String year,String month,String day,String time,String studentid,String instruction)
    {
    Connection conn = null;
@@ -2070,7 +2071,7 @@ pstm.setString(1, instruction);pstm.setString(2, teacherid);pstm.setString(3,yea
 pstm.setString(4, month);pstm.setString(5, day);pstm.setString(6, time);
 pstm.executeUpdate();pstm.close();
   conn.close();
-   
+
    }catch(SQLException se){
            // 处理 JDBC 错误
            se.printStackTrace();
@@ -2086,7 +2087,7 @@ pstm.executeUpdate();pstm.close();
 	    java.sql.PreparedStatement pstmt = null;
 	    List<history> booking=new LinkedList<history>();
 	    try{
-	 	    
+
 	    	 conn = getConn();
 
 	        // 执行查询
@@ -2124,4 +2125,59 @@ pstm.executeUpdate();pstm.close();
 	   // paixu(booking);这里还要有个排序
 	           return booking;
 	}
+	/**************************************************/
+   public void swaphistory(int i,int j,List<history> list)
+   {
+	   history b;
+	   b=list.get(i);
+	   list.set(i, list.get(j));
+	   list.set(j, b);
+   }
+   public int huanbuhuanhistory(int i,int j,List<history> list)
+   {
+	   history next,pre;
+	   pre=list.get(i);next=list.get(j);
+	   int pyear=Integer.valueOf(pre.getYear());int nyear=Integer.valueOf(next.getYear());
+	   if(pyear-nyear>0)return 1;
+	   else if(pyear-nyear==0)
+	   {
+		   int pmonth=Integer.valueOf(pre.getMonth());int nmonth=Integer.valueOf(next.getMonth());
+		   if(pmonth-nmonth>0)return 1;
+		   else if(pmonth-nmonth==0)
+		   {
+			   int pday=Integer.valueOf(pre.getDay());int nday=Integer.valueOf(next.getDay());
+			   if(pday-nday>0)return 1;
+			   else if(pday-nday==0)
+			   {
+				   String [] spre=pre.getTime().split(":");
+				   String [] snext=next.getTime().split(":");
+				   int p=Integer.valueOf(spre[0]);
+				   int n=Integer.valueOf(snext[0]);
+				   if(p>n)return 1;
+				   else return 0;
+			   }
+			   else return 0;
+		   }
+		   else return 0;
+	   }
+	   else return 0;
+   }
+   public void paixuhistory(List<history> list)
+   {
+	   int number=list.size();
+	   System.out.println(number);
+	   for(int i=0;i<number;i++)
+	   {
+		   for(int j=number-1;j>i;j--)
+		   {
+//			   System.out.println("start");
+//			   System.out.println(j-1);
+//			   System.out.println(list.get(j).getMonth());
+			   int q=huanbuhuanhistory(j-1,j,list);
+			   if(q==1) swaphistory(j-1,j,list);
+
+		   }
+	   }
+   }
+   /*****************************************************/
 }
