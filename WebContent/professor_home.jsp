@@ -28,10 +28,15 @@ session.setAttribute("id", id); */
 	  int nowyear=today.get(Calendar.YEAR);
 	  int nowmonth=today.get(Calendar.MONTH)+1;
 	  int nowdate=today.get(Calendar.DATE);
-	  System.out.println(nowyear+"-"+nowmonth+"-"+nowdate);
+	  /* System.out.println(nowyear+"-"+nowmonth+"-"+nowdate); */
 %>
 <% //删除结束之后的反馈信息
      String deleteresult = (String) request.getAttribute("teacherdeleteresult");    
+%>
+<% //删除过期的时间段
+     Map<String,String> AllTimes=mysql.QueryAllTimesOfAteacher(id);
+
+
 %>
 <!DOCTYPE html>
 <html>

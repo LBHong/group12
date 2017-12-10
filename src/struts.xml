@@ -41,6 +41,11 @@
                <result>/professor_home.jsp</result>
                <result name="failure">/professor_home.jsp</result>
        </action>
+       <action name="addevaluate" class="com.user.action.Evaluateaction" method="addevaluate">
+               <result>/student_chat.jsp</result>
+               <result name="failure">/student_chat.jsp</result>
+       </action>
+       
        <!--<action name="addbook" class="action.BookAction" method="addbook">
                <result>/updatebook.jsp</result>
        </action>

@@ -4,7 +4,11 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Set"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.user.userhistory.history"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ page import="com.user.successbooking.successbooking"%>
+<%@ page import="java.util.Calendar"%>
 <% //登录用户信息
   /* String s = (String) request.getAttribute("test");  */
   String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
@@ -18,6 +22,25 @@
   String introduction=infomation.get("介绍");
   String theid=infomation.get("id"); 
   String faculty=infomation.get("学院");
+  
+  Calendar today=Calendar.getInstance();
+  int nowyear=today.get(Calendar.YEAR);
+  int nowmonth=today.get(Calendar.MONTH)+1;
+  int nowdate=today.get(Calendar.DATE);
+%>
+<%//得到所有历史信息
+      List<history> allhistory= mysql.stushowhistory(id);
+%>
+<% //评价结束之后的反馈信息
+     String evaluateresult = (String) request.getAttribute("result");    
+%>
+<% //得到当前所有没评价的历史列表
+   List<history> historynograde= mysql.losegrade(id);
+   int nogradenum=historynograde.size();
+%>
+<% //得到当前预约的信息
+  List<successbooking> mysuccessbooking=mysql.stushowtime(id);
+  int successbookingnum=mysuccessbooking.size();
 %>
 <!DOCTYPE html>
 <html>
@@ -36,6 +59,9 @@
 	<!--Custom Font-->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 <style>
+.mycolor{
+   backgorund:0xff0000;
+}
 .myfont1{
   font-size:18px;
 }
@@ -51,7 +77,25 @@
   font-size:20px;
 }
 .myscroll{
-  max-height:30px;
+  max-height:600px;
+  overflow-y: auto;
+}
+.mymargintop2{
+margin-top:13px;
+}
+.myfont2{
+   font-size: 20px;
+   font-weight:bold;
+}
+.mycolor1{
+  color:#ff0000;
+}
+.imagemargin{
+   margin-left:10px;
+   margin-right:10px;
+}
+.myscroll2{
+  max-height:200px;
   overflow-y: auto;
 }
 </style>
@@ -69,82 +113,98 @@
 					<li class="dropdown"><!-- 新消息导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 						<em class="fa fa-envelope"></em><!-- 消息图案 -->
-						<span class="label label-danger">15</span><!-- 消息数量  -->
+						<span class="label label-danger"><%=nogradenum%></span><!-- 消息数量  -->
 					  </a>
-						<ul class="dropdown-menu dropdown-messages"><!-- 消息概述，列表呈现  -->
+					  
+						<ul class="dropdown-menu dropdown-messages myscroll1"><!-- 消息概述，列表呈现  -->
+						  <%
+						  
+						  for(history ahistory:historynograde){
+						    	 String astudentid=ahistory.studentid;
+				        		 String ayear=ahistory.year;
+				        		 String amonth=ahistory.month;
+				        		 String aday=ahistory.day;
+				        		 String atime=ahistory.time;
+				        	     String ateacherid=ahistory.teacherid;
+				        	     
+				        	     Map<String,String> sinfomation=mysql.showteacher(ateacherid);
+				        	     String susername=sinfomation.get("用户名");
+				        		 String sfaculty=sinfomation.get("科目");
+				        		 out.println("<li>");
+				        		 out.println("<div class=\"dropdown-messages-box\">");
+				        		 /* out.println("<a href=\"#\" class=\"\">"); */
+				        		 out.println("<img alt=\"image\" class=\"pull-left img-circle\" src=\"http://placehold.it/40/30a5ff/fff\">");
+				        	/* 	 out.println("</a>"); */
+				        		 out.println("<div class=\"message-body\">");
+				        		/*  out.println("<small class=\"pull-right\">"++"</small>"); */
+				        		 out.println("通知：您与<strong>"+susername+"("+sfaculty+")</strong>教授的预约已经结束，请前往对本次预约给出评价.<br /><!-- 点击消息跳转至预约情况页面 -->");
+				        		 out.println("<small class=\"text-muted\">"+ayear+"-"+amonth+"-"+aday+"&nbsp;&nbsp;&nbsp;&nbsp;"+atime+"</small>");
+				        		 out.println("</div>");
+				        		 out.println("</div>");
+				        		 out.println("</li>");
+				        		 out.println("<li class=\"divider\"></li>");
+						  }
+						  %>
+						
 							<li>
-								<div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 --><!--pull-right/pull-left设置头像左右  -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">3 mins ago</small><!-- 消息时间距离现在 -->
-										<a href="#"><strong> LXY（professor）</strong> Accepted your appointment<strong>(2017.10.25)</strong>.</a><br /><!-- 点击消息跳转至预约情况页面 -->
-									    <small class="text-muted"> 18:29pm - 22/10/2017</small><!-- 消息时间发送 -->
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="dropdown-messages-box"><a href="profile.html" class="pull-left">
-									<img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body"><small class="pull-right">1 hour ago</small>
-										<a href="#">New message from <strong>WCY（student）</strong>.</a><!-- 点击消息跳转至消息页面 -->
-									<br /><small class="text-muted">17.33 pm - 22/10/2017</small></div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="all-button"><a href="#"><!-- 查看所有信息至消息页面 -->
-									<em class="fa fa-inbox"></em> <strong>All Messages</strong>
+								<div class="all-button"><a href="student_chat.jsp"><!-- 查看所有信息至消息页面 -->
+									<em class="fa fa-inbox"></em> <strong>All Histories</strong>
 								</a></div>
 							</li>
 						</ul>
 					</li>
 					<li class="dropdown"><!-- 预约提醒导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-bell"></em><span class="label label-info">5</span><!--未完成预约数量  -->
+						<em class="fa fa-bell"></em><span class="label label-info"><%=successbookingnum%></span><!--未完成预约数量  -->
 					  </a>
-						<ul class="dropdown-menu dropdown-alerts"><!-- 列出所有未完成预约 dropdown-alerts-->
-							<li>
-								<div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/10/25</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> LXY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-							  <div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/10/28</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> WCY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-							 </div>
-							</li>
-							<li class="divider"></li>
-							<li>
-							    <div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/11/10</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> LBH(professor)</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-							  </div>
-							</li>
-						</ul>
-					</li>
-				</ul>
+						<ul class="dropdown-menu dropdown-alerts myscroll2"><!-- 列出所有未完成预约 dropdown-alerts-->
+							<%//预约提醒导航
+							 int i=0,k=0;
+						     for(successbooking asuccessbooking:mysuccessbooking){
+						    	 String astudentid=asuccessbooking.studentid;
+				        		 String ayear=asuccessbooking.year;
+				        		 String amonth=asuccessbooking.month;
+				        		 String aday=asuccessbooking.day;
+				        	     String ateacherid=asuccessbooking.teacherid;
+				        	        Calendar cal=Calendar.getInstance();
+				        	        cal.set(nowyear,nowmonth,nowdate);
+				        	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+				        	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
+				        	        long time2 = cal.getTimeInMillis();          
+				        	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+				        	        int datediff=Integer.parseInt(String.valueOf(between_days));
+				        	       
+				        	     if(datediff<2){
+				        	    	 k++;
+				        	    	 /*   String atime=asuccessbooking.time;
+					        		 String ainstruction=asuccessbooking.instruction; */
+					        		 
+					        		 Map<String,String> sinfomation=mysql.showteacher(ateacherid);
+					        	     String susername=sinfomation.get("用户名");
+					        		 /* String semail=sinfomation.get("邮箱");
+					        		 String sphone=sinfomation.get("手机号");
+					        		 String sintroduction=sinfomation.get("介绍");
+					        		 String stheid=sinfomation.get("id"); */
+					        		 String sfaculty=sinfomation.get("科目");
+
+					        		    out.println("<li>");
+										out.println("<div class=\"dropdown-messages-box\">");
+										out.println("<div class=\"message-body  verticalparent\">");
+										out.println(" <a href=\"student_home.jsp\" class=\"pull-left\">");/* <!-- 点击图像显示对方个人主页 --> */
+										out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+										out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
+										out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
+										out.println("</div>");
+										out.println("</div>");
+										out.println("</li>");
+										out.println("<li class=\"divider\"></li>");
+				        	     }
+				        	     
+						     }
+						     
+							%>
+				   </ul>
+				</li>
 			</div>
 		</div><!-- /.container-fluid -->
 	</nav>
@@ -170,19 +230,19 @@
 		<ul class="nav menu">
 			<li><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
-			<li class="active"><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
+			<li class="active"><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 历史</a></li>
+			<!-- <li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li> -->
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="sub-item-1">
-					<li><a class="" href="#">
+					<li><a class="" href="#" onclick="return future()"> 
 						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 1
 					</a></li>
-					<li><a class="" href="#">
+					<li><a class="" href="#" onclick="return future()">
 						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 2
 					</a></li>
-					<li><a class="" href="#">
+					<li><a class="" href="#" onclick="return future()">
 						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 3
 					</a></li>
 				</ul>
@@ -190,6 +250,13 @@
 			<li><a href="login.jsp"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->
+	<script>
+	function future(){
+		alert("尚未开放，敬请期待！");
+		return false;
+	}
+	</script>
+		
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main"><!-- 首页主面板  -->
 	      <!-- col-sm-9指定宽度， col-sm-offset-3指定偏移，即位置，lg与sm对应不同尺寸-->
@@ -206,11 +273,11 @@
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">用户及相关预约历史</h1>
+				<h1 class="page-header">预约历史</h1>
 			</div>
 		</div><!--/.row-->
 		
-	  <div class="row">
+	  <%-- <div class="row">
 	       <form action="showselectedauthor" method="post">
                <div class="input-group  mymargin input_wrap"> 
                  <input name="selectedauthor" type="text" class="form-control input-md " 
@@ -230,9 +297,9 @@
 				  </span>
 				</div>
 		  </form>
-		</div>
+		</div> --%>
 				
-		<div class="panel panel-default articles">
+		<%-- <div class="panel panel-default articles">
 			<div class="panel-heading">
 			     相关用户
 			   <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
@@ -256,9 +323,90 @@
 					</div>
 				</div><!--End .articles-->
 				
-		<div class="panel panel-default chat">
+		 --%>
+		
+		<div class="panel panel-default ">
 					<div class="panel-heading">
-						预约历史
+						预 约 历 史
+						<ul class="pull-right panel-settings panel-button-tab-right">
+							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
+								<em class="fa fa-cogs"></em>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li>
+										<ul class="dropdown-settings">
+											<li><a href="#">
+												<em class="fa fa-cog"></em> Settings 1
+											</a></li>
+											<li class="divider"></li>
+											<li><a href="#">
+												<em class="fa fa-cog"></em> Settings 2
+											</a></li>
+											<li class="divider"></li>
+											<li><a href="#">
+												<em class="fa fa-cog"></em> Settings 3
+											</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+					<div class="panel-body timeline-container myscroll">
+						<ul class="timeline">
+						   <% 
+						       for(history ahistory:allhistory){
+					        		 String ayear=ahistory.year;
+					        		 String amonth=ahistory.month;
+					        		 String aday=ahistory.day;
+					        		 String atime=ahistory.time;
+					        	     String ateacherid=ahistory.teacherid;
+					        	     int agrade=ahistory.grade;
+					        	     String ainstruction=ahistory.instruction;
+					        	     if(agrade==0){
+					        	    	 ainstruction="尚未评价此次预约";
+					        	     }
+					        	     
+					        	     
+					        	     Map<String,String> sinfomation=mysql.showteacher(ateacherid);
+					        	     String susername=sinfomation.get("用户名");
+					        		 String semail=sinfomation.get("邮箱");
+					        		 String sphone=sinfomation.get("手机号");
+					        		 //String sintroduction=sinfomation.get("介绍"); 
+					        		 String sfaculty=sinfomation.get("科目");
+						    	     
+					        		 out.println("<li>");/* "+susername+" */
+					        		 if(agrade==0){//没评价过
+					        			 out.println("<div class=\"timeline-badge\"><a href=\"javascript:void(0)\" onclick=\"return gotoevaluate(this)\" userId=\""+ateacherid+"\" username=\""+susername+"\" date=\""+ayear+"-"+amonth+"-"+aday+"\" time=\""+atime+"\"><i class=\"glyphicon glyphicon-pushpin\"></i></a></div>");
+					        		 }else{
+					        			 out.println("<div class=\"timeline-badge\"><i class=\"glyphicon glyphicon-pushpin\"></i></div>");
+					        		 }
+					        		 
+					        		 out.println("<div class=\"timeline-panel\">");
+					        		 out.println("<div class=\"timeline-heading\">");
+					        		 out.println("<h4 class=\"timeline-title\"><b>"+ayear+"-"+amonth+"-"+aday+"</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+atime+"</h4>");
+					        		 out.println("</div>");
+					        		 out.println("<div class=\"timeline-body\">");
+					        		 out.println("<p>约见了<b>"+susername+"</b>教授("+sfaculty+" 联系方式:"+sphone+"/"+semail+")</p>");
+					        		 if(agrade==0){//没评价过
+					        			 out.println("<p class=\"myfont1 mycolor1\">"+ainstruction+"</p>");
+					        		 }else{
+					        			 out.println("<p class=\"myfont1\">"+ainstruction+"<small class=\"myfont1 mycolor1 pull-right\">"+agrade+"</small></p>");
+					        		 }
+					        		
+					        		 out.println("</div>");
+					        		 out.println("</div>");
+					        
+						       }
+						   %>
+						   
+						</ul>
+					</div>
+				</div>
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						预 约 评 价
 						<ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
@@ -284,42 +432,105 @@
 						</ul>
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
-						<ul>
-							<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header"><strong class="primary-font">WHZ</strong> <small class="text-muted">32 mins ago</small></div>
-									<p>地点可以定在正心216</p>
-								</div>
-							</li>
-							<li class="right clearfix"><span class="chat-img pull-right">
-								<img src="http://placehold.it/60/dde0e6/5f6468" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header  pull-right"><strong class="pull-left primary-font">WCY</strong> <small class="text-muted">6 mins ago</small>
-									<p>好，到时候一定准时到！！</p>
+					   <form class="form-horizontal" action="addevaluate" method="post" onsubmit="return check(this)">
+							<fieldset>
+						<div class="form-group">
+									<label class="col-md-3 control-label" for="date">Date</label>
+									<div class="col-md-9">
+										<input id="date" name="date" type="text" placeholder="选定的日期" class="form-control" readonly="readonly">
 									</div>
 								</div>
-							</li>
-							<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/60/30a5ff/fff" alt="User Avatar" class="img-circle" />
-								</span>
-								<div class="chat-body clearfix">
-									<div class="header"><strong class="primary-font">WCY</strong> <small class="text-muted">32 mins ago</small></div>
-									<p>好，没事不急</p>
+								
+						<!-- Selected Time-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="time">Time Internal</label>
+									<div class="col-md-9">
+										<input id="time" name="time" type="text" placeholder="选定的时段" class="form-control" readonly="readonly">
+									</div>
 								</div>
-							</li>
-						</ul>
-					</div>
-					<div class="panel-footer">
+										
+						 <!-- Selected Professor-->
+					    <div class="form-group">
+							<label class="col-md-3 control-label" for="name">Selected Professor</label>
+							<div class="col-md-9">
+							<input id="selectedprofessor" name="selectedprofessor" type="text" placeholder="选定的教授" class="form-control" readonly="readonly">
+							</div>
+					   </div>
+								
+						  
+						  <div class="form-group">
+                                 <label class="col-md-3 control-label myfont2">评分:</label>
+								 <label class="col-md-1 mymargintop2"><!-- 放在标签里可以直接点击标签选中单选按钮 -->
+									<input type="radio" name="grade" id="optionsRadios1" value="1" checked>  <b>1</b>
+						    	 </label>
+						    	 <label class="col-md-1 mymargintop2">
+									<input type="radio" name="grade" id="optionsRadios2" value="2" >  <b>2</b>
+								</label>
+								<label class="col-md-1 mymargintop2">
+									<input type="radio" name="grade" id="optionsRadios3" value="3" >  <b>3</b>
+								</label>
+								<label class="col-md-1 mymargintop2">
+									<input type="radio" name="grade" id="optionsRadios4" value="4" >  <b>4</b>
+								</label>
+								<label class="col-md-1 mymargintop2">
+									<input type="radio" name="grade" id="optionsRadios5" value="5" >  <b>5</b>
+								</label>
+	
+							</div>
+						
+						<input id="studentid" name="studentid" type="hidden" value=<%=id%>>
+						<input id="teacherid" name="teacherid" type="hidden" ><!-- 动态设置teacherId -->
+					 <div class="panel-footer">
 						<div class="input-group">
-							<input id="btn-input" type="text" class="form-control input-md" placeholder="Type your message here..." /><span class="input-group-btn">
-								<button class="btn btn-primary btn-md" id="btn-chat">Send</button>
+							<input id="btn-input" name="instruction" type="text" class="form-control input-md" placeholder="请在这里记录您对这次预约的感受以及对老师的评价" /><span class="input-group-btn">
+								<button class="btn btn-primary btn-md" id="btn-chat">提交评价</button>
 						</span></div>
+					  </div>
+							</fieldset>
+						</form>
 					</div>
+					
 				</div>
-		
+				<script>
+						   function gotoevaluate(obj){
+							  /*  chosenTeacherId */
+							  /*  var thisObj=obj;  
+							    var userId=thsiObj.attr("userId");  
+							    alert(userId);   */
+							    
+							   var userId= obj.attributes["userId"].nodeValue; //自定义属性采用此方式获得
+							   var username= obj.attributes["username"].nodeValue;
+							   var date= obj.attributes["date"].nodeValue;
+							   var time= obj.attributes["time"].nodeValue;
+							   
+							   text1 = document.getElementById("date");
+					           text1.value=date;
+					        	  
+					           text2 = document.getElementById("selectedprofessor");
+					           text2.value=username;
+					           
+					           text3 = document.getElementById("time");
+					           text3.value=time;
+					        	  
+					           text4 = document.getElementById("teacherid");
+					           text4.value=userId;
+							   
+							   alert(userId);
+							   alert(username);
+							   alert(date);
+							   alert(time);
+							  
+							   return false;
+						   }
+						   function check(myform){
+							   if(myform.date.value.length==0){
+						    		 alert("请选择一个预约历史去评价");
+						    		 return false;
+						    	 }else{
+						    		 return true;
+						    	 }
+						   }
+						   </script>
 			<div class="col-sm-12">
 				<p class="back-link">OnlineBookingSystem by 王春阳</p>
 			</div>
@@ -350,6 +561,12 @@
 	scaleFontColor: "#c5c7cc"
 	});
 };
+    if("<%=evaluateresult%>"=="evaluated"){
+	   alert("恭喜您！评价成功!");
+   }else if("<%=evaluateresult%>"=="wrong"){
+	   alert("很遗憾！由于未知原因评价失败");
+   }  
+
 	</script>
 		
 </body>

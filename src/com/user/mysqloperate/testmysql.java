@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.user.releasebooking.releasebooking;
 import com.user.successbooking.successbooking;
+import com.user.userhistory.history;
 
 /**
  * @author lenovo
@@ -17,9 +18,12 @@ import com.user.successbooking.successbooking;
 public class testmysql {
     public static void main(String args[]){
 
-
     	 Mysqloperate mysql=new Mysqloperate();
-
+        /*mysql.addhistory("10500001", "2017", "12", "8", "8:30-9:00", "00000001");*/
+       List<history> myhistory=mysql.stushowhistory("00000001");
+        for(history a:myhistory){
+        	 System.out.println(a.year+"-"+a.month+"-"+a.day);
+        }
     	 //mysql.addstudent("锟斤拷锟斤拷锟斤拷", "1234", "188458895380", "wangchunyangsz@163.com", "023456", "锟斤拷锟斤拷锟窖г貉э拷锟�","锟斤拷锟斤拷锟窖г�");
     	 //mysql.addteacher("锟斤拷锟斤拷锟斤拷", "1234", "188458895380", "lxy@163.com", "120000","锟斤拷锟斤拷锟窖г�","锟斤拷锟斤拷锟窖г猴拷锟绞�");
 

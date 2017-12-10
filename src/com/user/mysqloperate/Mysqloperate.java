@@ -2,6 +2,7 @@ package com.user.mysqloperate;
 
 import com.user.releasebooking.releasebooking;
 import com.user.successbooking.successbooking;
+import com.user.userhistory.history;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -1620,6 +1621,49 @@ public class Mysqloperate {
            paixu(booking);
                   return booking;
    }
+   
+   public List<history> stushowhistory(String id){
+	   Connection conn = null;
+       java.sql.PreparedStatement pstmt = null;
+       List<history> booking=new LinkedList<history>();
+       try{
+    	    
+       	 conn = getConn();
+
+           // 执行查询
+           String sql;
+           sql = "SELECT teacherid, year,month,day,time,studentid,instruction,grade FROM history where studentid=?";
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setString(1, id);
+           ResultSet rs = pstmt.executeQuery();
+          // List<String> IDList=new ArrayList<String>();
+           while(rs.next())
+           {
+           	history ahistory=new history();
+           	ahistory.teacherid=rs.getString("teacherid");
+           	ahistory.year=rs.getString("year");
+           	ahistory.month=rs.getString("month");
+           	ahistory.day=rs.getString("day");
+           	ahistory.time=rs.getString("time");
+           	ahistory.studentid=rs.getString("studentid");
+        	ahistory.grade=rs.getInt("grade");
+            ahistory.instruction=rs.getString("instruction");
+            booking.add(ahistory);
+           }
+           	rs.close();
+           	pstmt.close();
+           	conn.close();
+       }
+           	catch(SQLException se){
+                   // 处理 JDBC 错误
+                   se.printStackTrace();
+               }catch(Exception e){
+                   // 处理 Class.forName 错误
+                   e.printStackTrace();
+               }
+      // paixu(booking);这里还要有个排序
+              return booking;
+   }
    public Map<String,String> QueryAllTimesOfAteacher(String teacherID){
 	   Map<String,String> timesmap=new  HashMap<String,String>();//存放（2017-11-12，1|2|3）形式的键值对
 	   String key;
@@ -2013,5 +2057,71 @@ public class Mysqloperate {
 		return booking;
 
 	}
+   
+   public boolean addinstruction(String teacherid,String year,String month,String day,String time,String studentid,String instruction)
+   {
+   Connection conn = null;
+   try{
+   conn=getConn();
+   String sq;java.sql.PreparedStatement pstm = null;
+sq="update history set instruction=? where teacherid=? and year=? and month=? and day=? and time=?";
+pstm=conn.prepareStatement(sq);
+pstm.setString(1, instruction);pstm.setString(2, teacherid);pstm.setString(3,year);
+pstm.setString(4, month);pstm.setString(5, day);pstm.setString(6, time);
+pstm.executeUpdate();pstm.close();
+  conn.close();
+   
+   }catch(SQLException se){
+           // 处理 JDBC 错误
+           se.printStackTrace();
+       }catch(Exception e){
+           // 处理 Class.forName 错误
+           e.printStackTrace();
+       }
+   return true;
+   }
    /**************************************************/
+   public List<history> losegrade(String id){//所有没评价的预约
+	   Connection conn = null;
+	    java.sql.PreparedStatement pstmt = null;
+	    List<history> booking=new LinkedList<history>();
+	    try{
+	 	    
+	    	 conn = getConn();
+
+	        // 执行查询
+	        String sql;
+	        sql = "SELECT teacherid, year,month,day,time,studentid,instruction,grade FROM history where studentid=?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, id);
+	        ResultSet rs = pstmt.executeQuery();
+	       // List<String> IDList=new ArrayList<String>();
+	        while(rs.next())
+	        {
+	        	if(rs.getInt("grade")==0){
+	        	history ahistory=new history();
+	        	ahistory.teacherid=rs.getString("teacherid");
+	        	ahistory.year=rs.getString("year");
+	        	ahistory.month=rs.getString("month");
+	        	ahistory.day=rs.getString("day");
+	        	ahistory.time=rs.getString("time");
+	        	ahistory.studentid=rs.getString("studentid");
+	     	ahistory.grade=rs.getInt("grade");
+	         ahistory.instruction=rs.getString("instruction");
+	         booking.add(ahistory);System.out.println(rs.getString("month"));}
+	        }
+	        	rs.close();
+	        	pstmt.close();
+	        	conn.close();
+	    }
+	        	catch(SQLException se){
+	                // 处理 JDBC 错误
+	                se.printStackTrace();
+	            }catch(Exception e){
+	                // 处理 Class.forName 错误
+	                e.printStackTrace();
+	            }
+	   // paixu(booking);这里还要有个排序
+	           return booking;
+	}
 }

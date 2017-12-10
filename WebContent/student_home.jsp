@@ -8,6 +8,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.user.successbooking.successbooking"%>
+<%@ page import="com.user.userhistory.history"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="java.util.Calendar"%>
@@ -26,17 +27,52 @@
   String theid=infomation.get("id"); 
   String faculty=infomation.get("学院");
   
-  List<successbooking> mysuccessbooking=mysql.stushowtime(id);
-  int successbookingnum=mysuccessbooking.size();
+
   
   /* SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-d");//设置日期格式
   Date today=new Date();
   System.out.println(df.format(today));// new Date()为获取当前系统时间 */
+  //学生用户登陆之后，得到此时的时间，将过期的预约改成历史，并添加到历史中去等待评价，待评价的预约在右上角显示
   Calendar today=Calendar.getInstance();
   int nowyear=today.get(Calendar.YEAR);
   int nowmonth=today.get(Calendar.MONTH)+1;
   int nowdate=today.get(Calendar.DATE);
-  System.out.println(nowyear+"-"+nowmonth+"-"+nowdate);
+ /*System.out.println(nowyear+"-"+nowmonth+"-"+nowdate); */
+%>
+<%//对无效预约做出处理
+   List<successbooking> successbookingbeforedelete=mysql.stushowtime(id);//未检测过期的日期
+   for(successbooking asuccessbooking:successbookingbeforedelete){
+		 String ayear=asuccessbooking.year;
+		 String amonth=asuccessbooking.month;
+		 String aday=asuccessbooking.day;
+	     String ateacherid=asuccessbooking.teacherid;
+	     
+	     String atime=asuccessbooking.time;
+	     String[] endtimes=atime.split("-");
+	     String endtime=endtimes[1];//该预约的结束时间
+	     
+	     String endTime = ayear+"-"+amonth+"-"+aday+" "+endtime;  
+         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d HH:mm");  
+         Date endDate = sdf.parse(endTime);//得到该截止日期的Date对象
+         Calendar endCal = Calendar.getInstance();
+         endCal.setTime(endDate);
+         //比较时间
+         if(today.after(endCal)){//过了期
+        	 mysql.addhistory(ateacherid, ayear, amonth, aday, atime,id);//设为了历史
+         }
+   }
+%>
+<% //得到当前预约的信息
+  List<successbooking> mysuccessbooking=mysql.stushowtime(id);
+  int successbookingnum=mysuccessbooking.size();
+%>
+<% //得到当前所有没评价的历史列表
+   List<history> historynograde= mysql.losegrade(id);
+   int nogradenum=historynograde.size();
+%>
+<%
+    List<history> allhistories= mysql.stushowhistory(id);
+    int historynum=allhistories.size();
 %>
 <% //相关的附属信息
    int professornum=mysql.getprofessornum();
@@ -120,36 +156,42 @@
 					<li class="dropdown"><!-- 新消息导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 						<em class="fa fa-envelope"></em><!-- 消息图案 -->
-						<span class="label label-danger">15</span><!-- 消息数量  -->
+						<span class="label label-danger"><%=nogradenum%></span><!-- 消息数量  -->
 					  </a>
 					  
-						<ul class="dropdown-menu dropdown-messages"><!-- 消息概述，列表呈现  -->
+						<ul class="dropdown-menu dropdown-messages myscroll1"><!-- 消息概述，列表呈现  -->
+						  <%
+						  
+						  for(history ahistory:historynograde){
+						    	 String astudentid=ahistory.studentid;
+				        		 String ayear=ahistory.year;
+				        		 String amonth=ahistory.month;
+				        		 String aday=ahistory.day;
+				        		 String atime=ahistory.time;
+				        	     String ateacherid=ahistory.teacherid;
+				        	     
+				        	     Map<String,String> sinfomation=mysql.showteacher(ateacherid);
+				        	     String susername=sinfomation.get("用户名");
+				        		 String sfaculty=sinfomation.get("科目");
+				        		 out.println("<li>");
+				        		 out.println("<div class=\"dropdown-messages-box\">");
+				        		 /* out.println("<a href=\"#\" class=\"\">"); */
+				        		 out.println("<img alt=\"image\" class=\"pull-left img-circle\" src=\"http://placehold.it/40/30a5ff/fff\">");
+				        	/* 	 out.println("</a>"); */
+				        		 out.println("<div class=\"message-body\">");
+				        		/*  out.println("<small class=\"pull-right\">"++"</small>"); */
+				        		 out.println("通知：您与<strong>"+susername+"("+sfaculty+")</strong>教授的预约已经结束，请前往对本次预约给出评价.<br /><!-- 点击消息跳转至预约情况页面 -->");
+				        		 out.println("<small class=\"text-muted\">"+ayear+"-"+amonth+"-"+aday+"&nbsp;&nbsp;&nbsp;&nbsp;"+atime+"</small>");
+				        		 out.println("</div>");
+				        		 out.println("</div>");
+				        		 out.println("</li>");
+				        		 out.println("<li class=\"divider\"></li>");
+						  }
+						  %>
+						
 							<li>
-								<div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 --><!--pull-right/pull-left设置头像左右  -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">3 mins ago</small><!-- 消息时间距离现在 -->
-										<a href="#"><strong> LXY（professor）</strong> Accepted your appointment<strong>(2017.10.25)</strong>.</a><br /><!-- 点击消息跳转至预约情况页面 -->
-									    <small class="text-muted"> 18:29pm - 22/10/2017</small><!-- 消息时间发送 -->
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="dropdown-messages-box"><a href="profile.html" class="pull-left">
-									<img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body"><small class="pull-right">1 hour ago</small>
-										<a href="#">New message from <strong>WCY（student）</strong>.</a><!-- 点击消息跳转至消息页面 -->
-									<br /><small class="text-muted">17.33 pm - 22/10/2017</small></div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="all-button"><a href="#"><!-- 查看所有信息至消息页面 -->
-									<em class="fa fa-inbox"></em> <strong>All Messages</strong>
+								<div class="all-button"><a href="student_chat.jsp"><!-- 查看所有信息至消息页面 -->
+									<em class="fa fa-inbox"></em> <strong>All Histories</strong>
 								</a></div>
 							</li>
 						</ul>
@@ -239,18 +281,18 @@
 			<li class="active"><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
 			<li><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
+			<!-- <li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li> -->
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="sub-item-1">
-					<li><a class="" href="#">
+					<li><a class="" href="#" onclick="return future()">
 						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 1
 					</a></li>
-					<li><a class="" href="#">
+					<li><a class="" href="#" onclick="return future()">
 						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 2
 					</a></li>
-					<li><a class="" href="#">
+					<li><a class="" href="#" onclick="return future()">
 						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 3
 					</a></li>
 				</ul>
@@ -258,6 +300,13 @@
 			<li><a href="login.jsp"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->
+	
+	<script>
+	function future(){
+		alert("尚未开放，敬请期待！");
+		return false;
+	}
+	</script>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main"><!-- 首页主面板  -->
 	      <!-- col-sm-9指定宽度， col-sm-offset-3指定偏移，即位置，lg与sm对应不同尺寸-->
@@ -299,7 +348,7 @@
 				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 					<div class="panel panel-orange panel-widget border-right">
 						<div class="row no-padding"><em class="fa fa-xl fa-history color-red"></em>
-							<div class="large">10</div>
+							<div class="large"><%=historynum%></div>
 							<div class="text-muted">Historys</div>
 						</div>
 					</div>

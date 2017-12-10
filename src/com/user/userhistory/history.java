@@ -8,6 +8,20 @@ public class history {
 	public String time;
 	public String studentid;
 	public int grade;
+	public String instruction;
+	
+	/**
+	 * @return the introduction
+	 */
+	public String getInstruction() {
+		return instruction;
+	}
+	/**
+	 * @param introduction the introduction to set
+	 */
+	public void setInstruction(String instruction) {
+		this.instruction=instruction;
+	}
 	public String getTeacherid() {
 		return teacherid;
 	}

@@ -29,7 +29,7 @@ public class bookingaction {
 	 private Map<String,String> timesMap=new HashMap<String,String>();
 	 
 	 private  String date;
-    private  String alltimes;
+     private  String alltimes;
 		 private String tid;
 		private String sid;
 	    private  String successinstruction;
