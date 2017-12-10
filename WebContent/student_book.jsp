@@ -40,7 +40,7 @@
     } */
 %>
 <% //得到当前所有没评价的历史列表
-   List<history> historynograde= mysql.losegrade(id);
+    List<history> historynograde= mysql.losegrade(id);
    int nogradenum=historynograde.size();
 %>
 <% //选择老师后的发布时间信息
