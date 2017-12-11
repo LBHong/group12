@@ -3,6 +3,33 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
+    <!-- <package name="customer" namespace="/customer" extends="struts-default">  
+       
+     <interceptors>  
+     注册拦截器  
+     <interceptor name="first" class="interceptor.FirstInterceptor"></interceptor>  
+     <interceptor name="second" class="interceptor.SecondInterceptor"></interceptor>  
+     注册拦截器栈  
+     <interceptor-stack name="myStack">  
+     <interceptor-ref name="first"></interceptor-ref>  
+     <interceptor-ref name="second"></interceptor-ref>  
+     </interceptor-stack>   
+     </interceptors>  
+     设置当前包下所有Action默认引用的拦截器  
+     <default-interceptor-ref name="myStack"></default-interceptor-ref>  
+     打开修改页面     
+     <action name="toUpdateCustomer" class="action.ToUpdateCustomerAction" >  
+       
+     引用拦截器  
+     <interceptor-ref name="first"></interceptor-ref>  
+     <result name="success">  
+     /WEB-INF/customer/update_customer.jsp  
+         </result>  
+        </action>  
+      </package>  
+        
+       设置上传文件最大值  -->
+      <constant name="struts.multipart.maxSize" value="104857600"></constant> 
       <package name="login_register" namespace="/" extends="struts-default">
        <action name="login" class="com.user.action.Useraction" method="alogin">
                <result name="student_success">/student_home.jsp</result>
@@ -44,6 +71,10 @@
        <action name="addevaluate" class="com.user.action.Evaluateaction" method="addevaluate">
                <result>/student_chat.jsp</result>
                <result name="failure">/student_chat.jsp</result>
+       </action>
+       <action name="upload" class="com.user.action.uploadaction" method="uploadimage">
+               <result>/login.jsp</result>
+               <result name="failure">/login.jsp</result>
        </action>
        
        <!--<action name="addbook" class="action.BookAction" method="addbook">

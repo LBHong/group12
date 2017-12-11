@@ -11,6 +11,9 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.user.userstudent.student;
 import com.user.userteacher.teacher;
 import com.user.mysqloperate.Mysqloperate;
+import java.io.File;
+import java.io.IOException;
+import org.apache.commons.io.FileUtils;
 
 @SuppressWarnings("serial")
 public class Useraction extends ActionSupport {
@@ -27,8 +30,82 @@ public class Useraction extends ActionSupport {
 	private student st=null;
 	private teacher te=null;
 	private Map<String,String> map;
+	public String loginflag="failure";
 	
-    public String loginflag="failure";
+	private File upload;  
+	//接受拦截器传入的临时文件  
+	  
+    private String uploadFileName;
+    private String uploadContentType;
+    public Boolean uploadimage(){
+
+    	
+    	int i=uploadFileName.lastIndexOf(".");//原名称里倒数第一个”.”在哪里
+    	String ext=uploadFileName.substring(i+1);//取得后缀，及”.”后面的字符
+    	String name=id+"."+"jpg";//拼凑而成，都存成jpg
+    	
+    	String target=ServletActionContext.getServletContext().getRealPath("/images/"+name);
+    	System.out.println(target);
+    	System.out.println(uploadContentType);
+    	     //获得上传的文件
+    	File targetFile=new File(target);
+    	  //通过struts2提供的FileUtils类拷贝
+    	       try {
+    	         FileUtils.copyFile(upload, targetFile);
+    	    } catch (IOException e) {
+    	          e.printStackTrace();
+    	       }
+         return true;
+      }
+	/**
+	 * @return the uploadContentType
+	 */
+	public String getUploadContentType() {
+		return uploadContentType;
+	}
+	/**
+	 * @param uploadContentType the uploadContentType to set
+	 */
+	public void setUploadContentType(String uploadContentType) {
+		this.uploadContentType = uploadContentType;
+	}
+	/**
+	 * @return the upload
+	 */
+	public File getUpload() {
+		return upload;
+	}
+
+
+
+	/**
+	 * @param upload the upload to set
+	 */
+	public void setUpload(File upload) {
+		this.upload = upload;
+	}
+
+
+
+	/**
+	 * @return the uploadFileName
+	 */
+	public String getUploadFileName() {
+		return uploadFileName;
+	}
+
+
+
+	/**
+	 * @param uploadFileName the uploadFileName to set
+	 */
+	public void setUploadFileName(String uploadFileName) {
+		this.uploadFileName = uploadFileName;
+	}
+
+   
+    
+
 	public String comeoutids(){
 		
 		String xueyuan;
@@ -92,6 +169,7 @@ public String comeoutidp(){
     	if(Identity.equals("student"))
     	{
     		id=comeoutids();
+    		uploadimage();
     		this.st=sqloperate.addstudent(username,password,telephone,email,id,instruction,faculty);
     		sqloperate.addstudentnum(1);
     		if(this.st==null){return "failure";}
@@ -99,11 +177,13 @@ public String comeoutidp(){
     	}
     	else{
     		id=comeoutidp();
+    		uploadimage();
     		this.te=sqloperate.addteacher(username,password,telephone,email,id,faculty,instruction);
     		sqloperate.addprofessornum(1);
     		if(this.te==null){return "failure";}
     		else{return "success";}
     	}
+    	
     }
 	public String alogin() {
 		String loginresult=sqloperate.login(password,id);
@@ -199,4 +279,8 @@ public String comeoutidp(){
 	public void setIdentity(String identity) {
 		this.identity = identity;
 	}
+
+
+
+
 }

@@ -203,7 +203,7 @@
 				        		 out.println("<li>");
 				        		 out.println("<div class=\"dropdown-messages-box\">");
 				        		 /* out.println("<a href=\"#\" class=\"\">"); */
-				        		 out.println("<img alt=\"image\" class=\"pull-left img-circle\" src=\"http://placehold.it/40/30a5ff/fff\">");
+				        		 out.println("<img alt=\"image\" class=\"myimage pull-left img-circle\" src=\"images/"+ateacherid+".jpg\">");
 				        	/* 	 out.println("</a>"); */
 				        		 out.println("<div class=\"message-body\">");
 				        		/*  out.println("<small class=\"pull-right\">"++"</small>"); */
@@ -262,7 +262,7 @@
 										out.println("<div class=\"dropdown-messages-box\">");
 										out.println("<div class=\"message-body  verticalparent\">");
 										out.println(" <a href=\"profile.html\" class=\"pull-left\" onclick=\"return scrolltodetails()\">");/* <!-- 点击图像显示对方个人主页 --> */
-										out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+										out.println("<img alt=\"image\" class=\"myimage img-circle imagemargin\" src=\"images/"+ateacherid+".jpg\">");
 										out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
 										out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
 										out.println("</div>");
@@ -289,7 +289,7 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="images/2.jpg" class="img-responsive" alt="loading">
+				<img src="images/<%=id%>.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name"><%=username%></div>
@@ -527,7 +527,7 @@
 				             out.println("<li>");
 				             out.println("<div class=\"dropdown-messages-box\">");
 				             out.println("<img alt=\"image\" class=\"img-circle myimage\"");
-				             out.println("src=\"http://mpic.tiankong.com/4c6/3b6/4c63b6daa54b259e01791ab9a4b2e653/640.jpg@360h\">");
+				             out.println("src=\"images/"+ateacherid+".jpg\">");
 				             out.println("<div class=\"message-body\">");
 				             out.println("<div><font class=\"secfont\"><strong>"+susername+"</strong></font><br/><font class=\"thirdfont\">"+sfaculty+"</font></div>");
 				              out.println("<small class=\"text-muted seccolor\" >"+sphone+"/"+semail+"</small></div>");
@@ -562,12 +562,12 @@
 							
 						</ul>
 					</div>
-					<div class="panel-footer">
+					<%-- <div class="panel-footer">
 						<div class="input-group">
 							<input id="btn-input" type="text" class="form-control input-md" placeholder="Choose finished appointments"  readonly="readonly"/><span class="input-group-btn">
 								<button class="btn btn-primary btn-md" id="btn-todo">Finish</button>
 						</span></div>
-					</div>
+					</div> --%>
 				</div>
 			</div><!--/.col-->
 			
@@ -602,7 +602,7 @@
 	                	 j++;
 		     %>
 		           speciald[<%=j%>]='<%=abook.year+"-"+abook.month+"-"+abook.day%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
-		           alert(speciald[<%=j%>]);
+		        
 	                 <%}
 		         
 	             }%>
@@ -616,7 +616,7 @@
 		                	 j++;
 			     %>
 			           speciald2[<%=j%>]='<%=ahistory.year+"-"+ahistory.month+"-"+ahistory.day%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
-			           alert(speciald2[<%=j%>]);
+			          
 		                 <%}
 			         
 		             }%>
@@ -689,7 +689,6 @@
 	/* document.getElementById("btn-input").focus(); */
 	
     };
-    alert("<%=id%>");
     
     if("<%=deleteresult%>"=="deleted"){
  	   alert("恭喜您！预约删除成功!");

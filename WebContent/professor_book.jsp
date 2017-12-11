@@ -88,6 +88,10 @@
 .specialdays{
    background-color:#ff0000;
  }
+ .myimage{
+   width: 40px;
+   height:40px;
+}
 </style>
 </head>
 <body>
@@ -139,7 +143,7 @@
 										out.println("<div class=\"dropdown-messages-box\">");
 										out.println("<div class=\"message-body  verticalparent\">");
 										out.println(" <a href=\"professor_home.jsp\" class=\"pull-left\" onclick=\"return scrolltodetails()\">");/* <!-- 点击图像显示对方个人主页 --> */
-										out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+										out.println("<img alt=\"image\" class=\"myimage img-circle imagemargin\" src=\"images/"+astudentid+".jpg\">");
 										out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
 										out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
 										out.println("</div>");
@@ -161,7 +165,7 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="images/3.jpg" class="img-responsive" alt="loading">
+				<img src="images/<%=id%>.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name"><%=username%></div>
@@ -563,7 +567,7 @@
             	
     %>
           speciald[<%=j%>]='<%=list.get(j)%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
-          alert(speciald[<%=j%>]);
+         <%--  alert(speciald[<%=j%>]); --%>
             <%}
         
         }%>
@@ -610,7 +614,7 @@
 	        	for(String use:ks){
          %>  
               if(thedate=="<%=use%>"){
-            	  alert("选了已经发布过预约信息的日期");
+            	/*   alert("选了已经发布过预约信息的日期"); */
             	  abletimestring="<%=AllTimes.get(use)%>";
             	  flag=true;
             	  /* break; */
@@ -649,9 +653,10 @@
     	    	  checkboxes2[abletimes[i]-1].onclick=null;
     	      }
     	  }else{
+    		  document.getElementById("bookingpanel").scrollIntoView();
     		  checkboxes = document.getElementsByName("times");
     		  checkboxes2 = document.getElementsByName("times2");
-    		  alert("该天您没有发布过空闲时段"); 
+    		  /* alert("该天您没有发布过空闲时段");  */
     		  for(i=0;i<checkboxes.length;i++){ //没添加过的时段随意填写
     	    	  checkboxes[i].checked=false;
     	    	  checkboxes[i].onclick=null;
@@ -673,8 +678,8 @@
 	scaleGridLineColor: "rgba(0,0,0,.05)",
 	scaleFontColor: "#c5c7cc"
 	});
-    };
-    alert("<%=theid%>");
+    };<%-- 
+    alert("<%=theid%>"); --%>
 	</script>
 	
 		

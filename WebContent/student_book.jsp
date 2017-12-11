@@ -134,6 +134,10 @@
   max-height:600px;
   overflow-x: auto;
 }
+.myimage{
+   width: 40px;
+   height:40px;
+}
 </style>
 </head>
 <body>
@@ -169,7 +173,7 @@
 				        		 out.println("<li>");
 				        		 out.println("<div class=\"dropdown-messages-box\">");
 				        		 /* out.println("<a href=\"#\" class=\"\">"); */
-				        		 out.println("<img alt=\"image\" class=\"pull-left img-circle\" src=\"http://placehold.it/40/30a5ff/fff\">");
+				        		 out.println("<img alt=\"image\" class=\"myimage pull-left img-circle\" src=\"images/"+ateacherid+".jpg\">");
 				        	/* 	 out.println("</a>"); */
 				        		 out.println("<div class=\"message-body\">");
 				        		/*  out.println("<small class=\"pull-right\">"++"</small>"); */
@@ -227,7 +231,7 @@
 										out.println("<div class=\"dropdown-messages-box\">");
 										out.println("<div class=\"message-body  verticalparent\">");
 										out.println(" <a href=\"student_home.jsp\" class=\"pull-left\">");/* <!-- 点击图像显示对方个人主页 --> */
-										out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+										out.println("<img alt=\"image\" class=\"myimage img-circle imagemargin\" src=\"images/"+ateacherid+".jpg\">");
 										out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
 										out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
 										out.println("</div>");
@@ -248,7 +252,7 @@
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="images/2.jpg" class="img-responsive" alt="loading">
+				<img src="images/<%=id%>.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name"><%=username%></div>
@@ -388,7 +392,7 @@
 				        	 out.println("<div class=\"col-xs-12\">");
 				        	 out.println("<div class=\"row\">");
 				        	 out.println("<div class=\"col-xs-2 col-md-2 date\">");
-				        	 out.println("<div class=\"large\"><img src=\"http://placehold.it/50/30a5ff/fff\" class=\"img-responsive img-circle\" alt=\"loading\"></div>");
+				        	 out.println("<div class=\"large\"><img src=\"images/"+thisid+".jpg\" class=\"img-responsive img-circle myimage\" alt=\"loading\"></div>");
 				        	 out.println("</div>");		
 				        	 out.println("<div class=\"col-xs-10 col-md-10\">"); 
 				        	 out.println("<h4><a href=\"queryOneProfessorAllTimes?teacherid="+thisid+"\">"+thisname+"</a><small class=\"pull-right\">电话:"+thisphone+"&nbsp&nbsp&nbsp&nbsp邮箱:"+thisemail+"</small></h4><!-- 点击之后跳转到与该用户的chat中 -->");
@@ -608,7 +612,6 @@
 				 		alert("请选择至少一个时间段发布！");
 				 		return false;
 				 	}else{
-				 		alert(text.value);
 				 		return true;
 				 	}
 				   }
@@ -649,7 +652,7 @@
 	                 for(int j=0;j<list.size();j++){
 		     %>
 		           speciald[<%=j%>]='<%=list.get(j)%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
-		           alert(speciald[<%=j%>]);
+		          <%--  alert(speciald[<%=j%>]); --%>
 	                 <%}
 		         
 	             }%>
@@ -684,7 +687,6 @@
               for(String use:ks){
          %>  
               if(thedate=="<%=use%>"){
-            	  alert("right");
             	  abletimestring="<%=chosenTimes.get(use)%>";
             	  flag=true;
             	  /* break; */
@@ -746,7 +748,6 @@
 	});
 };
    <%--  alert("<%=username%>"); --%>
-   alert("<%=chosenTeacherName%>");
    
    //jsp变量在js中当字符串一定要加括号啊
    if("<%=appointresult%>"=="finished"){

@@ -104,19 +104,27 @@ margin-top:13px;
 			<div class="login-panel panel panel-default">
 				<div class="panel-heading">Register</div>
 				<div class="panel-body">
-					<form role="form" class="form-horizontal" action="register" method="post" onsubmit="return validcheck1(this)" enctype="multipart/form-data"><!-- form-horizontal -->
+				
+				        <!-- <form role="form" id="uploadform" action="upload" method="post"  enctype="multipart/form-data">
+				               <div class="myfloatr imgwidth">
+							     <div class="con4">
+		                            <canvas id="cvs" class="myimage"></canvas>
+		    						<span class="btn upload">上传头像<input type="file" name="upload" class="upload_pic" id="upload" /></span>
+		    						             type为file的就是读取本地文件的输入框
+								 </div>
+								 <button type="submit" class="btn btn-primary myfloatr mymarginr" >Register</button>
+							   <img  class="myimage" alt="touxiang"  src="images/1.jpg">"http://placehold.it/40/30a5ff/fff"
+						    </div>
+					   </form> -->
+					 <form role="form" class="form-horizontal" action="register" method="post" onsubmit="return validcheck1(this)" enctype="multipart/form-data">
 						<fieldset>
-                
-						 	<div class="myfloatr imgwidth">
+						     <div class="myfloatr imgwidth">
 							     <div class="con4">
 		                            <canvas id="cvs" class="myimage"></canvas>
 		    						<span class="btn upload">上传头像<input type="file" name="upload" class="upload_pic" id="upload" /></span>
 		    						             <!-- type为file的就是读取本地文件的输入框 -->
 								 </div>
-							   <!-- <img  class="myimage" alt="touxiang"  src="images/1.jpg">"http://placehold.it/40/30a5ff/fff" -->
-						    </div>
-						   
-							
+							 </div>
 						    <div class="form-group">
 							    <label class="col-md-3 control-label myfont1" for="username">realname:</label>
 								<div class="col-md-6">
@@ -155,7 +163,7 @@ margin-top:13px;
 								
 							<div class="form-group">
 							  <label class="col-md-3 control-label myfont2">identity:</label>
-								 <label class="col-md-3 mymargintop2"><!-- 放在标签里可以直接点击标签选中单选按钮 -->
+								 <label class="col-md-3 mymargintop2">
 									<input type="radio" name="identity" id="optionsRadios1" value="student" checked>student
 						    	 </label>
 						    	 <label class="col-md-3 mymargintop2">
@@ -193,8 +201,8 @@ margin-top:13px;
 								<label>
 									<input name="login" type="checkbox" value="login">Log in directly
 								</label>
-							</div>
-							   -->
+							</div> -->
+							  
 							<button type="submit" class="btn btn-primary myfloatr mymarginr" >Register</button>
 					   </fieldset>
 					</form>
@@ -221,6 +229,7 @@ margin-top:13px;
 					        			 myform.email.focus();//即设置焦点在对应的元素
 						        		 return false;
 					        		 }else{
+					        			 document.getElementById("uploadform").submit();//
 					        			 return true;
 					        		 }
 						        		

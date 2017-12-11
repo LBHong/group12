@@ -217,7 +217,7 @@ session.setAttribute("id", id); */
 										out.println("<div class=\"dropdown-messages-box\">");
 										out.println("<div class=\"message-body  verticalparent\">");
 										out.println(" <a href=\"profile.html\" class=\"pull-left\" onclick=\"return scrolltodetails()\">");/* <!-- 点击图像显示对方个人主页 --> */
-										out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+										out.println("<img alt=\"image\" class=\"myimage img-circle imagemargin\" src=\"images/"+astudentid+".jpg\">");
 										out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
 										out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
 										out.println("</div>");
@@ -244,7 +244,7 @@ session.setAttribute("id", id); */
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="images/3.jpg" class="img-responsive" alt="loading">
+				<img src="images/<%=id%>.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name"><%=username%></div>
@@ -440,7 +440,7 @@ session.setAttribute("id", id); */
 				             out.println("<li>");
 				             out.println("<div class=\"dropdown-messages-box\">");
 				             out.println("<img alt=\"image\" class=\"img-circle myimage\"");
-				             out.println("src=\"http://mpic.tiankong.com/4c6/3b6/4c63b6daa54b259e01791ab9a4b2e653/640.jpg@360h\">");
+				             out.println("src=\"images/"+astudentid+".jpg\">");
 				             out.println("<div class=\"message-body\">");
 				             out.println("<div><font class=\"secfont\"><strong>"+susername+"</strong></font><br/><font class=\"thirdfont\">"+sfaculty+"</font></div>");
 				              out.println("<small class=\"text-muted seccolor\" >"+sphone+"/"+semail+"</small></div>");
@@ -476,17 +476,17 @@ session.setAttribute("id", id); */
 							
 						</ul>
 					</div>
-					<div class="panel-footer">
+					<%-- <div class="panel-footer">
 						<div class="input-group">
 							<input id="btn-input" type="text" class="form-control input-md" placeholder="Delete selected appointments" /><span class="input-group-btn">
 								<button class="btn btn-primary btn-md" id="btn-todo">Delete</button>
 						</span></div>
-					</div>
+					</div> --%>
 				</div>
 			</div><!--/.col-->
 			
 			<div class="col-sm-12">
-				<p class="back-link">OnlineBookingSystem by 王春阳</p>
+				<p class="back-link">OnlineBookingSystem by WCY,LXY,LBH</p>
 			</div>
 		
 		</div><!--/.row-->
@@ -516,7 +516,7 @@ session.setAttribute("id", id); */
 	                	 j++;
 		     %>
 		           speciald[<%=j%>]='<%=abook.year+"-"+abook.month+"-"+abook.day%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
-		           alert(speciald[<%=j%>]);
+		          <%--  alert(speciald[<%=j%>]); --%>
 	                 <%}
 		         
 	             }%>
@@ -530,7 +530,7 @@ session.setAttribute("id", id); */
 		                	 j++;
 			     %>
 			           speciald2[<%=j%>]='<%=ahistory.year+"-"+ahistory.month+"-"+ahistory.day%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
-			           alert(speciald2[<%=j%>]);
+			           <%-- alert(speciald2[<%=j%>]); --%>
 		                 <%}
 			         
 		             }%>
@@ -601,7 +601,7 @@ session.setAttribute("id", id); */
 	scaleFontColor: "#c5c7cc"
 	});
 };
-     alert(<%=id%>);
+     <%-- alert(<%=id%>); --%>
      
      if("<%=deleteresult%>"=="deleted"){
    	   alert("恭喜您！预约删除成功!");

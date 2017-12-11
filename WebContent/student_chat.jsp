@@ -117,6 +117,10 @@ margin-top:13px;
   max-height:200px;
   overflow-y: auto;
 }
+.myimage{
+   width: 40px;
+   height:40px;
+}
 </style>
 </head>
 <body>
@@ -152,7 +156,7 @@ margin-top:13px;
 				        		 out.println("<li>");
 				        		 out.println("<div class=\"dropdown-messages-box\">");
 				        		 /* out.println("<a href=\"#\" class=\"\">"); */
-				        		 out.println("<img alt=\"image\" class=\"pull-left img-circle\" src=\"http://placehold.it/40/30a5ff/fff\">");
+				        		 out.println("<img alt=\"image\" class=\"pull-left img-circle myimage\" src=\"images/"+ateacherid+".jpg\">");
 				        	/* 	 out.println("</a>"); */
 				        		 out.println("<div class=\"message-body\">");
 				        		/*  out.println("<small class=\"pull-right\">"++"</small>"); */
@@ -210,7 +214,7 @@ margin-top:13px;
 										out.println("<div class=\"dropdown-messages-box\">");
 										out.println("<div class=\"message-body  verticalparent\">");
 										out.println(" <a href=\"student_home.jsp\" class=\"pull-left\">");/* <!-- 点击图像显示对方个人主页 --> */
-										out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+										out.println("<img alt=\"image\" class=\"img-circle imagemargin myimage\" src=\"images/"+ateacherid+".jpg\">");
 										out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
 										out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
 										out.println("</div>");
@@ -230,7 +234,7 @@ margin-top:13px;
 	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar"><!--侧面导航条  -->
 		<div class="profile-sidebar"><!-- 头像 -->
 			<div class="profile-userpic">
-				<img src="images/2.jpg" class="img-responsive" alt="loading">
+				<img src="images/<%=id%>.jpg" class="img-responsive" alt="loading">
 			</div>
 			<div class="profile-usertitle">
 				<div class="profile-usertitle-name"><%=username%></div>
@@ -536,11 +540,11 @@ margin-top:13px;
 					           text4 = document.getElementById("teacherid");
 					           text4.value=userId;
 							   
-							   alert(userId);
+							   /* alert(userId);
 							   alert(username);
 							   alert(date);
 							   alert(time);
-							
+							 */
 								   document.getElementById("evaluationpanel").scrollIntoView();/* 用于网站内跳转 */
 								
 							  
