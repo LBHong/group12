@@ -37,20 +37,35 @@ public class bookingaction {
 	 private Mysqloperate sqloperate=new Mysqloperate();
 	 /*******************************************************************************/
 	  public String searchprofessor(){
-		  idList=sqloperate.getIdByNameOfPro(professorname);
-		  if(idList!=null){
-			  for(String oneid:idList){
-				  professorList.add(sqloperate.showteacher(oneid));
-			  }
-			/*  ServletActionContext.getRequest().setAttribute("professorList",professorList );*/
-			  ServletActionContext.getRequest().getSession().setAttribute("professorList",professorList);
-			  ServletActionContext.getRequest().getSession().setAttribute("chosenTimes",this.timesMap);//重新查找了老师之后，存的时间和老师信息就是无效的，而且此时没有选择老师，需要清空section中的时间和老师
-		   	  ServletActionContext.getRequest().getSession().setAttribute("chosenTeacherId",teacherid);
-		  }else{//没有查到该老师
+		  if(professorname.equals("计算机科学与技术学院")||
+				  professorname.equals("航天学院")||
+				  professorname.equals("材料科学与工程学院")||
+				  professorname.equals("电气工程与自动化学院")||
+				  professorname.equals("人文与社会科学学院")||
+				  professorname.equals("市政环境科学学院")||
+				  professorname.equals("交通科学与工程学院")||
+				  professorname.equals("法学院")||
+				  professorname.equals("机电工程学院")||
+				  professorname.equals("能源科学与工程学院")||
+				  professorname.equals("理学院")||
+				  professorname.equals("管理学院")||
+				  professorname.equals("土木工程学院")||
+				  professorname.equals("建筑学院")||
+				  professorname.equals("外国语学院")||
+				  professorname.equals("基础学部")){
+			  professorList=sqloperate .chaxunallteachers(professorname);
+			
+		  }else{
+			   idList=sqloperate.getIdByNameOfPro(professorname);
+			   if(idList!=null){
+					  for(String oneid:idList){
+						  professorList.add(sqloperate.showteacher(oneid));
+					  }
+			   }
+		  }
 			  ServletActionContext.getRequest().getSession().setAttribute("professorList",professorList);
 			  ServletActionContext.getRequest().getSession().setAttribute("chosenTimes",this.timesMap);
 		   	  ServletActionContext.getRequest().getSession().setAttribute("chosenTeacherId",teacherid);
-		  }
 		  return "success";
 	  }
 	

@@ -28,7 +28,7 @@ public class Useraction extends ActionSupport {
 	private teacher te=null;
 	private Map<String,String> map;
 	
-public String loginflag="failure";
+    public String loginflag="failure";
 	public String comeoutids(){
 		
 		String xueyuan;
@@ -85,7 +85,7 @@ public String comeoutidp(){
 		String id='1'+xueyuan+strValue;
 		return id;
 	}
-	
+
 	public String register() {
     	String Identity= getIdentity();
     	
@@ -120,10 +120,13 @@ public String comeoutidp(){
 			ServletActionContext.getRequest().getSession().setAttribute("id", id);
 			return "teacher_success";
 		}else if(loginresult=="wrong_id"){
-			loginflag="wrong_id"; 	System.out.println(loginflag);
+			loginflag="wrong_id"; 	
+			ServletActionContext.getRequest().setAttribute("loginresult",loginresult);
+			System.out.println(loginflag);
 			return "wrong_id";
 		}else if(loginresult=="wrong_password"){
-			loginflag="wrong_password"; 	System.out.println(loginflag);
+			loginflag="wrong_password"; 	
+			ServletActionContext.getRequest().setAttribute("loginresult",loginresult);
 			return "wrong_password";
 		}else{
 			loginflag="others"; 	System.out.println(loginflag);

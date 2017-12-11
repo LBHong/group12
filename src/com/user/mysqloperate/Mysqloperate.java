@@ -257,7 +257,6 @@ public class Mysqloperate {
 	        {
 	        	detailMap=showteacher(id);
 	        	if(detailMap==null){
-	        		System.out.println("h");
 	        		return "wrong_id";
 	        	}
 	        	else{
@@ -268,7 +267,6 @@ public class Mysqloperate {
 		        		return "teacher_success";
 		        	}
 		            else{
-		            	System.out.println("r");
 		        			return "wrong_password";
 		        	}
 	        	}
@@ -1567,7 +1565,7 @@ public class Mysqloperate {
                	book.teacherid=rs.getString("teacherid");book.year=rs.getString("year");
                	book.month=rs.getString("month");book.day=rs.getString("day");book.time=rs.getString("time");
                	book.studentid=rs.getString("studentid");book.instruction=rs.getString("instruction");
-               	booking.add(book);System.out.println("ISBN: " + book.time);
+               	booking.add(book);
                }
                	rs.close();
                	pstmt.close();
@@ -1592,7 +1590,6 @@ public class Mysqloperate {
            	 conn = getConn();
 
                // 执行查询
-               System.out.println(" 实例化Statement对...");
                String sql;
                sql = "SELECT teacherid, year,month,day,time,studentid,instruction FROM successbooking where studentid=?";
                pstmt = conn.prepareStatement(sql);
@@ -1605,7 +1602,7 @@ public class Mysqloperate {
                	book.teacherid=rs.getString("teacherid");book.year=rs.getString("year");
                	book.month=rs.getString("month");book.day=rs.getString("day");book.time=rs.getString("time");
                	book.studentid=rs.getString("studentid");book.instruction=rs.getString("instruction");
-               	booking.add(book);System.out.println("ISBN: " + book.month);
+               	booking.add(book);
                }
                	rs.close();
                	pstmt.close();
@@ -1665,7 +1662,50 @@ public class Mysqloperate {
 
               return booking;
    }
-   public Map<String,String> QueryAllTimesOfAteacher(String teacherID){
+   public List<history> teashowhistory(String id){
+	   Connection conn = null;
+	 java.sql.PreparedStatement pstmt = null;
+	 List<history> booking=new LinkedList<history>();
+	 try{
+	    
+	 	 conn = getConn();
+
+	     // 执行查询
+	     String sql;
+	     sql = "SELECT teacherid, year,month,day,time,studentid,instruction,grade FROM history where teacherid=?";
+	     pstmt = conn.prepareStatement(sql);
+	     pstmt.setString(1, id);
+	     ResultSet rs = pstmt.executeQuery();
+	    // List<String> IDList=new ArrayList<String>();
+	     while(rs.next())
+	     {
+	     	history ahistory=new history();
+	     	ahistory.teacherid=rs.getString("teacherid");
+	     	ahistory.year=rs.getString("year");
+	     	ahistory.month=rs.getString("month");
+	     	ahistory.day=rs.getString("day");
+	     	ahistory.time=rs.getString("time");
+	     	ahistory.studentid=rs.getString("studentid");
+	  	ahistory.grade=rs.getInt("grade");
+	      ahistory.instruction=rs.getString("instruction");
+	      booking.add(ahistory);System.out.println("0");
+	     }
+	     	rs.close();
+	     	pstmt.close();
+	     	conn.close();
+	 }
+	     	catch(SQLException se){
+	             // 处理 JDBC 错误
+	             se.printStackTrace();
+	         }catch(Exception e){
+	             // 处理 Class.forName 错误
+	             e.printStackTrace();
+	         }
+	// paixu(booking);这里还要有个排序
+	   paixuhistory(booking); 
+	        return booking;
+	}
+  public Map<String,String> QueryAllTimesOfAteacher(String teacherID){
 	   Map<String,String> timesmap=new  HashMap<String,String>();//存放（2017-11-12，1|2|3）形式的键值对
 	   String key;
 		ArrayList<String> value;
@@ -2180,4 +2220,98 @@ pstm.executeUpdate();pstm.close();
 	   }
    }
    /*****************************************************/
+   public ArrayList <Map<String,String>> chaxunallteachers(String faculty)
+ 	{
+ 	//Map<String,String> detailMap=new HashMap<String,String>();
+ 	   Connection conn = null;
+	    java.sql.PreparedStatement pstmt = null; 
+	    ArrayList<Map<String,String>> teacherList=new ArrayList<>();
+ 	    try{
+ 	    conn = getConn();
+ 	    	
+ 	    	 String sql;
+	    	 sql = "SELECT username,password,email, telephone,instruction,id,faculty FROM teacher where faculty=?";
+ 	    	 pstmt = conn.prepareStatement(sql);
+ 	    	 pstmt.setString(1, faculty);
+ 	    	 ResultSet rs = pstmt.executeQuery();
+ 	    	 while(rs.next())
+ 	    	 {
+ 	    		Map<String,String> detailMap=new HashMap<String,String>();
+ 	/*    	 teacher te=new teacher();
+
+
+ 	    	te.username=rs.getString("username");
+ 	    	te.password=rs.getString("password");
+ 	    	te.email=rs.getString("email");
+	    	te.telephone=rs.getString("telephone");
+	    	te.instruction=rs.getString("instruction");
+	    	te.faculty=rs.getString("faculty");
+	    	te.id=rs.getString("id");
+	    	teacherList.add(te);*/
+	    	detailMap.put("用户名",rs.getString("username"));
+    		detailMap.put("密码",rs.getString("password"));
+    		detailMap.put("邮箱",rs.getString("email"));
+    		detailMap.put("手机号",rs.getString("telephone"));
+    		detailMap.put("介绍",rs.getString("instruction"));
+    		detailMap.put("科目",rs.getString("faculty"));
+    		detailMap.put("id",rs.getString("id"));
+    		teacherList.add(detailMap);
+	    	 }
+	    	 rs.close();
+	            pstmt.close();
+	           
+	            conn.close();
+	    }catch(SQLException se){
+	        // 处理 JDBC 错误
+	        se.printStackTrace();
+	    }catch(Exception e){
+	        // 处理 Class.forName 错误
+	        e.printStackTrace();
+	    }finally{
+	        // 关闭资源
+	        try{
+	            if(conn!=null) conn.close();
+	        }catch(SQLException se){
+	            se.printStackTrace();
+	        }
+	    }
+	return teacherList;
+	}
+   public List<String> teacherreleaseing(String id)
+   {
+   
+          Connection conn = null;
+           List<String> bookk=new LinkedList<String>();
+          
+           List<releasebooking> booking=new LinkedList<releasebooking>();
+           try{
+              
+               conn = getConn();
+               // 执行查询
+               java.sql.PreparedStatement pstmt = null; 
+               String sql;
+               sql = "SELECT year,month,day FROM releasebooking where id=?";
+               pstmt = conn.prepareStatement(sql); 
+               pstmt.setString(1, id);
+               ResultSet rs = pstmt.executeQuery();
+              // List<String> IDList=new ArrayList<String>();
+               while(rs.next())
+               {
+               	String a=rs.getString("year")+"-"+rs.getString("month")+"-"+rs.getString("day");;
+               	bookk.add(a);
+               }
+               	rs.close();
+               	pstmt.close();
+               	conn.close();
+           }
+               	catch(SQLException se){
+                       // 处理 JDBC 错误
+                       se.printStackTrace();
+                   }catch(Exception e){
+                       // 处理 Class.forName 错误
+                       e.printStackTrace();
+                   }
+             return bookk;
+   
+   }
 }

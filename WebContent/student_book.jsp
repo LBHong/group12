@@ -67,6 +67,24 @@
 <% //得到当前预约的信息
   List<successbooking> mysuccessbooking=mysql.stushowtime(id);
   int successbookingnum=mysuccessbooking.size();
+  int twodaynum=0;
+  for(successbooking asuccessbooking:mysuccessbooking){//得到所有两天内的日期数
+
+		 String ayear=asuccessbooking.year;
+		 String amonth=asuccessbooking.month;
+		 String aday=asuccessbooking.day;
+	     
+	        Calendar cal=Calendar.getInstance();
+	        cal.set(nowyear,nowmonth-1,nowdate);
+	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
+	        long time2 = cal.getTimeInMillis();          
+	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+	        int datediff=Integer.parseInt(String.valueOf(between_days));
+	        if(datediff<2){
+	        	twodaynum++;
+	        }
+  }
 %>
 <!DOCTYPE html>
 <html>
@@ -83,6 +101,9 @@
 	<!--Custom Font-->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 <style>
+.mycolor1{
+  color:#ff0000;
+}
 .myfont1{
   font-size:18px;
 }
@@ -170,7 +191,7 @@
 					</li>
 					<li class="dropdown"><!-- 预约提醒导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-bell"></em><span class="label label-info"><%=successbookingnum%></span><!--未完成预约数量  -->
+						<em class="fa fa-bell"></em><span class="label label-info"><%=twodaynum%></span><!--未完成预约数量  -->
 					  </a>
 						<ul class="dropdown-menu dropdown-alerts myscroll2"><!-- 列出所有未完成预约 dropdown-alerts-->
 							<%//预约提醒导航
@@ -182,7 +203,7 @@
 				        		 String aday=asuccessbooking.day;
 				        	     String ateacherid=asuccessbooking.teacherid;
 				        	        Calendar cal=Calendar.getInstance();
-				        	        cal.set(nowyear,nowmonth,nowdate);
+				        	        cal.set(nowyear,nowmonth-1,nowdate);
 				        	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
 				        	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
 				        	        long time2 = cal.getTimeInMillis();          
@@ -246,7 +267,7 @@
 		<ul class="nav menu">
 			<li><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li class="active"><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
-			<li><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li><!-- 
+			<li><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 历   史</a></li><!-- 
 			<li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li> -->
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
@@ -294,14 +315,30 @@
 		
 	   <div class="row">
 	       <form action="searchprofessor" method="post">
-               <div class="input-group  mymargin input_wrap"> 
+               <div class="input-group  mymargin "> <!-- input_wrap -->
                  <input name="professorname" type="text" class="form-control input-md" 
-                 placeholder="请输入教授的名字查询教授的空闲时段"  list="authorlist"/>
-				   <!-- <datalist id="authorlist" style="color:#ff0000" >
-						        <option>cnm</option>
-						    </datalist> -->
+                 placeholder="请输入教授的名字或选择指定学院查询教授的空闲时段"  list="authorlist"/>
+				   <datalist id="authorlist">
+						        <option  class="myfont1">计算机科学与技术学院</option>
+						        <option  class="myfont1">航天学院</option>
+						        <option  class="myfont1">材料科学与工程学院</option>
+						        <option  class="myfont1">电气工程与自动化学院</option>
+						        <option  class="myfont1">人文与社会科学学院</option>
+						        <option  class="myfont1">市政环境科学学院</option>
+						        <option  class="myfont1">交通科学与工程学院</option>
+						        <option  class="myfont1">法学院</option>
+						        <option  class="myfont1">机电工程学院</option>
+						         <option  class="myfont1">能源科学与工程学院</option>
+						        <option  class="myfont1">理学院</option>
+						        <option  class="myfont1">管理学院</option>
+						         <option  class="myfont1">土木工程学院</option>
+						        <option  class="myfont1">建筑学院</option>
+						        <option  class="myfont1">外国语学院</option>
+						        <option  class="myfont1">基础学部</option>
+						        
+						    </datalist>
 						    
-				<ul class="select_list">
+				<!-- <ul class="select_list">
                         <li>计算机科学与技术学院</li>
                         <li>航天学院</li>
                         <li>材料科学与工程学院</li>
@@ -318,7 +355,7 @@
                         <li>建筑学院</li>
                         <li>外国语学院</li>
                         <li>基础学部</li>
-                    </ul>
+                    </ul> -->
 				  <span class="input-group-btn">
 				     <input type="submit" class="btn btn-primary btn-md" value="Search">
 				     <!-- <input type="button" class="btn btn-primary btn-md" value="Search"> -->
@@ -342,7 +379,10 @@
 			        		 String thisfaculty=m.get("科目");
 			        		 String thisphone=m.get("手机号");
 			        		 String thisemail=m.get("邮箱");
-			        		 
+			        		 String thegrade=mysql.average(thisid);
+			        		 if(thegrade=="0"){
+			        			 thegrade="5";
+			        		 }
 			        		/*  out.println("<h1>\"hahahha\"</h1>"); */
 				             out.println("<div class=\"article border-bottom\">");
 				        	 out.println("<div class=\"col-xs-12\">");
@@ -353,7 +393,7 @@
 				        	 out.println("<div class=\"col-xs-10 col-md-10\">"); 
 				        	 out.println("<h4><a href=\"queryOneProfessorAllTimes?teacherid="+thisid+"\">"+thisname+"</a><small class=\"pull-right\">电话:"+thisphone+"&nbsp&nbsp&nbsp&nbsp邮箱:"+thisemail+"</small></h4><!-- 点击之后跳转到与该用户的chat中 -->");
 				        	
-				        	 out.println("<p>简介：哈尔滨工业大学<strong>"+thisfaculty+"教授</strong>,"+thisintro+"</p>");
+				        	 out.println("<p>简介：哈尔滨工业大学<strong>"+thisfaculty+"教授</strong>,"+thisintro+"<small class=\"myfont1 mycolor1 pull-right\">"+thegrade+"</small></p>");
 				        	 out.println("</div>");
 				        	 out.println("</div>");
 				        	 out.println("</div>");
@@ -371,7 +411,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 					    <label class="myalign1">日 历</label>
-						<ul class="pull-right panel-settings panel-button-tab-right">
+						<!-- <ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
 							</a>
@@ -393,7 +433,7 @@
 									</li>
 								</ul>
 							</li>
-						</ul>
+						</ul> -->
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
 						<div id="calendar"></div>
@@ -401,12 +441,12 @@
 				</div>
 		</div>
 		
-	   <div class="panel panel-default">
+	   <div class="panel panel-default" id="bookingpanel">
 					<div class="panel-heading " >
 						预 约 申 请
 					    <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
 					</div>
-					<div class="panel-body">
+					<div class="panel-body" id="bookingpanel">
 						<form class="form-horizontal" action="appoint" method="post" onsubmit="return check(this)">
 							<fieldset>
 							    <!-- Appointment information-->
@@ -590,11 +630,11 @@
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
 	<script src="js/datalist.js"></script>
-	<script >
+	<%-- <script >
        $(document).ready(function(){
        $(".input_wrap").myDatalist({"bgcolor":"gray","widths":1,"heights":1}); 
        });
-   </script>
+   </script> --%>
 	<script type="text/javascript">
 	   /*  $('#calender').datepicker('option', 'minDate', '2017-12-10');  */
 	    	 var speciald=new Array();
@@ -653,6 +693,8 @@
 	     }%>
     	  //alert(thedate);
     	  if(flag){
+    		  document.getElementById("bookingpanel").scrollIntoView();
+    		  
     		  text1 = document.getElementById("date");
         	  text1.value=thedate;
         	  
@@ -689,6 +731,7 @@
     	  }else{
     		  alert("请选择教授已发布了的日期(红色背景日期)去预约！");
     	  }
+    	 
     	  
       }
 	</script>

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
+<%//登陆结果
+ String loginresult=(String) request.getAttribute("loginresult"); 
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,11 +50,11 @@ body {
 							<div class="form-group">
 								<input class="form-control" placeholder="密码" name="password" type="password" >
 							</div>
-							<div class="checkbox">
+							<!-- <div class="checkbox">
 								<label>
 									<input name="remember" type="checkbox" value="Remember Me">Remember Me
 								</label>
-							</div>
+							</div> -->
 							<%-- <a href="<s:url action="login"><s:param name="selectedbook">asdasd</s:param></s:url>" class="btn btn-primary myfloatr"> &nbsp&nbspLogin&nbsp&nbsp</a> --%>
 							<button type="submit" class="btn btn-primary myfloatr" >&nbsp&nbspLogin&nbsp&nbsp</button>
 							<a href="register.jsp" class="btn btn-primary myfloatr mymarginr" >Register</a></fieldset>
@@ -90,5 +93,12 @@ body {
 
 <script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script>
+	  if("<%=loginresult%>"=="wrong_id"){
+	 	   alert("账号错误");
+	    }else if("<%=loginresult%>"=="wrong_password"){
+	 	   alert("密码错误");
+	    } 
+	</script>
 </body>
 </html>

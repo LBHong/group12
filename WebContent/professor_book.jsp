@@ -7,6 +7,8 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Set"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Calendar"%>
+<%@ page import="com.user.successbooking.successbooking"%>
 <% 
   /* String s = (String) request.getAttribute("test");  */
   String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
@@ -21,8 +23,35 @@
   String theid=infomation.get("id"); 
   String faculty=infomation.get("科目");
   
+  Calendar today=Calendar.getInstance();
+  int nowyear=today.get(Calendar.YEAR);
+  int nowmonth=today.get(Calendar.MONTH)+1;
+  int nowdate=today.get(Calendar.DATE);
+  
   /* List<releasebooking> myreleasebooking=mysql.Queryateacher(id);/* 所有老师发布了的没有被预约走的时间段的日期 */ 
   Map<String,String> AllTimes=mysql.QueryAllTimesOfAteacher(id);/* 所有老师发布了的没有被预约走的时间段的日期与当天具体时段 */
+%>
+<%//获得所有预约
+   List<successbooking> mysuccessbooking=mysql.teashowtime(id);
+   int successbookingnum=mysuccessbooking.size();
+   int twodaynum=0;
+   for(successbooking asuccessbooking:mysuccessbooking){//得到所有两天内的日期数
+
+ 		 String ayear=asuccessbooking.year;
+ 		 String amonth=asuccessbooking.month;
+ 		 String aday=asuccessbooking.day;
+ 	     
+ 	        Calendar cal=Calendar.getInstance();
+ 	        cal.set(nowyear,nowmonth-1,nowdate);
+ 	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+ 	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
+ 	        long time2 = cal.getTimeInMillis();          
+ 	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+ 	        int datediff=Integer.parseInt(String.valueOf(between_days));
+ 	        if(datediff<2){
+ 	        	twodaynum++;
+ 	        }
+   }
 %>
 <!DOCTYPE html>
 <html>
@@ -38,6 +67,13 @@
 	<!--Custom Font-->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 <style>
+.myfont1{
+  font-size:18px;
+}
+.imagemargin{
+   margin-left:10px;
+   margin-right:10px;
+}
 .myfont1{
   font-size:18px;
 }
@@ -64,82 +100,58 @@
 					<span class="icon-bar"></span></button>  -->
 				<a class="navbar-brand" href="#"><span>Online</span>BookingSystem</a>
 				<ul class="nav navbar-top-links navbar-right"><!-- navbar-left/navbar-right -->
-					<li class="dropdown"><!-- 新消息导航 -->
-					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-envelope"></em><!-- 消息图案 -->
-						<span class="label label-danger">15</span><!-- 消息数量  -->
-					  </a>
-						<ul class="dropdown-menu dropdown-messages"><!-- 消息概述，列表呈现  -->
-							<li>
-								<div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 --><!--pull-right/pull-left设置头像左右  -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">3 mins ago</small><!-- 消息时间距离现在 -->
-										<a href="#"><strong> LXY（professor）</strong> Accepted your appointment<strong>(2017.10.25)</strong>.</a><br /><!-- 点击消息跳转至预约情况页面 -->
-									    <small class="text-muted"> 18:29pm - 22/10/2017</small><!-- 消息时间发送 -->
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="dropdown-messages-box"><a href="profile.html" class="pull-left">
-									<img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body"><small class="pull-right">1 hour ago</small>
-										<a href="#">New message from <strong>WCY（student）</strong>.</a><!-- 点击消息跳转至消息页面 -->
-									<br /><small class="text-muted">17.33 pm - 22/10/2017</small></div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="all-button"><a href="#"><!-- 查看所有信息至消息页面 -->
-									<em class="fa fa-inbox"></em> <strong>All Messages</strong>
-								</a></div>
-							</li>
-						</ul>
-					</li>
+				
 					<li class="dropdown"><!-- 预约提醒导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-bell"></em><span class="label label-info">5</span><!--未完成预约数量  -->
+						<em class="fa fa-bell"></em><span class="label label-info"><%=twodaynum %></span><!--未完成预约数量  -->
 					  </a>
-						<ul class="dropdown-menu dropdown-alerts"><!-- 列出所有未完成预约 dropdown-alerts-->
-							<li>
-								<div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/10/25</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> LXY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-							  <div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/10/28</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> WCY（professor）</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-							 </div>
-							</li>
-							<li class="divider"></li>
-							<li>
-							    <div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">2017/11/10</small><!-- 预约日期 -->
-										<a href="#"><strong class="myfont1"> LBH(professor)</strong></a><!-- 点击跳转至预约情况页面 -->
-									</div>
-							  </div>
-							</li>
+						<ul class="dropdown-menu dropdown-alerts myscroll2"><!-- 列出所有未完成预约 dropdown-alerts-->
+							<%//预约提醒导航
+							 int i=0,k=0;
+						     for(successbooking asuccessbooking:mysuccessbooking){
+						    	 String astudentid=asuccessbooking.studentid;
+				        		 String ayear=asuccessbooking.year;
+				        		 String amonth=asuccessbooking.month;
+				        		 String aday=asuccessbooking.day;
+				        	     String ateacherid=asuccessbooking.teacherid;
+				        	        Calendar cal=Calendar.getInstance();
+				        	        cal.set(nowyear,nowmonth-1,nowdate);
+				        	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+				        	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
+				        	        long time2 = cal.getTimeInMillis();          
+				        	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+				        	        int datediff=Integer.parseInt(String.valueOf(between_days));
+				        	       
+				        	     if(datediff<2){
+				        	    	 k++;
+				        	    	 /*   String atime=asuccessbooking.time;
+					        		 String ainstruction=asuccessbooking.instruction; */
+					        		 
+					        		 Map<String,String> sinfomation=mysql.showteacher(ateacherid);
+					        	     String susername=sinfomation.get("用户名");
+					        		 /* String semail=sinfomation.get("邮箱");
+					        		 String sphone=sinfomation.get("手机号");
+					        		 String sintroduction=sinfomation.get("介绍");
+					        		 String stheid=sinfomation.get("id"); */
+					        		 String sfaculty=sinfomation.get("科目");
+
+					        		    out.println("<li>");
+										out.println("<div class=\"dropdown-messages-box\">");
+										out.println("<div class=\"message-body  verticalparent\">");
+										out.println(" <a href=\"professor_home.jsp\" class=\"pull-left\" onclick=\"return scrolltodetails()\">");/* <!-- 点击图像显示对方个人主页 --> */
+										out.println("<img alt=\"image\" class=\"img-circle imagemargin\" src=\"http://placehold.it/40/30a5ff/fff\">");
+										out.println("<strong class=\"myfont1\"> " +susername+"（"+sfaculty+"）</strong></a>");/*  <!-- 点击跳转至预约情况页面 --> */
+										out.println("<small class=\"pull-right\">"+ayear+"-"+amonth+"-"+aday+"</small><!-- 预约日期 -->");
+										out.println("</div>");
+										out.println("</div>");
+										out.println("</li>");
+										out.println("<li class=\"divider\"></li>");
+				        	     }
+				        	     
+						     }
+						     
+							%>
+				
 						</ul>
 					</li>
 				</ul>
@@ -167,26 +179,31 @@
 		<ul class="nav menu">
 			<li><a href="professor_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li class="active"><a href="professor_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
-			<li><a href="professor_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="professor_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
+			<li><a href="professor_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 历   史</a></li>
 			<li class="parent"><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="sub-item-1">
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 1
+					<li><a class="" href="#" onclick="return future()">
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 2
+					<li><a class="" href="#" onclick="return future()">
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 3
+					<li><a class="" href="#" onclick="return future()">
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
 				</ul>
-			  </li>
+			</li>
 			<li><a href="login.jsp"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->
+	<script>
+	function future(){
+		alert("尚未开放，敬请期待！");
+		return false;
+	}
+	</script>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main"><!-- 首页主面板  -->
 	      <!-- col-sm-9指定宽度， col-sm-offset-3指定偏移，即位置，lg与sm对应不同尺寸-->
@@ -212,7 +229,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 					    <label class="myalign1">日 历</label>
-						<ul class="pull-right panel-settings panel-button-tab-right">
+						<!-- <ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
 							</a>
@@ -234,7 +251,7 @@
 									</li>
 								</ul>
 							</li>
-						</ul>
+						</ul> -->
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 				   
 					<div class="panel-body">
@@ -349,12 +366,12 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Date</label>
 									<div class="col-md-9">
-										<input id="date" name="date" type="text" placeholder="日期" class="form-control"/>
+										<input id="date" name="date" type="text" placeholder="日期" class="form-control" readonly="readonly"/>
 									</div>
 								</div>
 								
 								<!-- Form actions -->
-								<div class="form-group">
+								<div class="form-group" id="bookingpanel">
 									<div class="col-md-12 widget-right">
 										<button type="submit" class="btn btn-default btn-md pull-right">发布</button>
 									</div>
@@ -455,7 +472,7 @@
 								<div class="form-group">
 									<label class="col-md-3 control-label" for="name">Date</label>
 									<div class="col-md-9">
-										<input id="date2" name="date2" type="text" placeholder="日期" class="form-control"/>
+										<input id="date2" name="date2" type="text" placeholder="日期" class="form-control" readonly="readonly"/>
 									</div>
 								</div>
 								
@@ -485,9 +502,12 @@
 					text = document
 							.getElementById("alltimes");
 				 	text.value = check_val.join("|");
-				 	
+				 	date = document.getElementById("date");
 				 	if(text.value==""){
 				 		alert("请选择至少一个时间段发布！");
+				 		return false;
+				 	}else if(date.value==""){
+				 		alert("请选择要发布空闲时间的日期！");
 				 		return false;
 				 	}else{
 				 		alert(text.value);
@@ -503,10 +523,14 @@
 				        }
 				      text = document.getElementById("alltimes2");
 			 	      text.value = check_val.join("|");
+			 	      date = document.getElementById("date2");
 			 	      if(text.value==""){
 			 		      alert("请选择至少一个时间段取消！");
 			 		       return false;
-			 	     }else{
+			 	     }else if(date.value==""){
+					 		alert("请选择要发布空闲时间的日期！");
+					 		return false;
+					 	}else{
 			 		      alert(text.value);
 			 		      return true;
 			 	       }
@@ -596,7 +620,7 @@
     	  //alert(thedate);
     	   
     	  if(flag){ //选择了有空闲预约时间的日期
-    		  
+    		  document.getElementById("bookingpanel").scrollIntoView();
     		  checkboxes = document.getElementsByName("times");
     		  checkboxes2 = document.getElementsByName("times2");
     	      abletimes =new Array();

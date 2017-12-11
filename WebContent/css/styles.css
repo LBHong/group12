@@ -917,6 +917,12 @@ h1.page-header {
 
 #calendar table {
   width: 100%; }
+#calendar1, .datepicker-inline {
+  width: 100%; }
+
+#calendar1 table {
+  width: 100%; }
+  
 
 .datepicker-switch {
   font-size: 16px;

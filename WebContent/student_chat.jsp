@@ -9,6 +9,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page import="com.user.successbooking.successbooking"%>
 <%@ page import="java.util.Calendar"%>
+<%@ page import="com.user.successbooking.successbooking"%>
 <% //登录用户信息
   /* String s = (String) request.getAttribute("test");  */
   String id=new String(session.getAttribute("id").toString().getBytes("ISO-8859-1"),"UTF-8");
@@ -41,6 +42,24 @@
 <% //得到当前预约的信息
   List<successbooking> mysuccessbooking=mysql.stushowtime(id);
   int successbookingnum=mysuccessbooking.size();
+  int twodaynum=0;
+  for(successbooking asuccessbooking:mysuccessbooking){//得到所有两天内的日期数
+
+		 String ayear=asuccessbooking.year;
+		 String amonth=asuccessbooking.month;
+		 String aday=asuccessbooking.day;
+	     
+	        Calendar cal=Calendar.getInstance();
+	        cal.set(nowyear,nowmonth-1,nowdate);
+	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
+	        long time2 = cal.getTimeInMillis();          
+	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+	        int datediff=Integer.parseInt(String.valueOf(between_days));
+	        if(datediff<2){
+	        	twodaynum++;
+	        }
+  }
 %>
 <!DOCTYPE html>
 <html>
@@ -155,7 +174,7 @@ margin-top:13px;
 					</li>
 					<li class="dropdown"><!-- 预约提醒导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-bell"></em><span class="label label-info"><%=successbookingnum%></span><!--未完成预约数量  -->
+						<em class="fa fa-bell"></em><span class="label label-info"><%=twodaynum%></span><!--未完成预约数量  -->
 					  </a>
 						<ul class="dropdown-menu dropdown-alerts myscroll2"><!-- 列出所有未完成预约 dropdown-alerts-->
 							<%//预约提醒导航
@@ -167,7 +186,7 @@ margin-top:13px;
 				        		 String aday=asuccessbooking.day;
 				        	     String ateacherid=asuccessbooking.teacherid;
 				        	        Calendar cal=Calendar.getInstance();
-				        	        cal.set(nowyear,nowmonth,nowdate);
+				        	        cal.set(nowyear,nowmonth-1,nowdate);
 				        	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
 				        	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
 				        	        long time2 = cal.getTimeInMillis();          
@@ -328,7 +347,7 @@ margin-top:13px;
 		<div class="panel panel-default ">
 					<div class="panel-heading">
 						预 约 历 史
-						<ul class="pull-right panel-settings panel-button-tab-right">
+						<!-- <ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
 							</a>
@@ -350,12 +369,14 @@ margin-top:13px;
 									</li>
 								</ul>
 							</li>
-						</ul>
+						</ul> -->
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body timeline-container myscroll">
 						<ul class="timeline">
 						   <% 
-						       for(history ahistory:allhistory){
+						        
+						       for(i=allhistory.size()-1;i>=0;i--){
+						    	     history ahistory=allhistory.get(i);
 					        		 String ayear=ahistory.year;
 					        		 String amonth=ahistory.month;
 					        		 String aday=ahistory.day;
@@ -404,10 +425,10 @@ margin-top:13px;
 					</div>
 				</div>
 				
-				<div class="panel panel-default">
+				<div class="panel panel-default" id="evaluationpanel">
 					<div class="panel-heading">
 						预 约 评 价
-						<ul class="pull-right panel-settings panel-button-tab-right">
+						<!-- <ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
 							</a>
@@ -429,7 +450,7 @@ margin-top:13px;
 									</li>
 								</ul>
 							</li>
-						</ul>
+						</ul> -->
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body">
 					   <form class="form-horizontal" action="addevaluate" method="post" onsubmit="return check(this)">
@@ -519,6 +540,9 @@ margin-top:13px;
 							   alert(username);
 							   alert(date);
 							   alert(time);
+							
+								   document.getElementById("evaluationpanel").scrollIntoView();/* 用于网站内跳转 */
+								
 							  
 							   return false;
 						   }

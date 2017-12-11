@@ -6,6 +6,9 @@
 <%@ page import="java.util.List"%>
 <%@ page import="com.user.successbooking.successbooking"%>
 <%@ page import="java.util.Calendar"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="com.user.userhistory.history"%>
  <%--  <s:set var="id" value="id" scope="request" /> --%>
 <%/* 登录之后的用户基本信息*/
 /* String id=request.getParameter("id");
@@ -21,8 +24,6 @@ session.setAttribute("id", id); */
 	String theid=infomation.get("id"); 
 	String faculty=infomation.get("科目");
 	
-	List<successbooking> mysuccessbooking=mysql.teashowtime(id);
-	int successbookingnum=mysuccessbooking.size();
 	
 	 Calendar today=Calendar.getInstance();
 	  int nowyear=today.get(Calendar.YEAR);
@@ -33,10 +34,71 @@ session.setAttribute("id", id); */
 <% //删除结束之后的反馈信息
      String deleteresult = (String) request.getAttribute("teacherdeleteresult");    
 %>
+<%//处理一下过了期的预约
+      List<successbooking> successbookingbeforedelete=mysql.teashowtime(id);
+      for(successbooking asuccessbooking:successbookingbeforedelete){
+		 String ayear=asuccessbooking.year;
+		 String amonth=asuccessbooking.month;
+		 String aday=asuccessbooking.day;
+	     String astudentid=asuccessbooking.studentid;
+	     
+	     String atime=asuccessbooking.time;
+	     String[] endtimes=atime.split("-");
+	     String endtime=endtimes[1];//该预约的结束时间
+	     
+	    String endTime = ayear+"-"+amonth+"-"+aday+" "+endtime;  
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d HH:mm");  
+        Date endDate = sdf.parse(endTime);//得到该截止日期的Date对象
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+      //比较时间
+        if(today.after(endCal)){//过了期
+     	 mysql.addhistory(id, ayear, amonth, aday, atime,astudentid);//设为了历史
+       }
+     }
+%>
 <% //删除过期的时间段
-     Map<String,String> AllTimes=mysql.QueryAllTimesOfAteacher(id);
+     List<String> AllTimes=mysql.teacherreleaseing(id);
+     /* deleteall(String teacherid,String year,String month,String day);
+     List<String> teacherreleaseing(String id); */
+     for(String s:AllTimes){
+    	 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d");  
+         Date endDate = sdf.parse(s);//得到该截止日期的Date对象
+         Calendar endCal = Calendar.getInstance();
+         endCal.setTime(endDate);
+       //比较时间
+         if(today.after(endCal)){//过了期
+          String[] mdate=s.split("-");
+      	 mysql.deleteall(id,mdate[0],mdate[1],mdate[2]);//设为了历史
+      	 System.out.println(s);
+        }
+     }
+%>
+<%//获得所有预约
+   List<successbooking> mysuccessbooking=mysql.teashowtime(id);
+   int successbookingnum=mysuccessbooking.size();
+   int twodaynum=0;
+   for(successbooking asuccessbooking:mysuccessbooking){//得到所有两天内的日期数
 
-
+ 		 String ayear=asuccessbooking.year;
+ 		 String amonth=asuccessbooking.month;
+ 		 String aday=asuccessbooking.day;
+ 	     
+ 	        Calendar cal=Calendar.getInstance();
+ 	        cal.set(nowyear,nowmonth-1,nowdate);
+ 	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+ 	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
+ 	        long time2 = cal.getTimeInMillis();          
+ 	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+ 	        int datediff=Integer.parseInt(String.valueOf(between_days));
+ 	        if(datediff<2){
+ 	        	twodaynum++;
+ 	        }
+   }
+%>
+<%//获得所有历史
+    List<history> allhistories= mysql.teashowhistory(id);
+    int historynum=allhistories.size();
 %>
 <!DOCTYPE html>
 <html>
@@ -98,6 +160,12 @@ session.setAttribute("id", id); */
   max-height:200px;
   overflow-y: auto;
 }
+ .specialdays2{
+   background-color:#00ff00;
+ }
+  .specialdays{
+   background-color:#ff0000;
+ }
 </style>
 </head>
 <body>
@@ -110,45 +178,10 @@ session.setAttribute("id", id); */
 					<span class="icon-bar"></span></button>  -->
 				<a class="navbar-brand" href="#"><span>Online</span>BookingSystem</a>
 				<ul class="nav navbar-top-links navbar-right"><!-- navbar-left/navbar-right -->
-					<li class="dropdown"><!-- 新消息导航 -->
-					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-envelope"></em><!-- 消息图案 -->
-						<span class="label label-danger">15</span><!-- 消息数量  -->
-					  </a>
-						<ul class="dropdown-menu dropdown-messages"><!-- 消息概述，列表呈现  -->
-							<li>
-								<div class="dropdown-messages-box">
-								    <a href="profile.html" class="pull-left"><!-- 点击图像显示对方个人主页 --><!--pull-right/pull-left设置头像左右  -->
-									   <img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body">
-									    <small class="pull-right">3 mins ago</small><!-- 消息时间距离现在 -->
-										<a href="#"><strong> LXY（professor）</strong> Accepted your appointment<strong>(2017.10.25)</strong>.</a><br /><!-- 点击消息跳转至预约情况页面 -->
-									    <small class="text-muted"> 18:29pm - 22/10/2017</small><!-- 消息时间发送 -->
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="dropdown-messages-box"><a href="profile.html" class="pull-left">
-									<img alt="image" class="img-circle" src="http://placehold.it/40/30a5ff/fff">
-									</a>
-									<div class="message-body"><small class="pull-right">1 hour ago</small>
-										<a href="#">New message from <strong>WCY（student）</strong>.</a><!-- 点击消息跳转至消息页面 -->
-									<br /><small class="text-muted">17.33 pm - 22/10/2017</small></div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="all-button"><a href="#"><!-- 查看所有信息至消息页面 -->
-									<em class="fa fa-inbox"></em> <strong>All Messages</strong>
-								</a></div>
-							</li>
-						</ul>
-					</li>
+					
 					<li class="dropdown"><!-- 预约提醒导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-bell"></em><span class="label label-info">5</span><!--未完成预约数量  -->
+						<em class="fa fa-bell"></em><span class="label label-info"><%=twodaynum %></span><!--未完成预约数量  -->
 					  </a>
 						<ul class="dropdown-menu dropdown-alerts myscroll2"><!-- 列出所有未完成预约 dropdown-alerts-->
 							<%//预约提醒导航
@@ -160,7 +193,7 @@ session.setAttribute("id", id); */
 				        		 String aday=asuccessbooking.day;
 				        	     String ateacherid=asuccessbooking.teacherid;
 				        	        Calendar cal=Calendar.getInstance();
-				        	        cal.set(nowyear,nowmonth,nowdate);
+				        	        cal.set(nowyear,nowmonth-1,nowdate);
 				        	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
 				        	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
 				        	        long time2 = cal.getTimeInMillis();          
@@ -229,26 +262,32 @@ session.setAttribute("id", id); */
 		<ul class="nav menu">
 			<li class="active"><a href="professor_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li><a href="professor_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
-			<li><a href="professor_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
-			<li><a href="professor_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li>
-			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
+			<li><a href="professor_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 历   史</a></li>
+			<!-- <li><a href="professor_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li> -->
+			<li class="parent"><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="sub-item-1">
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 1
+					<li><a class="" href="#" onclick="return future()">
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 2
+					<li><a class="" href="#" onclick="return future()">
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
-					<li><a class="" href="#">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 3
+					<li><a class="" href="#" onclick="return future()">
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
 				</ul>
 			</li>
 			<li><a href="login.jsp"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->
+	<script>
+	function future(){
+		alert("尚未开放，敬请期待！");
+		return false;
+	}
+	</script>
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main"><!-- 首页主面板  -->
 	      <!-- col-sm-9指定宽度， col-sm-offset-3指定偏移，即位置，lg与sm对应不同尺寸-->
@@ -271,15 +310,15 @@ session.setAttribute("id", id); */
 		
 		<div class="panel panel-container">
 			<div class="row">
-				<div class="col-xs-6 col-md-3 col-lg-3 no-padding"><!-- 屏幕小的时候会成两排 -->
+				<!-- <div class="col-xs-6 col-md-3 col-lg-3 no-padding">屏幕小的时候会成两排
 					<div class="panel panel-teal panel-widget border-right">
 						<div class="row no-padding"><em class="fa fa-xl fa-database color-blue"></em>
 							<div class="large">120</div>
 							<div class="text-muted">Time Ternals</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+				</div> -->
+				<div class="col-xs-6 col-md-6 col-lg-6 no-padding">
 					<div class="panel panel-blue panel-widget border-right">
 						<div class="row no-padding"><em class="fa fa-xl fa-calendar color-orange"></em>
 							<div class="large"><%=successbookingnum%></div>
@@ -287,31 +326,30 @@ session.setAttribute("id", id); */
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+				<div class="col-xs-6 col-md-6 col-lg-6 no-padding">
 					<div class="panel panel-orange panel-widget border-right">
 						<div class="row no-padding"><em class="fa fa-xl fa-history color-red"></em>
-							<div class="large">10</div>
+							<div class="large"><%=historynum%></div>
 							<div class="text-muted">Historys</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+				<!-- <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 					<div class="panel panel-red panel-widget ">
 						<div class="row no-padding"><em class="fa fa-xl fa-comments color-teal"></em>
 							<div class="large">15</div>
 							<div class="text-muted">Messages</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div><!--/.row-->
 		</div>
 		
-		<div class="row">  <!-- 展示自己最近的预约情况，教授部分展示教授自己发布的时间段和预约成功的时段数量 -->
-			<div class="col-md-12">
+		 <div class="panel panel-container">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						近期预约总览
-						<ul class="pull-right panel-settings panel-button-tab-right">
+					    <label class="myalign1">日 历</label>
+						<!-- <ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
 							</a>
@@ -319,31 +357,26 @@ session.setAttribute("id", id); */
 									<li>
 										<ul class="dropdown-settings">
 											<li><a href="#">
-												<em class="fa fa-cog"></em> 功能1
+												<em class="fa fa-cog"></em> 功 能 1
 											</a></li>
 											<li class="divider"></li>
 											<li><a href="#">
-												<em class="fa fa-cog"></em> 功能2
+												<em class="fa fa-cog"></em> 功 能 2
 											</a></li>
 											<li class="divider"></li>
 											<li><a href="#">
-												<em class="fa fa-cog"></em> 功能3
+												<em class="fa fa-cog"></em> 功 能 3
 											</a></li>
 										</ul>
 									</li>
 								</ul>
 							</li>
-						</ul>
-						
+						</ul> -->
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
-					
 					<div class="panel-body">
-						 <div class="canvas-wrapper">
-							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
-						</div>
+						<div id="calendar"></div>
 					</div>
 				</div>
-			</div>
 		</div>
 	  <!--/.row-->
 		
@@ -352,7 +385,7 @@ session.setAttribute("id", id); */
 				<div class="panel panel-default" id="bookingpanel">
 					<div class="panel-heading" >
 						待赴预约
-						<ul class="pull-right panel-settings panel-button-tab-right">
+						<!-- <ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
 							</a>
@@ -374,7 +407,7 @@ session.setAttribute("id", id); */
 									</li>
 								</ul>
 							</li>
-						</ul>
+						</ul> -->
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body myscroll1">
 						<ul class="todo-list"><!-- 所有未完成预约 -->
@@ -467,6 +500,97 @@ session.setAttribute("id", id); */
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
+	<script type="text/javascript">
+	   /*  $('#calender').datepicker('option', 'minDate', '2017-12-10');  */
+	    	 var speciald=new Array();
+	    	 <% 
+	    	      
+	             if(mysuccessbooking!=null){
+	            	 /* ArrayList<String> list = new ArrayList<>();
+	        	     Set<String> ks=chosenTimes.keySet();
+	                 for(String s:ks){
+	            	    list.add(s);
+	                 } */
+	                 int j=0;
+	                 for(successbooking abook:mysuccessbooking){
+	                	 j++;
+		     %>
+		           speciald[<%=j%>]='<%=abook.year+"-"+abook.month+"-"+abook.day%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
+		           alert(speciald[<%=j%>]);
+	                 <%}
+		         
+	             }%>
+		           
+	            var speciald2=new Array();
+		    	 <% 
+		    	      
+		             if(allhistories!=null){
+		                 int j=0;
+		                 for(history ahistory:allhistories){
+		                	 j++;
+			     %>
+			           speciald2[<%=j%>]='<%=ahistory.year+"-"+ahistory.month+"-"+ahistory.day%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
+			           alert(speciald2[<%=j%>]);
+		                 <%}
+			         
+		             }%>
+		           
+		      $('#calendar').datepicker({
+		    	/* startDate: '+1d',/* 只能预约明天以后的时间 */ 
+			    beforeShowDay:function(date){
+					 var d=date;
+					 var curr_date=d.getDate();
+					 var curr_month=d.getMonth()+1;
+					 var curr_year=d.getFullYear();
+					 var formatDate=curr_year+"-"+curr_month+"-"+curr_date;
+					//特殊日期的匹配
+					if($.inArray(formatDate,speciald)!=-1){
+					return {classes:'specialdays'};
+		           }else if($.inArray(formatDate,speciald2)!=-1){
+		        	   return {classes:'specialdays2'};
+		           }
+					return;
+			 }    
+		   });
+	      
+		      $('#calendar').datepicker({
+				  onSelect: gotoDate
+					}).on('changeDate',gotoDate);
+		      function gotoDate(ev){
+			      var flag=false;
+		    	  var thedate=ev.date.getFullYear().toString()+"-"+(ev.date.getMonth()+1).toString()+"-"+ev.date.getDate().toString(); 
+		    	  var abletimestring;
+		    	  <% /* 先判断点击了正确的有发布的日子 */
+			        if(mysuccessbooking!=null){
+			        	for(successbooking abook:mysuccessbooking){
+		         %>  
+		              if(thedate=="<%=abook.year+"-"+abook.month+"-"+abook.day%>"){
+		            	  flag=true;
+		            	  /* break; */
+		              }
+			     <%}
+			     }%>
+			     var flag2=false;
+			     <% /* 先判断点击了正确的有发布的日子 */
+			        if(allhistories!=null){
+			        	for(history ahistory:allhistories){
+		         %>  
+		              if(thedate=="<%=ahistory.year+"-"+ahistory.month+"-"+ahistory.day%>"){
+		            	  flag2=true;
+		            	  /* break; */
+		              }
+			     <%}
+			     }%>
+		    	  //alert(thedate);
+		    	  if(flag){
+		    		  document.getElementById("bookingpanel").scrollIntoView();
+		    	  }else if(flag2){
+		    		  window.location.href="professor_chat.jsp";
+		    	  }
+		    		  
+		      }
+    	 
+	</script>
 	<script>
     window.onload = function () {
 	var chart1 = document.getElementById("line-chart").getContext("2d");
@@ -483,7 +607,9 @@ session.setAttribute("id", id); */
    	   alert("恭喜您！预约删除成功!");
       }else if("<%=deleteresult%>"=="wrong"){
    	   alert("很遗憾！由于未知错误，删除预约失败");
-      }  
+      }else if("<%=deleteresult%>"=="overtime"){
+    	   alert("为了您和同学的方便，禁止删除今天的预约！");
+      }   
 	</script>
 		
 </body>

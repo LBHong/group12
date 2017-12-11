@@ -65,6 +65,24 @@
 <% //得到当前预约的信息
   List<successbooking> mysuccessbooking=mysql.stushowtime(id);
   int successbookingnum=mysuccessbooking.size();
+  int twodaynum=0;
+  for(successbooking asuccessbooking:mysuccessbooking){//得到所有两天内的日期数
+
+		 String ayear=asuccessbooking.year;
+		 String amonth=asuccessbooking.month;
+		 String aday=asuccessbooking.day;
+	     
+	        Calendar cal=Calendar.getInstance();
+	        cal.set(nowyear,nowmonth-1,nowdate);
+	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
+	        long time2 = cal.getTimeInMillis();          
+	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+	        int datediff=Integer.parseInt(String.valueOf(between_days));
+	        if(datediff<2){
+	        	twodaynum++;
+	        }
+  }
 %>
 <% //得到当前所有没评价的历史列表
    List<history> historynograde= mysql.losegrade(id);
@@ -94,6 +112,9 @@
 	<!--Custom Font-->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 <style>
+ .specialdays{
+   background-color:#ff0000;
+ }
 .myfont1{
   font-size:18px;
 }
@@ -140,6 +161,12 @@
   max-height:200px;
   overflow-y: auto;
 }
+.myalign1{
+      align:center;
+  }
+ .specialdays2{
+   background-color:#00ff00;
+ }
 </style>
 </head>
 <body>
@@ -198,7 +225,7 @@
 					</li>
 					<li class="dropdown"><!-- 预约提醒导航 -->
 					  <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-						<em class="fa fa-bell"></em><span class="label label-info"><%=successbookingnum%></span><!--未完成预约数量  -->
+						<em class="fa fa-bell"></em><span class="label label-info"><%=twodaynum%></span><!--未完成预约数量  -->
 					  </a>
 						<ul class="dropdown-menu dropdown-alerts myscroll2"><!-- 列出所有未完成预约 dropdown-alerts-->
 							<%//预约提醒导航
@@ -209,8 +236,9 @@
 				        		 String amonth=asuccessbooking.month;
 				        		 String aday=asuccessbooking.day;
 				        	     String ateacherid=asuccessbooking.teacherid;
+				        	     
 				        	        Calendar cal=Calendar.getInstance();
-				        	        cal.set(nowyear,nowmonth,nowdate);
+				        	        cal.set(nowyear,nowmonth-1,nowdate);
 				        	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
 				        	        cal.set(Integer.parseInt(ayear), Integer.parseInt(amonth)-1,Integer.parseInt(aday));
 				        	        long time2 = cal.getTimeInMillis();          
@@ -280,20 +308,20 @@
 		<ul class="nav menu">
 			<li class="active"><a href="student_home.jsp"><em class="fa fa-dashboard">&nbsp;</em>  首   页</a></li>
 			<li><a href="student_book.jsp"><em class="fa fa-calendar">&nbsp;</em> 预   约</a></li>
-			<li><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 消 息</a></li>
+			<li><a href="student_chat.jsp"><em class="fa fa-comments">&nbsp;</em> 历   史</a></li>
 			<!-- <li><a href="student_profile.jsp"><em class="fa fa-user">&nbsp;</em> 个 人 主 页</a></li> -->
 			<li class="parent "><a data-toggle="collapse" href="#sub-item-1">
 				<em class="fa fa-navicon">&nbsp;</em> 更 多 功 能 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
 				</a>
 				<ul class="children collapse" id="sub-item-1">
 					<li><a class="" href="#" onclick="return future()">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 1
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
 					<li><a class="" href="#" onclick="return future()">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 2
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
 					<li><a class="" href="#" onclick="return future()">
-						<span class="fa fa-arrow-right">&nbsp;</span> 功 能 3
+						<span class="fa fa-arrow-right">&nbsp;</span> 尚未开放
 					</a></li>
 				</ul>
 			</li>
@@ -356,15 +384,15 @@
 				<div class="col-xs-6 col-md-3 col-lg-3 no-padding">
 					<div class="panel panel-red panel-widget ">
 						<div class="row no-padding"><em class="fa fa-xl fa-comments color-teal"></em>
-							<div class="large">15</div>
-							<div class="text-muted">Messages</div>
+							<div class="large"><%=nogradenum%></div>
+							<div class="text-muted">Evaluation</div>
 						</div>
 					</div>
 				</div>
 			</div><!--/.row-->
 		</div>
 		
-		<div class="row">  <!-- 展示自己最近的预约情况，包括预约失败的和预约成功的 -->
+		<%-- <div class="row">  <!-- 展示自己最近的预约情况，包括预约失败的和预约成功的 -->
 			<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -403,14 +431,47 @@
 				</div>
 			</div>
 		</div>
-	  <!--/.row-->
+	  <!--/.row--> --%>
+	  <div class="panel panel-container">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+					    <label class="myalign1">日 历</label>
+						<!-- <ul class="pull-right panel-settings panel-button-tab-right">
+							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
+								<em class="fa fa-cogs"></em>
+							</a>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li>
+										<ul class="dropdown-settings">
+											<li><a href="#">
+												<em class="fa fa-cog"></em> 功 能 1
+											</a></li>
+											<li class="divider"></li>
+											<li><a href="#">
+												<em class="fa fa-cog"></em> 功 能 2
+											</a></li>
+											<li class="divider"></li>
+											<li><a href="#">
+												<em class="fa fa-cog"></em> 功 能 3
+											</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul> -->
+						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
+					<div class="panel-body">
+						<div id="calendar"></div>
+					</div>
+				</div>
+		</div>
 		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-default" id="bookingpanel">
 					<div class="panel-heading">
 						待赴预约
-						<ul class="pull-right panel-settings panel-button-tab-right">
+						<!-- <ul class="pull-right panel-settings panel-button-tab-right">
 							<li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
 								<em class="fa fa-cogs"></em>
 							</a>
@@ -432,7 +493,7 @@
 									</li>
 								</ul>
 							</li>
-						</ul>
+						</ul> -->
 						<span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
 					<div class="panel-body myscroll1">
 						<ul class="todo-list"><!-- 所有未完成预约 -->
@@ -525,6 +586,97 @@
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/custom.js"></script>
+	<script type="text/javascript">
+	   /*  $('#calender').datepicker('option', 'minDate', '2017-12-10');  */
+	    	 var speciald=new Array();
+	    	 <% 
+	    	      
+	             if(mysuccessbooking!=null){
+	            	 /* ArrayList<String> list = new ArrayList<>();
+	        	     Set<String> ks=chosenTimes.keySet();
+	                 for(String s:ks){
+	            	    list.add(s);
+	                 } */
+	                 int j=0;
+	                 for(successbooking abook:mysuccessbooking){
+	                	 j++;
+		     %>
+		           speciald[<%=j%>]='<%=abook.year+"-"+abook.month+"-"+abook.day%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
+		           alert(speciald[<%=j%>]);
+	                 <%}
+		         
+	             }%>
+		           
+	            var speciald2=new Array();
+		    	 <% 
+		    	      
+		             if(allhistories!=null){
+		                 int j=0;
+		                 for(history ahistory:allhistories){
+		                	 j++;
+			     %>
+			           speciald2[<%=j%>]='<%=ahistory.year+"-"+ahistory.month+"-"+ahistory.day%>';//此处为添加的特殊日期，也可以都设置为yyyy-mm-dd
+			           alert(speciald2[<%=j%>]);
+		                 <%}
+			         
+		             }%>
+		           
+		      $('#calendar').datepicker({
+		    	/* startDate: '+1d',/* 只能预约明天以后的时间 */ 
+			    beforeShowDay:function(date){
+					 var d=date;
+					 var curr_date=d.getDate();
+					 var curr_month=d.getMonth()+1;
+					 var curr_year=d.getFullYear();
+					 var formatDate=curr_year+"-"+curr_month+"-"+curr_date;
+					//特殊日期的匹配
+					if($.inArray(formatDate,speciald)!=-1){
+					return {classes:'specialdays'};
+		           }else if($.inArray(formatDate,speciald2)!=-1){
+		        	   return {classes:'specialdays2'};
+		           }
+					return;
+			 }    
+		   });
+	      
+		      $('#calendar').datepicker({
+				  onSelect: gotoDate
+					}).on('changeDate',gotoDate);
+		      function gotoDate(ev){
+			      var flag=false;
+		    	  var thedate=ev.date.getFullYear().toString()+"-"+(ev.date.getMonth()+1).toString()+"-"+ev.date.getDate().toString(); 
+		    	  var abletimestring;
+		    	  <% /* 先判断点击了正确的有发布的日子 */
+			        if(mysuccessbooking!=null){
+			        	for(successbooking abook:mysuccessbooking){
+		         %>  
+		              if(thedate=="<%=abook.year+"-"+abook.month+"-"+abook.day%>"){
+		            	  flag=true;
+		            	  /* break; */
+		              }
+			     <%}
+			     }%>
+			     var flag2=false;
+			     <% /* 先判断点击了正确的有发布的日子 */
+			        if(allhistories!=null){
+			        	for(history ahistory:allhistories){
+		         %>  
+		              if(thedate=="<%=ahistory.year+"-"+ahistory.month+"-"+ahistory.day%>"){
+		            	  flag2=true;
+		            	  /* break; */
+		              }
+			     <%}
+			     }%>
+		    	  //alert(thedate);
+		    	  if(flag){
+		    		  document.getElementById("bookingpanel").scrollIntoView();
+		    	  }else if(flag2){
+		    		  window.location.href="student_chat.jsp";
+		    	  }
+		    		  
+		      }
+    	 
+	</script>
 	<script>
     window.onload = function () {
 	var chart1 = document.getElementById("line-chart").getContext("2d");
@@ -543,6 +695,8 @@
  	   alert("恭喜您！预约删除成功!");
     }else if("<%=deleteresult%>"=="wrong"){
  	   alert("很遗憾！由于未知错误，删除预约失败");
+    }else if("<%=deleteresult%>"=="overtime"){
+ 	   alert("为了您和老师的方便，禁止删除今天的预约！");
     }  
 	</script>
 		

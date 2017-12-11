@@ -3,6 +3,8 @@
  */
 package com.user.action;
 
+import java.util.Calendar;
+
 import org.apache.struts2.ServletActionContext;
 
 import com.user.mysqloperate.Mysqloperate;
@@ -23,27 +25,70 @@ public class Deleteaction {
 	
 	private Mysqloperate sqloperate=new Mysqloperate();
 	 
+	 
+	  
 	 public String studentdelete(){
-		 Boolean flag;
-		 flag=sqloperate.studentdelete(year,month,day,time,studentid);
-		 if(flag){
-			 ServletActionContext.getRequest().setAttribute("deleteresult","deleted");
-			 return "success";
-		 }else{
-			 ServletActionContext.getRequest().setAttribute("deleteresult","wrong");
-			 return "failure";
-		 }
+		 Boolean flag=false;
+		 //先判断是否是至少明天
+		 Calendar today=Calendar.getInstance();
+		  int nowyear=today.get(Calendar.YEAR);
+		  int nowmonth=today.get(Calendar.MONTH)+1;
+		  int nowdate=today.get(Calendar.DATE);
+		  
+		   Calendar cal=Calendar.getInstance();
+	        cal.set(nowyear,nowmonth-1,nowdate);
+	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+	        cal.set(Integer.parseInt(year), Integer.parseInt(month)-1,Integer.parseInt(day));
+	        long time2 = cal.getTimeInMillis();          
+	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+	        int datediff=Integer.parseInt(String.valueOf(between_days));
+	
+	        if(datediff<1){
+	        	ServletActionContext.getRequest().setAttribute("deleteresult","overtime");
+	        	return "failure";
+	        }else{
+	        	 flag=sqloperate.studentdelete(year,month,day,time,studentid);
+	    		 if(flag){
+	    			 ServletActionContext.getRequest().setAttribute("deleteresult","deleted");
+	    			 return "success";
+	    		 }else{
+	    			 ServletActionContext.getRequest().setAttribute("deleteresult","wrong");
+	    			 return "failure";
+	    		 }
+	        }
+	       
+		
      }
 	 public String teacherdeleteappoint(){
 		 Boolean flag;
-		 flag=sqloperate.teacherdelete(teacherid, year,month,day,time);
-		 if(flag){
-			 ServletActionContext.getRequest().setAttribute("teacherdeleteresult","deleted");
-			 return "success";
-		 }else{
-			 ServletActionContext.getRequest().setAttribute("teacherdeleteresult","wrong");
-			 return "failure";
-		 }
+		 
+		 Calendar today=Calendar.getInstance();
+		  int nowyear=today.get(Calendar.YEAR);
+		  int nowmonth=today.get(Calendar.MONTH)+1;
+		  int nowdate=today.get(Calendar.DATE);
+		  
+		   Calendar cal=Calendar.getInstance();
+	        cal.set(nowyear,nowmonth-1,nowdate);
+	        long time1 = today.getTimeInMillis();       //得到当前时间的毫秒数 
+	        cal.set(Integer.parseInt(year), Integer.parseInt(month)-1,Integer.parseInt(day));
+	        long time2 = cal.getTimeInMillis();          
+	        long between_days=(time2-time1)/(1000*3600*24);   //得到当前时间相差不超过一天的日期
+	        int datediff=Integer.parseInt(String.valueOf(between_days));
+
+	        if(datediff<1){
+	        	ServletActionContext.getRequest().setAttribute("teacherdeleteresult","overtime");
+	        	return "failure";
+	        }else{
+	        	flag=sqloperate.teacherdelete(teacherid, year,month,day,time);
+	        	 if(flag){
+	    			 ServletActionContext.getRequest().setAttribute("teacherdeleteresult","deleted");
+	    			 return "success";
+	    		 }else{
+	    			 ServletActionContext.getRequest().setAttribute("teacherdeleteresult","wrong");
+	    			 return "failure";
+	    		 }
+	        }
+		
 		 
 	 }
 	 
